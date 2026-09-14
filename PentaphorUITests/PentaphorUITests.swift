@@ -54,6 +54,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(notes.waitForExistence(timeout: 5))
         reveal(notes, in: app)
         notes.tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 3), "Tapping the memo must focus the actual editor and show the keyboard.")
         let original = "Bring goggles\nEasy pace"
         notes.typeText(original)
         capture(app, "08-quest-notes-editor")
@@ -69,21 +70,27 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertEqual(notes.value as? String, original)
         reveal(notes, in: app)
         notes.tap()
-        notes.typeKey("a", modifierFlags: .command)
-        notes.typeText(XCUIKeyboardKey.delete.rawValue)
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 3))
+        clearNotesUsingEditMenu(notes, in: app)
         notes.typeText("Unsaved draft")
+        XCTAssertEqual(notes.value as? String, "Unsaved draft")
         app.buttons["취소"].tap()
         XCTAssertEqual(preview.label, original)
         app.buttons["quest.edit.Swimming"].tap()
         XCTAssertEqual(notes.value as? String, original)
         reveal(notes, in: app)
         notes.tap()
-        notes.typeKey("a", modifierFlags: .command)
-        notes.typeText(XCUIKeyboardKey.delete.rawValue)
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 3))
+        clearNotesUsingEditMenu(notes, in: app)
         XCTAssertEqual(notes.value as? String, "")
         app.buttons["quest.save"].tap()
         XCTAssertFalse(preview.exists)
         XCTAssertTrue(app.staticTexts["quest.progress.Swimming"].label.contains("0 / 3"))
+        app.terminate()
+        app.launch()
+        XCTAssertFalse(preview.exists)
+        app.buttons["quest.edit.Swimming"].tap()
+        XCTAssertEqual(notes.value as? String, "")
     }
 
     @MainActor func testVisibleEditEntryUpdatesExistingQuestAndSurvivesRelaunch() throws {
@@ -180,6 +187,18 @@ final class PentaphorUITests: XCTestCase {
         app.buttons["archive.done"].tap()
         XCTAssertTrue(app.buttons["quest.complete.My own name"].waitForExistence(timeout: 5))
     }
+    @MainActor private func clearNotesUsingEditMenu(_ notes: XCUIElement, in app: XCUIApplication) {
+        // Long-press the first line, not the editor's blank center. Use the
+        // iOS edit menu and software Delete key instead of assuming Cmd-A worked.
+        notes.coordinate(withNormalizedOffset: CGVector(dx: 0.08, dy: 0.12)).press(forDuration: 1.2)
+        let selectAll = app.descendants(matching: .any).matching(NSPredicate(format: "label IN %@", ["전체 선택", "Select All"])).firstMatch
+        XCTAssertTrue(selectAll.waitForExistence(timeout: 3))
+        capture(app, "13-memo-select-all")
+        selectAll.tap()
+        app.keys["delete"].tap()
+        XCTAssertEqual(notes.value as? String, "")
+    }
+
     @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<5 where !element.isHittable { app.swipeUp() }
         XCTAssertTrue(element.isHittable)
