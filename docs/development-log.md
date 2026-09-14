@@ -47,3 +47,7 @@ Both normal motion and actual system Reduce Motion were exercised. A native UIKi
 No developer account changes, remote push or App Store Connect upload performed. Development remains on `codex/ios-foundation`.
 
 Final UI regression on the completed core and midnight fix: **2 tests, 0 failures**, 42.133 seconds at 08:09:56 UTC. `xcodebuild test` reported `TEST SUCCEEDED`; `/tmp/pentaphor-ui-release-check.xcresult`.
+
+## 2026-09-14 — approved icon integration
+
+Applied the user's approved 180-degree SHIFT emblem as both AppIcon and shared native BrandBar logo. Production image is opaque 1024×1024 with system-masked corners. Preserved the user's configured development Team in XcodeGen. Existing UI regression passed 2/2 (46.295s); simulator build and bundle verification passed. This changes visual assets and presentation only; domain rules and storage are untouched. Reviewed captures and generation provenance are in `design/brand/README.md`.

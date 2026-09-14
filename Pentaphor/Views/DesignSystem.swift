@@ -73,8 +73,10 @@ struct BrandBar: View {
     var dark = false
     var body: some View {
         HStack(spacing: 9) {
-            Image(systemName: "pentagon.fill").font(.title2).foregroundStyle(dark ? Palette.bright : Palette.teal)
-                .overlay(Image(systemName: "arrow.up.right").font(.caption.bold()).foregroundStyle(dark ? Palette.ink : Palette.paper))
+            Image("BrandIcon").resizable().scaledToFit()
+                .frame(width: 30, height: 30)
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+                .accessibilityHidden(true)
             Text("PENTAPHOR").font(.custom("AvenirNextCondensed-HeavyItalic", size: 26, relativeTo: .title2))
             Spacer()
             Text("YOUR OWN PACE.").font(.system(size: 8, weight: .heavy, design: .monospaced)).tracking(1)

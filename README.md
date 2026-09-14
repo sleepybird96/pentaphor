@@ -21,7 +21,7 @@
 2. `Pentaphor` scheme과 iPhone 시뮬레이터를 선택한다.
 3. Run을 실행한다.
 
-실제 iPhone 설치에는 Xcode의 Signing & Capabilities에서 본인의 개발자 Team을 선택하고 연결된 기기를 실행 대상으로 지정해야 한다. 현재 프로젝트에는 Team을 지정하지 않았다. Bundle ID는 개발용 `app.pentaphor.personal`이며 App Store Connect에 등록한 상태가 아니다.
+실제 iPhone 설치에는 Xcode의 Signing & Capabilities에서 본인의 개발자 Team을 선택하고 연결된 기기를 실행 대상으로 지정해야 한다. 현재 프로젝트에는 사용자가 선택한 Team을 유지하고 자동 서명을 설정했다. Bundle ID는 개발용 `app.pentaphor.personal`이다.
 
 `project.yml`을 변경한 경우 XcodeGen으로 프로젝트를 다시 생성한다.
 
@@ -57,4 +57,4 @@ UI 테스트는 DEBUG 전용 별도 저장소를 사용한다. `--ui-testing`으
 
 ## 다음 개발 범위
 
-월간 리캡, 알림, 동기화는 아직 구현하지 않았다. TestFlight 배포 전에는 실기기 사용 검증, 배포용 앱 아이콘, 서명 및 App Store Connect 앱 정보 설정이 남아 있다. 현재 완료 범위는 시뮬레이터에서 실행하고 검증한 첫 네이티브 버전이다.
+월간 리캡, 알림, 동기화는 아직 구현하지 않았다. 사용자는 실제 iPhone에 첫 버전을 설치했다. 2026-09-14 확정한 오각형 아이콘을 앱 아이콘과 앱 내부 로고에 적용했다. TestFlight 배포 전에는 실기기 사용 검증과 배포 서명 및 App Store Connect 앱 정보 설정이 남아 있다.

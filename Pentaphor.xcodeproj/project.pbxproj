@@ -60,6 +60,7 @@
 		CD2B7812AFB3D9E1E1A6FC2F /* outfit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9468199CAB7D650CF4BDB1B0 /* outfit.png */; };
 		CF9F6B174918D9A5538072E0 /* childcare.png in Resources */ = {isa = PBXBuildFile; fileRef = E6BA9E35A72594658398C110 /* childcare.png */; };
 		D6AAA377757C964A1906EAFE /* swimming.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3AB215863DB33F456338D0 /* swimming.png */; };
+		D70426D0882EB7AB111B1907 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C783B128B3DFA45179DA87DE /* Assets.xcassets */; };
 		D81A76674858C5211BB7CD18 /* photography.png in Resources */ = {isa = PBXBuildFile; fileRef = B97552AF1D5D0C89E3AF9F21 /* photography.png */; };
 		D8CA9C6C8178C950A777DEF9 /* strength.png in Resources */ = {isa = PBXBuildFile; fileRef = D23FB51B51AEE04ADD4DE8B6 /* strength.png */; };
 		D9345A8A3803188728A2AD8A /* language-practice.png in Resources */ = {isa = PBXBuildFile; fileRef = 543DBD62EDF5DF0EB93D194A /* language-practice.png */; };
@@ -142,6 +143,7 @@
 		BF8ECA4198D4EC27FD4EAD11 /* pottery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pottery.png; sourceTree = "<group>"; };
 		C06001EE005788AC70789E2D /* dog-walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dog-walking.png"; sourceTree = "<group>"; };
 		C3D45FCDA547D3381A7E4BFB /* badminton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badminton.png; sourceTree = "<group>"; };
+		C783B128B3DFA45179DA87DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA552D2D60BD2C9B5D952B42 /* skincare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skincare.png; sourceTree = "<group>"; };
 		CA5C7186CD63F8955536BACC /* toothbrushing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toothbrushing.png; sourceTree = "<group>"; };
 		CB04B7769CBAEDFBD39C028E /* running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running.png; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 		56CB00D8177881A83C2B0796 /* Pentaphor */ = {
 			isa = PBXGroup;
 			children = (
+				C783B128B3DFA45179DA87DE /* Assets.xcassets */,
 				DB8ACF0DA4BD872537F99B09 /* App */,
 				60A0435276F40E854EC29BA8 /* Resources */,
 				2EBEFCD754ED0EA511408C3B /* Views */,
@@ -372,6 +375,10 @@
 					4374704BD7617C27D298879C = {
 						TestTargetID = 7C981CBBEC49B3B7B01D8248;
 					};
+					7C981CBBEC49B3B7B01D8248 = {
+						DevelopmentTeam = NX53XT8XMU;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 7D61C8AA7A6B1867AD50F186 /* Build configuration list for PBXProject "Pentaphor" */;
@@ -402,6 +409,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D70426D0882EB7AB111B1907 /* Assets.xcassets in Resources */,
 				4218EE3742324BBED4076C8D /* art-catalog.json in Resources */,
 				11E3C3A51166CBCDE764CABD /* badminton.png in Resources */,
 				DEF63A6E43646E347F98FF14 /* baking.png in Resources */,
@@ -507,7 +515,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NX53XT8XMU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = PENTAPHOR;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -546,7 +556,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NX53XT8XMU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = PENTAPHOR;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
