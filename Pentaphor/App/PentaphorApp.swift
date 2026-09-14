@@ -3,33 +3,63 @@ import PentaphorCore
 
 @main
 struct PentaphorApp: App {
-    @State private var store: QuestStore?
-    @State private var loadError: String?
-
     var body: some Scene {
         WindowGroup {
-            Group {
-                if let store { QuestHome(store: store) }
-                else if let loadError {
-                    ContentUnavailableView {
-                        Label("기록을 열지 못했어", systemImage: "externaldrive.badge.exclamationmark")
-                    } description: {
-                        Text(loadError + "\n기존 기록은 그대로 보관했어.")
-                    } actions: {
-                        Button("다시 시도", action: load)
-                    }
-                } else { ProgressView().task { load() } }
-            }
-            .tint(Palette.teal)
-            .preferredColorScheme(.light)
+            AppEntryView().tint(Palette.teal).preferredColorScheme(.light)
         }
     }
+}
 
-    @MainActor private func load() {
+private struct AppEntryView: View {
+    @State private var store: QuestStore?
+    @State private var loadError: String?
+    @State private var gate = LaunchGate()
+    @State private var loadAttempt = 0
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    private var simplifiedEffects: Bool {
+        reduceMotion || (store?.engine.preferences.simplifiedEffects ?? false)
+    }
+
+    var body: some View {
+        Group {
+            if !gate.isFinished {
+                LaunchLoadingView(simplifiedEffects: simplifiedEffects) {
+                    withAnimation(.easeOut(duration: 0.18)) { gate.completeCycle() }
+                    return gate.isFinished
+                }.transition(.opacity)
+            } else if let store {
+                QuestHome(store: store)
+            } else if let loadError {
+                ContentUnavailableView {
+                    Label("기록을 열지 못했어", systemImage: "externaldrive.badge.exclamationmark")
+                } description: {
+                    Text(loadError + "\n기존 기록은 그대로 보관했어.")
+                } actions: {
+                    Button("다시 시도") {
+                        gate = LaunchGate()
+                        self.loadError = nil
+                        Task { await load() }
+                    }.accessibilityIdentifier("launch.retry")
+                }
+            }
+        }
+        .background((gate.isFinished ? Palette.paper : Palette.ink).ignoresSafeArea())
+        .statusBarHidden(!gate.isFinished)
+        .task { if loadAttempt == 0 { await load() } }
+    }
+
+    @MainActor private func load() async {
+        loadAttempt += 1
         do {
             let repository: SwiftDataStateRepository
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
+                if ProcessInfo.processInfo.arguments.contains("--ui-test-slow-load") {
+                    try await Task.sleep(for: .seconds(6))
+                }
+                if ProcessInfo.processInfo.arguments.contains("--ui-test-load-failure"), loadAttempt == 1 {
+                    throw CocoaError(.fileReadCorruptFile)
+                }
                 let directory = URL.applicationSupportDirectory.appending(path: "UITestStore", directoryHint: .isDirectory)
                 if ProcessInfo.processInfo.arguments.contains("--reset-test-store"), FileManager.default.fileExists(atPath: directory.path) {
                     try FileManager.default.removeItem(at: directory)
@@ -42,6 +72,12 @@ struct PentaphorApp: App {
             #endif
             store = try QuestStore(repository: repository)
             loadError = nil
-        } catch { loadError = error.localizedDescription }
+            gate.resolveLoad()
+        } catch is CancellationError {
+            return
+        } catch {
+            loadError = error.localizedDescription
+            gate.resolveLoad()
+        }
     }
 }

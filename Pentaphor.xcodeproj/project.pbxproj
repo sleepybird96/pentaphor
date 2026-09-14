@@ -40,6 +40,7 @@
 		7541B3809FC1FD84F1E018A5 /* calling.png in Resources */ = {isa = PBXBuildFile; fileRef = A1E32E40864FAB8351CABF3B /* calling.png */; };
 		76C1CC34584B410A0937E5E0 /* ParameterRadar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D94F224DD4FF2837662C4D6 /* ParameterRadar.swift */; };
 		7BC19B95327C7993AB86BAA9 /* dishwashing.png in Resources */ = {isa = PBXBuildFile; fileRef = 484D02F55EC2779D17FB0A94 /* dishwashing.png */; };
+		7F10873616894A42FB66C3F0 /* LaunchLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124FFFE5D893FE66CC4AFF91 /* LaunchLoadingView.swift */; };
 		827C6799C8CDCF65BF7FD166 /* meeting-friends.png in Resources */ = {isa = PBXBuildFile; fileRef = F751F8216B05B210AF9EC13E /* meeting-friends.png */; };
 		85AD454CD34FA7E385C93397 /* groceries.png in Resources */ = {isa = PBXBuildFile; fileRef = A9ED948BB9E9CD11F6969809 /* groceries.png */; };
 		87EFD68DD8DB92151464874C /* climbing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ED18A73008C3C41A99BD6C8 /* climbing.png */; };
@@ -98,12 +99,14 @@
 		040B0985E1384ACEB384EC84 /* PentaphorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PentaphorApp.swift; sourceTree = "<group>"; };
 		0CDDF35A6F445D793FE796DF /* journaling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journaling.png; sourceTree = "<group>"; };
 		0D022371DA7297386FA27FF5 /* yoga.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yoga.png; sourceTree = "<group>"; };
+		124FFFE5D893FE66CC4AFF91 /* LaunchLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchLoadingView.swift; sourceTree = "<group>"; };
 		1911389AA7192F4E9A5C9819 /* piano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piano.png; sourceTree = "<group>"; };
 		1D41AF37B3F6BCC19273A5A0 /* bed-making.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bed-making.png"; sourceTree = "<group>"; };
 		2266A50777F1E74FBC7AF966 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		281C34C5F43E5FFC44849622 /* coding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coding.png; sourceTree = "<group>"; };
 		283EEFA4405A996C0D0EE00E /* sleeping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sleeping.png; sourceTree = "<group>"; };
 		29F0B3E3AB1186DECD35F78A /* stargazing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stargazing.png; sourceTree = "<group>"; };
+		304C17827C3B1FFAC7BA9179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		309A72A331BD344113C51AC2 /* camping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camping.png; sourceTree = "<group>"; };
 		31EB91E25F5E2A50F916D46C /* JournalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViews.swift; sourceTree = "<group>"; };
 		3665AB2DBCB0D3007CE0E7E1 /* boxing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boxing.png; sourceTree = "<group>"; };
@@ -220,6 +223,7 @@
 				D9B43122BF1184605D8500DA /* DesignSystem.swift */,
 				9A2CAE39766665B7E168AAF3 /* IntroductionView.swift */,
 				31EB91E25F5E2A50F916D46C /* JournalViews.swift */,
+				124FFFE5D893FE66CC4AFF91 /* LaunchLoadingView.swift */,
 				5D94F224DD4FF2837662C4D6 /* ParameterRadar.swift */,
 				88578211DC805EDC512DD955 /* QuestEditor.swift */,
 				890E2B89FA2A749C9B7623D3 /* QuestHome.swift */,
@@ -232,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				C783B128B3DFA45179DA87DE /* Assets.xcassets */,
+				304C17827C3B1FFAC7BA9179 /* Info.plist */,
 				DB8ACF0DA4BD872537F99B09 /* App */,
 				60A0435276F40E854EC29BA8 /* Resources */,
 				2EBEFCD754ED0EA511408C3B /* Views */,
@@ -495,6 +500,7 @@
 				9F4927B38D22CD39ED90F6FC /* DesignSystem.swift in Sources */,
 				B0302BF94F6AEEB0E801B27D /* IntroductionView.swift in Sources */,
 				EDFE8B3E0AB6815F5F4C0384 /* JournalViews.swift in Sources */,
+				7F10873616894A42FB66C3F0 /* LaunchLoadingView.swift in Sources */,
 				76C1CC34584B410A0937E5E0 /* ParameterRadar.swift in Sources */,
 				0105F2DADC283A35697C9F69 /* PentaphorApp.swift in Sources */,
 				8CC784698E562D025D9D4298 /* QuestEditor.swift in Sources */,
@@ -531,9 +537,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NX53XT8XMU;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Pentaphor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PENTAPHOR;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -572,9 +578,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NX53XT8XMU;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Pentaphor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PENTAPHOR;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

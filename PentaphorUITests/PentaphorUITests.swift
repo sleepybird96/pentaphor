@@ -1,6 +1,36 @@
 import XCTest
 
 final class PentaphorUITests: XCTestCase {
+    @MainActor func testLaunchPresentationWaitsForLoadingThenShowsIntroduction() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-slow-load"]
+        app.launch()
+        XCTAssertTrue(app.otherElements["launch.presentation"].waitForExistence(timeout: 3))
+        XCTAssertFalse(app.buttons["onboarding.start"].exists)
+        capture(app, "21-launch-growth")
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.otherElements["launch.presentation"].exists)
+        skipIntroduction(app)
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["0 P"].exists, "Launch growth is decorative and must not award points.")
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["0 P"].exists)
+        XCTAssertFalse(app.otherElements["launch.presentation"].exists)
+    }
+
+    @MainActor func testFailedLaunchReachesRecoverableErrorAndRetryLoadsNormally() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-load-failure"]
+        app.launch()
+        XCTAssertTrue(app.buttons["launch.retry"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.staticTexts["기록을 열지 못했어"].exists)
+        capture(app, "22-launch-recovery")
+        app.buttons["launch.retry"].tap()
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.buttons["launch.retry"].exists)
+    }
+
     @MainActor func testIntroductionCreatesFirstQuestWithoutAwardingPreviewPoints() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]
