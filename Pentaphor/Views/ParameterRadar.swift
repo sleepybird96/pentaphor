@@ -9,18 +9,35 @@ private func radarPoint(index: Int, radius: CGFloat, center: CGPoint) -> CGPoint
 private struct RadarPolygon: Shape {
     let from: StatPoints
     let to: StatPoints
-    let maximum: Double
+    var emphasizeGrowth = true
     var progress: Double
     var animatableData: Double { get { progress } set { progress = newValue } }
     func path(in rect: CGRect) -> Path {
         let radius = min(rect.width, rect.height) * 0.5
         let center = CGPoint(x: rect.midX, y: rect.midY)
-        let points = Stat.allCases.enumerated().map { index, stat in
-            let value = Double(from[stat]) + Double(to[stat] - from[stat]) * progress
-            let normalized = 0.15 + 0.78 * sqrt(max(0, value) / max(1, maximum))
-            return radarPoint(index: index, radius: radius * normalized, center: center)
+        let radii = RadarGrowth.radii(from: from, to: to, progress: progress, emphasizeGrowth: emphasizeGrowth)
+        let points = radii.enumerated().map { index, normalized in
+            radarPoint(index: index, radius: radius * normalized, center: center)
         }
         return Path { p in p.addLines(points); p.closeSubpath() }
+    }
+}
+
+private struct RadarVertex: Shape {
+    let from: StatPoints
+    let to: StatPoints
+    let index: Int
+    let emphasizeGrowth: Bool
+    var progress: Double
+    var animatableData: Double { get { progress } set { progress = newValue } }
+
+    func path(in rect: CGRect) -> Path {
+        let changed = to[Stat.allCases[index]] > from[Stat.allCases[index]]
+        let normalized = RadarGrowth.radii(from: from, to: to, progress: progress, emphasizeGrowth: emphasizeGrowth)[index]
+        let point = radarPoint(index: index, radius: min(rect.width, rect.height) * 0.5 * normalized,
+                               center: CGPoint(x: rect.midX, y: rect.midY))
+        let diameter: CGFloat = changed ? 7 : 4
+        return Path(ellipseIn: CGRect(x: point.x - diameter / 2, y: point.y - diameter / 2, width: diameter, height: diameter))
     }
 }
 
@@ -38,7 +55,7 @@ struct ParameterRadar: View {
     let after: StatPoints
     var progress: Double = 1
     var dark = true
-    private var maximum: Double { Double(max(5, Stat.allCases.map { max(before[$0], after[$0]) }.max() ?? 5)) }
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         GeometryReader { proxy in
@@ -52,19 +69,18 @@ struct ParameterRadar: View {
                 Path { p in
                     for index in 0..<5 { p.move(to: center); p.addLine(to: radarPoint(index: index, radius: size / 2, center: center)) }
                 }.stroke((dark ? Palette.paper : Palette.ink).opacity(0.12), lineWidth: 0.7)
-                RadarPolygon(from: before, to: before, maximum: maximum, progress: 1)
+                RadarPolygon(from: before, to: before, progress: 1)
                     .stroke((dark ? Palette.paper : Palette.ink).opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [3, 4]))
                     .frame(width: size, height: size).position(center)
-                RadarPolygon(from: before, to: after, maximum: maximum, progress: progress)
+                RadarPolygon(from: before, to: after, emphasizeGrowth: !reduceMotion, progress: progress)
                     .fill(Palette.teal.opacity(0.48)).frame(width: size, height: size).position(center)
-                RadarPolygon(from: before, to: after, maximum: maximum, progress: progress)
+                RadarPolygon(from: before, to: after, emphasizeGrowth: !reduceMotion, progress: progress)
                     .stroke(dark ? Palette.bright : Palette.teal, lineWidth: 2.3).frame(width: size, height: size).position(center)
                 ForEach(Array(Stat.allCases.enumerated()), id: \.element.id) { index, stat in
                     let changed = after[stat] > before[stat]
-                    let value = Double(before[stat]) + Double(after[stat] - before[stat]) * progress
-                    let radius = size / 2 * (0.15 + 0.78 * sqrt(max(0, value) / maximum))
-                    Circle().fill(changed ? Palette.gold : (dark ? Palette.paper : Palette.ink)).frame(width: changed ? 7 : 4, height: changed ? 7 : 4)
-                        .position(radarPoint(index: index, radius: radius, center: center))
+                    RadarVertex(from: before, to: after, index: index, emphasizeGrowth: !reduceMotion, progress: progress)
+                        .fill(changed ? Palette.gold : (dark ? Palette.paper : Palette.ink))
+                        .frame(width: size, height: size).position(center)
                     VStack(spacing: 2) {
                         Text(stat.title).font(.caption.bold())
                         Text("\(after[stat])").font(.system(.subheadline, design: .rounded, weight: .heavy))

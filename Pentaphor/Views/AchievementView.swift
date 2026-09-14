@@ -75,7 +75,7 @@ struct AchievementView: View {
                 withAnimation(.easeOut(duration: 0.3)) { rewardsVisible = true }
                 try? await Task.sleep(for: .milliseconds(250))
                 guard !Task.isCancelled else { return }
-                withAnimation(.spring(response: 0.65, dampingFraction: 0.55)) { growth = 1 }
+                withAnimation(.linear(duration: 0.95)) { growth = 1 }
             }
     }
 

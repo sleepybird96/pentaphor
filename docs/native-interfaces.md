@@ -87,4 +87,6 @@ Deletion marks the quest with `deletedAt` and retains its definition for history
 
 UI acceptance selectors: `quest.create`, `quest.name`, `quest.target`, `quest.save`, `quest.complete.<name>`, `achievement.title`, `achievement.undo`, `achievement.done`, `tab.history`, `tab.stats`.
 
+`RadarGrowth` is presentation-only geometry: `fraction(points:)` maps nonnegative points with `x / (x + 50)`. `radii(from:to:progress:emphasizeGrowth:)` returns radii in `Stat.allCases` order, with the existing 0.15 center footprint and 0.78 usable span. Increased axes add two decaying outward pulses over normalized progress 0...1, bounded to 0.99; unchanged axes never move. Polygons and vertex markers are animatable Shapes using this same function. Achievement uses a 0.95s linear animation timeline; Reduce Motion skips it. Numeric labels and stored points remain exact and uncapped by the chart.
+
 Previous-week UI eligibility: `engine.canRecordPreviousWeek(for: quest, at: tapDate)` uses one fresh interaction timestamp; never pass a period cached by the screen. Completion validates the actual commit timestamp again.
