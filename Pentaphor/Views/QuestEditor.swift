@@ -30,7 +30,7 @@ struct QuestEditor: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 25) {
-                    VStack(alignment: .leading, spacing: 8) { Eyebrow(title: quest == nil ? "NEW QUEST" : "YOUR NEXT CHAPTER"); Text(quest == nil ? "무엇을 해볼까?" : "나답게 다듬기").font(.system(size: 31, weight: .black)) }
+                    VStack(alignment: .leading, spacing: 8) { Eyebrow(title: quest == nil ? "NEW QUEST" : "YOUR NEXT CHAPTER"); Text(quest == nil ? "무엇을 해볼까?" : "퀘스트 수정").font(.system(size: 31, weight: .black)) }
                     Button { nameFocused = false; showArt = true } label: {
                         ZStack(alignment: .leading) {
                             Palette.art

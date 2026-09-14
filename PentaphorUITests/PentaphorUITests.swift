@@ -20,7 +20,7 @@ final class PentaphorUITests: XCTestCase {
         capture(app, "06-visible-edit-entry")
         edit.tap()
         XCTAssertEqual(name.value as? String, "Reading")
-        XCTAssertTrue(app.staticTexts["나답게 다듬기"].exists)
+        XCTAssertTrue(app.staticTexts["퀘스트 수정"].exists)
         name.tap()
         name.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: "Reading".count))
         name.typeText("Evening Reading")
@@ -34,7 +34,7 @@ final class PentaphorUITests: XCTestCase {
         app.launch()
         app.buttons["quest.edit.Evening Reading"].tap()
         XCTAssertEqual(name.value as? String, "Evening Reading")
-        XCTAssertTrue(app.staticTexts["나답게 다듬기"].exists)
+        XCTAssertTrue(app.staticTexts["퀘스트 수정"].exists)
         capture(app, "07-edit-existing-quest")
     }
 
