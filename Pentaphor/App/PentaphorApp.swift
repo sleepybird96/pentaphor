@@ -15,15 +15,11 @@ private struct AppEntryView: View {
     @State private var loadError: String?
     @State private var gate = LaunchGate()
     @State private var loadAttempt = 0
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    private var simplifiedEffects: Bool {
-        reduceMotion || (store?.engine.preferences.simplifiedEffects ?? false)
-    }
 
     var body: some View {
         Group {
             if !gate.isFinished {
-                LaunchLoadingView(simplifiedEffects: simplifiedEffects) {
+                LaunchLoadingView {
                     withAnimation(.easeOut(duration: 0.18)) { gate.completeCycle() }
                     return gate.isFinished
                 }.transition(.opacity)
@@ -54,9 +50,6 @@ private struct AppEntryView: View {
             let repository: SwiftDataStateRepository
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
-                if ProcessInfo.processInfo.arguments.contains("--ui-test-slow-load") {
-                    try await Task.sleep(for: .seconds(6))
-                }
                 if ProcessInfo.processInfo.arguments.contains("--ui-test-load-failure"), loadAttempt == 1 {
                     throw CocoaError(.fileReadCorruptFile)
                 }
@@ -71,6 +64,12 @@ private struct AppEntryView: View {
             repository = try SwiftDataStateRepository()
             #endif
             store = try QuestStore(repository: repository)
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("--ui-testing"),
+               ProcessInfo.processInfo.arguments.contains("--ui-test-slow-load") {
+                try await Task.sleep(for: .seconds(6))
+            }
+            #endif
             loadError = nil
             gate.resolveLoad()
         } catch is CancellationError {

@@ -2,8 +2,8 @@ import SwiftUI
 import PentaphorCore
 
 struct LaunchLoadingView: View {
-    let simplifiedEffects: Bool
     let onCycleComplete: () -> Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
     @State private var cycle = LaunchGrowthCycle(seed: UInt64.random(in: .min ... .max))
     @State private var cycleStart = Date.now
@@ -11,33 +11,36 @@ struct LaunchLoadingView: View {
 
     private enum Playback: Hashable { case paused, still, animated }
     private var playback: Playback {
-        scenePhase != .active ? .paused : simplifiedEffects ? .still : .animated
+        scenePhase != .active ? .paused : reduceMotion ? .still : .animated
     }
 
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
                 Spacer(minLength: 28)
-                HStack(spacing: 12) {
-                    Image("BrandIcon").resizable().scaledToFit().frame(width: 43, height: 43).accessibilityHidden(true)
-                    Text("PENTAPHOR")
-                        .font(.custom("AvenirNextCondensed-HeavyItalic", size: 37, relativeTo: .largeTitle))
-                        .lineLimit(1).minimumScaleFactor(0.6)
+                VStack(spacing: 0) {
+                    HStack(spacing: 12) {
+                        Image("BrandIcon").resizable().scaledToFit().frame(width: 43, height: 43).accessibilityHidden(true)
+                        Text("PENTAPHOR")
+                            .font(.custom("AvenirNextCondensed-HeavyItalic", size: 37, relativeTo: .largeTitle))
+                            .lineLimit(1).minimumScaleFactor(0.6)
+                    }
+                    Text(BrandCopy.slogan)
+                        .font(.system(size: 11, weight: .bold, design: .monospaced)).tracking(2)
+                        .foregroundStyle(Palette.bright).padding(.top, 19)
+                        .lineLimit(1).minimumScaleFactor(0.7)
                 }
-                Text(BrandCopy.slogan)
-                    .font(.system(size: 11, weight: .bold, design: .monospaced)).tracking(2)
-                    .foregroundStyle(Palette.bright).padding(.top, 19)
-                    .lineLimit(1).minimumScaleFactor(0.7)
+                .offset(y: 32)
                 Spacer(minLength: 30)
                 TimelineView(.animation(minimumInterval: 1.0 / 60, paused: playback != .animated)) { context in
                     let elapsed = max(0, context.date.timeIntervalSince(cycleStart))
-                    let radii = simplifiedEffects ? [0.48, 0.48, 0.48, 0.48, 0.48] : cycle.radii(progress: isPlaying ? elapsed / 1.2 : 0)
+                    let radii = reduceMotion ? [0.48, 0.48, 0.48, 0.48, 0.48] : cycle.radii(progress: isPlaying ? elapsed / 1.2 : 0)
                     LaunchPolygonArtwork(radii: radii)
                 }
                 .frame(width: min(proxy.size.width - 48, 340), height: min(proxy.size.width - 48, 340))
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("기록을 불러오는 중")
-                .accessibilityValue(simplifiedEffects ? "간소한 연출" : "성장 연출")
+                .accessibilityValue(reduceMotion ? "간소한 연출" : "성장 연출")
                 .accessibilityIdentifier("launch.animation")
                 Spacer(minLength: 30)
                 Text(BrandCopy.tagline).font(.subheadline).foregroundStyle(Palette.paper.opacity(0.65))

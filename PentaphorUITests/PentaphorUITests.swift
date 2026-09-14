@@ -121,9 +121,13 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Nova의 파라미터"].exists)
         XCTAssertTrue(app.staticTexts["2 P"].exists)
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing", "--ui-test-slow-load"]
         app.launch()
-        XCTAssertTrue(app.buttons["quest.edit.Keep Progress"].waitForExistence(timeout: 5))
+        let launchAnimation = app.descendants(matching: .any).matching(identifier: "launch.animation").firstMatch
+        XCTAssertTrue(launchAnimation.waitForExistence(timeout: 3))
+        XCTAssertEqual(launchAnimation.value as? String, "성장 연출", "Achievement simplification must not simplify the launch animation.")
+        capture(app, "23-launch-with-achievement-simplification")
+        XCTAssertTrue(app.buttons["quest.edit.Keep Progress"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.buttons["onboarding.start"].exists)
         app.buttons["settings.open"].tap()
         XCTAssertEqual(nickname.value as? String, "Nova")

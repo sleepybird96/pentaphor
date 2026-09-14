@@ -135,3 +135,13 @@ Full UI regression GREEN: **10 tests, 0 failures**, 266.806s (`/tmp/pentaphor-la
 After the launch-background configuration change, focused native launch and settings/persistence acceptance passed **2/2**, 52.009s (`/tmp/pentaphor-launch-background-check.xcresult`). Manually recorded the saved simplified preference: launch geometry stays static, then returns to the existing quest with its 2 points intact. Video frames also confirm the preceding native launch surface now uses ink instead of white.
 
 Recorded and inspected the final normal cold launch at native speed: all five axes pop, settle, and transition to onboarding; exported the short preview as `docs/screenshots/launch-growth.mp4`. Existing physical-phone data and installation remain untouched.
+
+## 2026-09-14 — launch motion independent of achievement settings
+
+User corrected the preference scope: achievement simplification must never suppress the launch animation. Moved system Reduce Motion handling into LaunchLoadingView and removed its connection to persisted achievement preferences. Lowered the logo/name/slogan group by 32pt without shifting the polygon or footer. Updated the launch spec and README.
+
+Extended the existing settings acceptance test to relaunch with the saved achievement simplification enabled and inspect the active launch motion. The DEBUG pending-load fixture now delays gate resolution after reading the store so the assertion observes the actual saved preference. Initial test execution hit a UIKit/XCTest runner bootstrap crash (CFBundleGetInfoDictionary, before test execution); rebooted the simulator and reinstalled only its test runner. RED then reproduced the exact issue: `간소한 연출` instead of `성장 연출` (`/tmp/pentaphor-launch-independent-red-retry.xcresult`, 34.535s).
+
+GREEN: all **3 affected native acceptance tests passed**, 63.817s (`/tmp/pentaphor-launch-independent-green.xcresult`): saved achievement simplification with animated launch, pending load/foreground resume, and error/retry. Core regression: **57 tests in 11 suites passed**, 0.549s (`/tmp/pentaphor-launch-independent-core.log`). Signed physical-iOS build succeeded (`/tmp/pentaphor-launch-independent-device.log`). The other seven UI tests were not rerun for this scoped correction.
+
+Visually reviewed the lowered header and recorded a normal-speed launch with saved achievement simplification still enabled: all five axes animate before the existing quest appears. Updated screenshot 21 and the launch video; added screenshot 23 as the preference regression capture. No physical-phone installation or user-data changes.
