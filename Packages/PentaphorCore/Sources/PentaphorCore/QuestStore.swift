@@ -9,7 +9,8 @@ import Observation
         if let saved = try repository.load() {
             self.engine = QuestEngine(state: saved)
         } else {
-            let initial = AppState(timeZoneID: timeZoneID)
+            var initial = AppState(timeZoneID: timeZoneID)
+            initial.preferences = ExperiencePreferences()
             try repository.save(initial)
             self.engine = QuestEngine(state: initial)
         }

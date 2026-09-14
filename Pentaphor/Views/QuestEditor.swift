@@ -14,6 +14,9 @@ struct QuestEditor: View {
     @State private var showArt = false
     @State private var error: String?
     @State private var confirmDeletion = false
+    @State private var previewGrowth = 1.0
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    private var showsFirstQuestHelp: Bool { quest == nil && !store.engine.preferences.hasCreatedFirstQuest }
     private enum Field: Hashable { case name, notes }
     @FocusState private var focusedField: Field?
 
@@ -56,9 +59,17 @@ struct QuestEditor: View {
                         Rectangle().fill(focusedField == .name ? Palette.teal : Palette.ink).frame(height: 2)
                         if name.count > 40 { Text("40자 이내로 적어줘.").font(.caption).foregroundStyle(.red) }
                     }
+                    if showsFirstQuestHelp {
+                        Text("행동이 떠오르는 그림을 골라. 이름과 포인트는 자유롭게 정하면 돼.")
+                            .font(.caption).foregroundStyle(Palette.teal).lineSpacing(4)
+                            .accessibilityIdentifier("quest.first-help")
+                    }
                     notesInput
                     VStack(alignment: .leading, spacing: 12) {
                         HStack { Text("나만의 페이스").font(.headline); Spacer(); Text("매일 하지 않아도 돼.").font(.caption2).foregroundStyle(Palette.muted) }
+                        if showsFirstQuestHelp {
+                            Text("이번 주나 이번 달에 몇 번 하고 싶어?").font(.subheadline).foregroundStyle(Palette.teal)
+                        }
                         Picker("주기", selection: $cadence) { ForEach(Cadence.allCases, id: \.self) { Text($0.korean).tag($0) } }.pickerStyle(.segmented).disabled(hasHistory)
                         Stepper(value: $target, in: 1...99) {
                             Text("목표 \(target)회").font(.system(.title3, design: .rounded, weight: .bold))
@@ -71,6 +82,17 @@ struct QuestEditor: View {
                         }
                     }
                     allocation
+                    if showsFirstQuestHelp {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Eyebrow(title: "GROWTH PREVIEW")
+                            Text("완료하면 이렇게 쌓여").font(.headline)
+                            Text("키우고 싶은 파라미터에 최대 2점을 나눠줘. 미리보기는 실제 기록에 반영되지 않아.")
+                                .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
+                            ParameterRadar(before: .zero, after: rewards, progress: previewGrowth, dark: false,
+                                           simplifiedEffects: store.engine.preferences.simplifiedEffects)
+                                .accessibilityIdentifier("quest.reward-preview")
+                        }.padding(16).background(Palette.teal.opacity(0.05))
+                    }
                     PrimaryButton(title: quest == nil ? "나의 퀘스트로 등록" : "변경 내용 저장", action: save)
                         .disabled(!valid).opacity(valid ? 1 : 0.4).accessibilityIdentifier("quest.save.bottom")
                     if let quest {
@@ -107,6 +129,15 @@ struct QuestEditor: View {
                 }
             } message: {
                 Text("퀘스트는 복원할 수 없어. 지금까지의 완료 기록과 획득 파라미터는 그대로 남아.")
+            }
+            .task(id: Stat.allCases.map { rewards[$0] }) {
+                guard showsFirstQuestHelp else { return }
+                if store.engine.preferences.usesSimplifiedEffects(systemReduceMotion: reduceMotion) { previewGrowth = 1; return }
+                previewGrowth = 0
+                // Render the starting frame before animating the preview. Changing
+                // both values in one update would coalesce them into the final frame.
+                do { try await Task.sleep(for: .milliseconds(60)) } catch { return }
+                withAnimation(.linear(duration: 0.95)) { previewGrowth = 1 }
             }
             .modifier(ErrorNotice(error: $error))
         }

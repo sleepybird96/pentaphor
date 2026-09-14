@@ -86,6 +86,7 @@ public struct AppState: Codable, Equatable, Sendable {
     public var timeZoneID: String
     public var quests: [Quest] = []
     public var completions: [Completion] = []
+    public var preferences: ExperiencePreferences? = nil
     public init(timeZoneID: String) { self.timeZoneID = timeZoneID }
 }
 

@@ -1,12 +1,145 @@
 import XCTest
 
 final class PentaphorUITests: XCTestCase {
+    @MainActor func testIntroductionCreatesFirstQuestWithoutAwardingPreviewPoints() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 8))
+        XCTAssertLessThan(app.buttons["onboarding.start"].frame.maxY, app.frame.maxY - 20, "The first action must be fully visible without scrolling.")
+        capture(app, "16-introduction-welcome")
+        reveal(app.buttons["onboarding.start"], in: app)
+        app.buttons["onboarding.start"].tap()
+        let nickname = app.textFields["onboarding.nickname"]
+        XCTAssertTrue(nickname.waitForExistence(timeout: 5))
+        nickname.tap()
+        nickname.typeText("Mina\n")
+        capture(app, "20-introduction-nickname")
+        app.buttons["onboarding.next"].tap()
+        capture(app, "17-introduction-how-it-works")
+        reveal(app.buttons["onboarding.create"], in: app)
+        app.buttons["onboarding.create"].tap()
+        let name = app.textFields["quest.name"]
+        XCTAssertTrue(name.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["quest.first-help"].exists)
+        name.tap()
+        name.typeText("First Step\n")
+        let decrease = app.buttons["체력 포인트 줄이기"]
+        reveal(decrease, in: app)
+        decrease.tap()
+        app.buttons["지식 포인트 늘리기"].tap()
+        let preview = app.descendants(matching: .any).matching(identifier: "quest.reward-preview").firstMatch
+        reveal(preview, in: app)
+        XCTAssertTrue(preview.label.contains("지식 1"))
+        capture(app, "18-guided-reward-preview")
+        app.buttons["quest.save"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["Mina의 파라미터"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["0 P"].exists, "Introduction and reward previews must never award actual growth.")
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertTrue(app.buttons["quest.edit.First Step"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["onboarding.start"].exists)
+        app.buttons["quest.create"].tap()
+        XCTAssertFalse(app.staticTexts["quest.first-help"].exists, "Guidance ends after saving the first quest.")
+        app.buttons["취소"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["Mina의 파라미터"].exists)
+    }
+
+    @MainActor func testOptionalNameSettingsAndReplayPreserveRecordedGrowth() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 8))
+        reveal(app.buttons["onboarding.start"], in: app)
+        app.buttons["onboarding.start"].tap()
+        app.buttons["onboarding.no-name"].tap()
+        reveal(app.buttons["onboarding.explore"], in: app)
+        app.buttons["onboarding.explore"].tap()
+        app.buttons["quest.create"].tap()
+        app.textFields["quest.name"].tap()
+        app.textFields["quest.name"].typeText("Keep Progress\n")
+        app.buttons["quest.save"].tap()
+        app.buttons["quest.complete.Keep Progress"].tap()
+        reveal(app.buttons["achievement.done"], in: app)
+        app.buttons["achievement.done"].tap()
+        app.buttons["settings.open"].tap()
+        let nickname = app.textFields["settings.nickname"]
+        XCTAssertTrue(nickname.waitForExistence(timeout: 5))
+        nickname.tap()
+        nickname.typeText("Nova")
+        app.buttons["settings.nickname.save"].tap()
+        let haptics = app.switches["settings.haptics"]
+        let effects = app.switches["settings.simple-effects"]
+        haptics.tap()
+        effects.tap()
+        XCTAssertEqual(haptics.value as? String, "0")
+        XCTAssertEqual(effects.value as? String, "1")
+        capture(app, "19-settings")
+        reveal(app.buttons["settings.replay"], in: app)
+        app.buttons["settings.replay"].tap()
+        XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 5))
+        reveal(app.buttons["onboarding.start"], in: app)
+        app.buttons["onboarding.start"].tap()
+        XCTAssertFalse(app.textFields["onboarding.nickname"].exists)
+        reveal(app.buttons["onboarding.done"], in: app)
+        app.buttons["onboarding.done"].tap()
+        app.buttons["settings.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["Nova의 파라미터"].exists)
+        XCTAssertTrue(app.staticTexts["2 P"].exists)
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertTrue(app.buttons["quest.edit.Keep Progress"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["onboarding.start"].exists)
+        app.buttons["settings.open"].tap()
+        XCTAssertEqual(nickname.value as? String, "Nova")
+        XCTAssertEqual(haptics.value as? String, "0")
+        XCTAssertEqual(effects.value as? String, "1")
+        app.buttons["settings.nickname.clear"].tap()
+        app.buttons["settings.nickname.save"].tap()
+        app.buttons["settings.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["나의 파라미터"].exists)
+        XCTAssertTrue(app.staticTexts["2 P"].exists)
+    }
+
+    @MainActor func testSkippedIntroductionStaysDismissedAndCancelledQuestKeepsGuidance() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        skipIntroduction(app)
+        app.buttons["quest.create"].tap()
+        XCTAssertTrue(app.staticTexts["quest.first-help"].exists)
+        app.buttons["취소"].tap()
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertTrue(app.buttons["quest.create"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["onboarding.start"].exists)
+        app.buttons["quest.create"].tap()
+        XCTAssertTrue(app.staticTexts["quest.first-help"].exists)
+        app.buttons["취소"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["0 P"].exists)
+    }
+
+    @MainActor private func skipIntroduction(_ app: XCUIApplication) {
+        let skip = app.buttons["onboarding.skip"]
+        if skip.waitForExistence(timeout: 5) { skip.tap() }
+        XCTAssertTrue(app.buttons["quest.create"].waitForExistence(timeout: 5))
+    }
+
     override func setUpWithError() throws { continueAfterFailure = false }
 
     @MainActor func testDeleteCanBeCancelledAndPreservesRecordedGrowthAfterRelaunch() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]
         app.launch()
+        skipIntroduction(app)
         app.buttons["quest.create"].tap()
         app.textFields["quest.name"].tap()
         app.textFields["quest.name"].typeText("Keep my growth\n")
@@ -47,6 +180,7 @@ final class PentaphorUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]
         app.launch()
+        skipIntroduction(app)
         app.buttons["quest.create"].tap()
         app.textFields["quest.name"].tap()
         app.textFields["quest.name"].typeText("Swimming\n")
@@ -97,6 +231,7 @@ final class PentaphorUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]
         app.launch()
+        skipIntroduction(app)
         app.buttons["quest.create"].tap()
         let name = app.textFields["quest.name"]
         name.tap()
@@ -132,6 +267,7 @@ final class PentaphorUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]
         app.launch()
+        skipIntroduction(app)
         XCTAssertTrue(app.buttons["quest.create"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["아직 비어 있는 첫 페이지"].exists)
         app.buttons["quest.create"].tap()
@@ -169,6 +305,7 @@ final class PentaphorUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]
         app.launch()
+        skipIntroduction(app)
         app.buttons["quest.create"].tap()
         let name = app.textFields["quest.name"]
         XCTAssertFalse(app.buttons["quest.art"].staticTexts["운동"].exists)

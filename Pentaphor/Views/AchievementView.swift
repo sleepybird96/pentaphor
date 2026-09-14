@@ -36,9 +36,9 @@ struct AchievementView: View {
                     }.frame(height: 275).clipped()
                     VStack(alignment: .leading, spacing: 12) {
                         Text(quest.name).font(.system(size: 29, weight: .heavy)).accessibilityIdentifier("achievement.title")
-                        Text("한 번의 도전이, 네 안에 남았어.").font(.caption).foregroundStyle(Palette.paper.opacity(0.75))
+                        Text("작은 행동 하나, 성장으로 쌓였어.").font(.caption).foregroundStyle(Palette.paper.opacity(0.75))
                         rewardsRow.opacity(rewardsVisible ? 1 : 0).offset(y: rewardsVisible ? 0 : 10)
-                        ParameterRadar(before: result.before, after: result.after, progress: growth)
+                        ParameterRadar(before: result.before, after: result.after, progress: growth, simplifiedEffects: store.engine.preferences.simplifiedEffects)
                         HStack { Text("┄ 조금 전의 나"); Spacer(); Text("한 걸음 더 자랐어").foregroundStyle(Palette.gold) }.font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
                         Rectangle().fill(Palette.paper.opacity(0.16)).frame(height: 1).padding(.top, 5)
                         HStack {
@@ -51,7 +51,7 @@ struct AchievementView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 Eyebrow(title: "KEEP YOUR OWN RHYTHM", color: Palette.gold)
                                 Text("\(result.streak)\(result.completion.period.cadence == .week ? "주" : "개월") 연속 달성 · 끈기 +\(result.bonus)").font(.subheadline.bold()).foregroundStyle(Palette.gold)
-                                Text("꾸준히 돌아온 너에게, 보너스가 쌓였어.").font(.caption2)
+                                Text("2\(result.completion.period.cadence == .week ? "주" : "개월")째부터, 연속으로 목표를 달성할 때마다 끈기 +1이 쌓여.").font(.caption2)
                             }.padding(15).frame(maxWidth: .infinity, alignment: .leading).background(Palette.gold.opacity(0.09))
                         }
                         PrimaryButton(title: "좋아, 이만큼 자랐어", dark: true) { dismiss() }.accessibilityIdentifier("achievement.done").padding(.top, 8)
@@ -65,9 +65,9 @@ struct AchievementView: View {
         }.background(Palette.ink).foregroundStyle(Palette.paper)
             .preferredColorScheme(.dark)
             .modifier(ErrorNotice(error: $error))
-            .sensoryFeedback(.success, trigger: artVisible)
+            .sensoryFeedback(.success, trigger: artVisible) { _, visible in visible && store.engine.preferences.hapticsEnabled }
             .task {
-                if reduceMotion { artVisible = true; rewardsVisible = true; growth = 1; return }
+                if store.engine.preferences.usesSimplifiedEffects(systemReduceMotion: reduceMotion) { artVisible = true; rewardsVisible = true; growth = 1; return }
                 withAnimation(.spring(response: 0.55, dampingFraction: 0.78)) { artVisible = true }
                 try? await Task.sleep(for: .milliseconds(400))
                 guard !Task.isCancelled else { return }

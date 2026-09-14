@@ -71,6 +71,7 @@ struct QuestArt: View {
 
 struct BrandBar: View {
     var dark = false
+    var onSettings: (() -> Void)? = nil
     var body: some View {
         HStack(spacing: 9) {
             Image("BrandIcon").resizable().scaledToFit()
@@ -79,10 +80,17 @@ struct BrandBar: View {
                 .accessibilityHidden(true)
             Text("PENTAPHOR").font(.custom("AvenirNextCondensed-HeavyItalic", size: 26, relativeTo: .title2))
             Spacer()
-            Text("YOUR OWN PACE.").font(.system(size: 8, weight: .heavy, design: .monospaced)).tracking(1)
+            if let onSettings {
+                Button(action: onSettings) {
+                    Image(systemName: "gearshape").font(.system(size: 20, weight: .semibold)).frame(width: 44, height: 44)
+                }.buttonStyle(.plain).accessibilityLabel("설정").accessibilityIdentifier("settings.open")
+            } else {
+                Text("STACK YOUR\nPROGRESS.").font(.system(size: 8, weight: .heavy, design: .monospaced)).tracking(1)
+                    .multilineTextAlignment(.trailing).accessibilityLabel(BrandCopy.slogan)
+            }
         }
         .foregroundStyle(dark ? Palette.paper : Palette.ink)
-        .padding(.horizontal, 24).padding(.vertical, 17)
+        .padding(.horizontal, 24).padding(.vertical, onSettings == nil ? 17 : 10)
         .overlay(alignment: .bottom) { Rectangle().fill((dark ? Palette.paper : Palette.ink).opacity(0.15)).frame(height: 1) }
     }
 }

@@ -55,6 +55,7 @@ struct ParameterRadar: View {
     let after: StatPoints
     var progress: Double = 1
     var dark = true
+    var simplifiedEffects = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
@@ -72,13 +73,13 @@ struct ParameterRadar: View {
                 RadarPolygon(from: before, to: before, progress: 1)
                     .stroke((dark ? Palette.paper : Palette.ink).opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [3, 4]))
                     .frame(width: size, height: size).position(center)
-                RadarPolygon(from: before, to: after, emphasizeGrowth: !reduceMotion, progress: progress)
+                RadarPolygon(from: before, to: after, emphasizeGrowth: !(reduceMotion || simplifiedEffects), progress: progress)
                     .fill(Palette.teal.opacity(0.48)).frame(width: size, height: size).position(center)
-                RadarPolygon(from: before, to: after, emphasizeGrowth: !reduceMotion, progress: progress)
+                RadarPolygon(from: before, to: after, emphasizeGrowth: !(reduceMotion || simplifiedEffects), progress: progress)
                     .stroke(dark ? Palette.bright : Palette.teal, lineWidth: 2.3).frame(width: size, height: size).position(center)
                 ForEach(Array(Stat.allCases.enumerated()), id: \.element.id) { index, stat in
                     let changed = after[stat] > before[stat]
-                    RadarVertex(from: before, to: after, index: index, emphasizeGrowth: !reduceMotion, progress: progress)
+                    RadarVertex(from: before, to: after, index: index, emphasizeGrowth: !(reduceMotion || simplifiedEffects), progress: progress)
                         .fill(changed ? Palette.gold : (dark ? Palette.paper : Palette.ink))
                         .frame(width: size, height: size).position(center)
                     VStack(spacing: 2) {

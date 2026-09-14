@@ -6,7 +6,7 @@ struct StatsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 23) {
-                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: "THIS IS BECOMING YOU"); Text("조금씩, 나답게").font(.system(size: 32, weight: .black)) }
+                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: BrandCopy.slogan); Text(store.engine.preferences.nickname.isEmpty ? "나의 파라미터" : "\(store.engine.preferences.nickname)의 파라미터").font(.system(size: 32, weight: .black)) }
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .firstTextBaseline) { Text("TOTAL GROWTH").font(.caption.monospaced().bold()); Spacer(); Text("\(store.engine.totals.total) P").font(.system(size: 34, weight: .black, design: .rounded)).foregroundStyle(Palette.bright) }.padding(22)
                     ParameterRadar(before: store.engine.totals, after: store.engine.totals).padding(.horizontal, 10)
@@ -32,7 +32,7 @@ struct HistoryView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
-                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: "EVERY STEP STAYS"); Text("걸어온 기록").font(.system(size: 32, weight: .black)) }
+                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: "EVERY STEP STAYS"); Text("쌓아온 기록").font(.system(size: 32, weight: .black)) }
                 if records.isEmpty { ContentUnavailableView("첫걸음을 기다리는 중", systemImage: "clock", description: Text("퀘스트를 완료하면 여기에 차곡차곡 쌓여.")) }
                 ForEach(records) { record in
                     let quest = store.engine.state.quests.first { $0.id == record.questID }

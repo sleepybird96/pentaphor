@@ -3,6 +3,14 @@ import Foundation
 public struct QuestEngine: Sendable {
     public private(set) var state: AppState
     public init(state: AppState) { self.state = state }
+    public var preferences: ExperiencePreferences { state.preferences ?? .establishedUser }
+    public mutating func updatePreferences(_ preferences: ExperiencePreferences) throws {
+        var candidate = preferences
+        candidate.nickname = candidate.nickname.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard candidate.nickname.count <= 20,
+              candidate.nickname.rangeOfCharacter(from: .newlines) == nil else { throw PreferencesError.invalidNickname }
+        state.preferences = candidate
+    }
     public var calculator: PeriodCalculator { PeriodCalculator(timeZoneID: state.timeZoneID) }
     public var activeQuests: [Quest] { state.quests.filter { !$0.isArchived && $0.deletedAt == nil } }
     public var archivedQuests: [Quest] { state.quests.filter { $0.isArchived && $0.deletedAt == nil } }
@@ -97,6 +105,7 @@ public struct QuestEngine: Sendable {
         let name = try validatedName(name, artID: artID, target: target, rewards: rewards)
         let quest = Quest(id: id, name: name, artID: artID, cadence: cadence, createdAt: date, isArchived: false, rewards: rewards, targetChanges: [TargetChange(effectiveFrom: calculator.period(containing: date, cadence: cadence).start, target: target)], notes: notes.isEmpty ? nil : notes)
         state.quests.append(quest)
+        if state.preferences != nil { state.preferences?.hasCreatedFirstQuest = true }
         return quest
     }
     private func validatedName(_ name: String, artID: String, target: Int, rewards: StatPoints) throws -> String {

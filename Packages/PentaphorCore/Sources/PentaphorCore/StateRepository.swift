@@ -56,6 +56,10 @@ import SwiftData
     }
     private func validate(_ state: AppState) throws {
         guard state.version == 1, TimeZone(identifier: state.timeZoneID) != nil else { throw QuestError.invalidState }
+        if let preferences = state.preferences {
+            guard preferences.nickname.count <= 20,
+                  preferences.nickname.rangeOfCharacter(from: .newlines) == nil else { throw QuestError.invalidState }
+        }
         let questIDs = Set(state.quests.map(\.id))
         guard questIDs.count == state.quests.count,
               Set(state.completions.map(\.id)).count == state.completions.count else { throw QuestError.invalidState }

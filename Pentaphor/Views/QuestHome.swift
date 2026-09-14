@@ -17,6 +17,14 @@ struct QuestHome: View {
     @State private var tab = 0
     @State private var editor: QuestEditorPresentation?
     @State private var showArchive = false
+    @State private var showSettings = false
+    @State private var showIntroduction: Bool
+    @State private var createAfterIntroduction = false
+
+    init(store: QuestStore) {
+        self.store = store
+        _showIntroduction = State(initialValue: !store.engine.preferences.hasCompletedOnboarding)
+    }
     @State private var achievement: AchievementPresentation?
     @State private var graceQuest: Quest?
     @State private var error: String?
@@ -25,7 +33,7 @@ struct QuestHome: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            BrandBar()
+            BrandBar(onSettings: { showSettings = true })
             TimelineView(.periodic(from: .now, by: 30)) { context in
                 let now = max(context.date, foregroundDate)
                 Group {
@@ -40,6 +48,18 @@ struct QuestHome: View {
         .foregroundStyle(Palette.ink).background(Palette.paper)
         .safeAreaInset(edge: .bottom, spacing: 0) { tabBar }
         .sheet(item: $editor) { presentation in QuestEditor(store: store, quest: presentation.quest) }
+        .sheet(isPresented: $showSettings) { SettingsView(store: store) }
+        .fullScreenCover(isPresented: $showIntroduction, onDismiss: {
+            if createAfterIntroduction {
+                createAfterIntroduction = false
+                editor = QuestEditorPresentation(quest: nil)
+            }
+        }) {
+            IntroductionView(store: store) { createQuest in
+                createAfterIntroduction = createQuest
+                showIntroduction = false
+            }
+        }
         .sheet(isPresented: $showArchive) { ArchiveView(store: store) }
         .fullScreenCover(item: $achievement) { presentation in
             AchievementView(store: store, quest: presentation.quest, result: presentation.result)
@@ -76,7 +96,7 @@ struct QuestHome: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 23) {
                 HStack(alignment: .bottom) {
-                    VStack(alignment: .leading, spacing: 8) { Eyebrow(title: "MY NEXT CHAPTER"); Text("나의 퀘스트").font(.system(size: 32, weight: .black)) }
+                    VStack(alignment: .leading, spacing: 8) { Eyebrow(title: BrandCopy.slogan); Text("나의 퀘스트").font(.system(size: 32, weight: .black)) }
                     Spacer()
                     Button { showArchive = true } label: { Image(systemName: "archivebox").font(.title3).frame(width: 44, height: 44) }
                         .accessibilityLabel("보관한 퀘스트").accessibilityIdentifier("quest.archived")
@@ -85,8 +105,8 @@ struct QuestHome: View {
                     VStack(alignment: .leading, spacing: 18) {
                         Image(systemName: "pentagon").font(.system(size: 70, weight: .ultraLight)).foregroundStyle(Palette.teal)
                         Text("아직 비어 있는 첫 페이지").font(.title2.bold())
-                        Text("작은 행동 하나가\n다음의 나를 만들어.").font(.body).lineSpacing(6).foregroundStyle(Palette.muted)
-                        Eyebrow(title: "START SMALL. GROW YOUR WAY.")
+                        Text(BrandCopy.tagline).font(.body).lineSpacing(6).foregroundStyle(Palette.muted)
+                        Eyebrow(title: "ONE QUEST AT A TIME.")
                     }.padding(.vertical, 42).frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     ForEach(Cadence.allCases, id: \.self) { cadence in
@@ -100,7 +120,7 @@ struct QuestHome: View {
                     }
                 }
                 PrimaryButton(title: "새 퀘스트 만들기") { editor = QuestEditorPresentation(quest: nil) }.accessibilityIdentifier("quest.create")
-                Text("매일 하지 않아도 돼. 네 페이스로 이어가면 돼.")
+                Text("행동 하나씩, 나의 성장으로.")
                     .font(.caption).foregroundStyle(Palette.muted).frame(maxWidth: .infinity)
             }.padding(24)
         }
