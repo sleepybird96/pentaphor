@@ -82,7 +82,7 @@ struct IntroductionView: View {
             Text("행동 하나가,\n성장으로 쌓여.").font(.system(size: 35, weight: .black)).fixedSize(horizontal: false, vertical: true)
             guideRow(number: "01", title: "나의 퀘스트를 만들고", detail: "행동과 아트는 자유롭게. 이번 주나 이번 달에 몇 번 할지 정해.")
             guideRow(number: "02", title: "키우고 싶은 곳에 나눠줘", detail: "체력 · 지식 · 끈기 · 매력 · 용기\n한 번 완료할 때 받을 포인트를 최대 2점까지 골라.")
-            guideRow(number: "03", title: "완료할 때마다 쌓여", detail: "기록이 쌓이면 오각형도 조금씩 자라. 목표를 연속 달성하면 끈기 보너스도 생겨.")
+            guideRow(number: "03", title: "완료할 때마다 스탯이 쌓여", detail: "퀘스트를 완료하면 내가 정한 스탯이 쌓여. 목표를 연속 달성하면 끈기 보너스도 생겨.")
             Text("매일 하지 않아도 돼. 네 페이스로 이어가면 돼.")
                 .font(.caption).foregroundStyle(Palette.paper.opacity(0.7)).lineSpacing(4)
             if isReplay {
