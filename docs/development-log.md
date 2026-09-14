@@ -149,3 +149,17 @@ Visually reviewed the lowered header and recorded a normal-speed launch with sav
 ## 2026-09-14 — bring the launch tagline closer
 
 Raised the Korean launch tagline by 48pt at the user's request, keeping the logo and polygon positions. Visually checked the native iPhone 17 Pro simulator capture and updated `docs/screenshots/21-launch-growth.png`. Simulator and signed physical-iOS builds both succeeded (`/tmp/pentaphor-launch-tagline-simulator.log`, `/tmp/pentaphor-launch-tagline-device.log`). Layout-only change; no new tests or full regression rerun.
+
+## 2026-09-14 — first internal TestFlight upload
+
+User authorized internal TestFlight distribution and completed Apple web login personally. Created explicit App ID `app.pentaphor.personal` under personal team `NX53XT8XMU` (the existing development profile used XC Wildcard). Created App Store Connect app PENTAPHOR, ID `6811887105`, Korean primary language, SKU `pentaphor-ios`; created internal group `Personal` with automatic distribution and added the account owner only.
+
+Added `Configuration/TestFlightExport.plist` for automatic App Store Connect signing/upload, Xcode-managed build numbering, and `testFlightInternalTestingOnly = true`. Code/dependency inspection found no custom encryption or third-party SDK; declared `ITSAppUsesNonExemptEncryption = false` per Apple guidance.
+
+Initial export correctly stopped on missing app record. After app creation, Apple's validation rejected iPad multitasking orientations: XcodeGen's target default `[1,2]` had overridden the project's intended iPhone-only family. Set `TARGETED_DEVICE_FAMILY = 1` directly on the app target and regenerated the project. The rebuilt signed Release archive confirms `UIDeviceFamily = [1]`.
+
+Final archive: `/Users/gsang2/Library/Developer/Xcode/Archives/2026-09-14/Pentaphor-Internal-1-iPhone.xcarchive`. Upload passed Apple validation and completed at 2026-09-14 12:06 UTC: `Uploaded Pentaphor`, `EXPORT SUCCEEDED` (`/tmp/pentaphor-testflight-upload-iphone.log`). Apple post-upload processing and group availability are checked separately below. No public App Store submission, external testers, or physical-phone app deletion.
+
+Release-configuration core verification also passed **57 tests in 11 suites**, 0.087s (`/tmp/pentaphor-testflight-core-release.log`). Deployment changes affect configuration only; no new UI behavior or data migration.
+
+Confirmed in App Store Connect after processing: `Personal` has **1 tester and 1 build**; the account owner is **Invited**, and build **1.0 (1)** is marked **Internal / Testing**, expiring in 90 days. Internal distribution is complete; accepting the invitation and installing on the phone remain user actions.
