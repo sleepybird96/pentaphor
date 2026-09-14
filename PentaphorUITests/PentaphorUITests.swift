@@ -3,6 +3,49 @@ import XCTest
 final class PentaphorUITests: XCTestCase {
     override func setUpWithError() throws { continueAfterFailure = false }
 
+    @MainActor func testNotesPersistAsMultilineTextAndCancelPreservesSavedNotes() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        app.buttons["quest.create"].tap()
+        app.textFields["quest.name"].tap()
+        app.textFields["quest.name"].typeText("Swimming\n")
+        let notes = app.textViews["quest.notes"]
+        XCTAssertTrue(notes.waitForExistence(timeout: 5))
+        reveal(notes, in: app)
+        notes.tap()
+        let original = "Bring goggles\nEasy pace"
+        notes.typeText(original)
+        capture(app, "08-quest-notes-editor")
+        app.buttons["quest.save"].tap()
+        let preview = app.staticTexts["quest.notes.preview.Swimming"]
+        XCTAssertTrue(preview.waitForExistence(timeout: 5))
+        XCTAssertEqual(preview.label, original)
+        capture(app, "09-quest-notes-preview")
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        app.buttons["quest.edit.Swimming"].tap()
+        XCTAssertEqual(notes.value as? String, original)
+        reveal(notes, in: app)
+        notes.tap()
+        notes.typeKey("a", modifierFlags: .command)
+        notes.typeText(XCUIKeyboardKey.delete.rawValue)
+        notes.typeText("Unsaved draft")
+        app.buttons["취소"].tap()
+        XCTAssertEqual(preview.label, original)
+        app.buttons["quest.edit.Swimming"].tap()
+        XCTAssertEqual(notes.value as? String, original)
+        reveal(notes, in: app)
+        notes.tap()
+        notes.typeKey("a", modifierFlags: .command)
+        notes.typeText(XCUIKeyboardKey.delete.rawValue)
+        XCTAssertEqual(notes.value as? String, "")
+        app.buttons["quest.save"].tap()
+        XCTAssertFalse(preview.exists)
+        XCTAssertTrue(app.staticTexts["quest.progress.Swimming"].label.contains("0 / 3"))
+    }
+
     @MainActor func testVisibleEditEntryUpdatesExistingQuestAndSurvivesRelaunch() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]

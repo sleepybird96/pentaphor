@@ -25,6 +25,7 @@ struct Quest: Identifiable, Codable, Equatable, Sendable {
     let id: UUID; var name: String; var artID: String; var cadence: Cadence
     let createdAt: Date; var isArchived: Bool; var rewards: StatPoints
     var targetChanges: [TargetChange]
+    var notes: String? // Missing in legacy v1 records; nil means no memo.
 }
 struct Completion: Identifiable, Codable, Equatable, Sendable {
     let id: UUID; let questID: UUID; let recordedAt: Date; let period: PeriodWindow
@@ -53,8 +54,8 @@ struct QuestEngine {
     var calculator: PeriodCalculator
     func progress(for quest: Quest, at date: Date) -> QuestProgress
     func target(for quest: Quest, period: PeriodWindow) -> Int
-    mutating func create(name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at: Date, id: UUID = UUID()) throws -> Quest
-    mutating func update(id: UUID, name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at: Date) throws
+    mutating func create(name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at: Date, notes: String = "", id: UUID = UUID()) throws -> Quest
+    mutating func update(id: UUID, name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at: Date, notes: String? = nil) throws
     mutating func setArchived(id: UUID, archived: Bool) throws
     mutating func complete(questID: UUID, at: Date, previousWeek: Bool = false, requestID: UUID = UUID()) throws -> CompletionResult
     mutating func undo(completionID: UUID) throws
@@ -76,6 +77,8 @@ struct QuestEngine {
 Names in errors use `LocalizedError.errorDescription` Korean copy. Art IDs are validated against the approved 60 IDs by core; UI supplies entries from the same catalog. Screens use current `Date()` for actions and `TimelineView(.periodic(from: .now, by: 30))` or foreground refresh to update displayed period/grace state.
 
 Activity list gets labels/art from quest definition; stored rewards/periods remain authoritative. State is initially empty. Capture before/after result only after a successful transaction, then present achievement; on error, show an alert and keep current screen/state.
+
+Notes are optional quest metadata, not completion snapshots. Preserve multiline text exactly. `update(notes: nil)` preserves the previous memo; `update(notes: "")` clears it. Legacy records missing `notes` decode as nil. Editor drafts are local until Save commits through QuestStore.
 
 UI acceptance selectors: `quest.create`, `quest.name`, `quest.target`, `quest.save`, `quest.complete.<name>`, `achievement.title`, `achievement.undo`, `achievement.done`, `tab.history`, `tab.stats`.
 

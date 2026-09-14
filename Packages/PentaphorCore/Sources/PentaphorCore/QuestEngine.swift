@@ -61,7 +61,7 @@ public struct QuestEngine: Sendable {
         guard let index = state.completions.firstIndex(where: { $0.id == completionID }) else { throw QuestError.notFound }
         state.completions[index].isVoided = true
     }
-    public mutating func update(id: UUID, name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at date: Date) throws {
+    public mutating func update(id: UUID, name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at date: Date, notes: String? = nil) throws {
         guard let index = state.quests.firstIndex(where: { $0.id == id }) else { throw QuestError.notFound }
         let name = try validatedName(name, artID: artID, target: target, rewards: rewards)
         var quest = state.quests[index]
@@ -77,6 +77,7 @@ public struct QuestEngine: Sendable {
             quest.targetChanges.append(TargetChange(effectiveFrom: effective, target: target))
         }
         quest.name = name; quest.artID = artID; quest.cadence = cadence; quest.rewards = rewards
+        if let notes { quest.notes = notes.isEmpty ? nil : notes }
         state.quests[index] = quest
     }
     public mutating func setArchived(id: UUID, archived: Bool) throws {
@@ -84,10 +85,10 @@ public struct QuestEngine: Sendable {
         state.quests[index].isArchived = archived
     }
     @discardableResult
-    public mutating func create(name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at date: Date, id: UUID = UUID()) throws -> Quest {
+    public mutating func create(name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at date: Date, notes: String = "", id: UUID = UUID()) throws -> Quest {
         guard !state.quests.contains(where: { $0.id == id }) else { throw QuestError.duplicateRequest }
         let name = try validatedName(name, artID: artID, target: target, rewards: rewards)
-        let quest = Quest(id: id, name: name, artID: artID, cadence: cadence, createdAt: date, isArchived: false, rewards: rewards, targetChanges: [TargetChange(effectiveFrom: calculator.period(containing: date, cadence: cadence).start, target: target)])
+        let quest = Quest(id: id, name: name, artID: artID, cadence: cadence, createdAt: date, isArchived: false, rewards: rewards, targetChanges: [TargetChange(effectiveFrom: calculator.period(containing: date, cadence: cadence).start, target: target)], notes: notes.isEmpty ? nil : notes)
         state.quests.append(quest)
         return quest
     }

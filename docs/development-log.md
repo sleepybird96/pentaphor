@@ -61,3 +61,13 @@ Added real UI coverage: create a quest → find visibly labelled edit entry → 
 The first implementation exposed a second real bug: after relaunch, the first edit opened an empty creation form (asserted field value was the placeholder rather than the saved quest name). The test failed at the persisted edit prefill assertion (`/tmp/pentaphor-edit-entry-green.xcresult`). Replaced separate presentation boolean/selected quest state with one item-driven sheet payload, so editor identity and quest data arrive together on first and subsequent opens.
 
 Final GREEN: 3 UI tests, 0 failures, 62.090s (`/tmp/pentaphor-edit-entry-final.xcresult`). Physical iOS signed build succeeded (`/tmp/pentaphor-edit-entry-device.log`). Visually checked `docs/screenshots/06-visible-edit-entry.png` and `07-edit-existing-quest.png`, including the prefilled editor after relaunch. The updated build is ready for an in-place Xcode Run on the user's phone; no physical-device data was reset or modified during testing.
+
+## 2026-09-14 — quest notes
+
+Spec: `docs/superpowers/specs/2026-09-14-quest-notes.md`. Optional multiline memo in create/edit, two-line list preview, local drafts with Save/Cancel, explicit empty-string clearing. Existing v1 JSON remains compatible through an optional `notes` field; the SwiftData model is unchanged.
+
+Core semantic RED: 2 new tests failed with 4 assertions because notes were not assigned (`/tmp/pentaphor-notes-core-red.log`). Implemented create/update note assignment and clearing; full core suite passed **35 tests in 7 suites** (`/tmp/pentaphor-notes-core-green.log`). Includes a literal pre-notes v1 payload inserted into actual SwiftData storage, loaded, edited and reopened with history and points retained, plus multiline/emoji preservation and memo-only edits preserving completion snapshots.
+
+UI semantic RED: 4 tests ran, with 1 expected failure because the memo input did not exist (`/tmp/pentaphor-notes-ui-red.xcresult`). Added the input and preview after observing this failure. Acceptance covers entering multiline notes, relaunching and reopening, cancelling an unsaved draft, and clearing a saved memo without completing the quest.
+
+The first implemented UI run passed persistence and cancellation, but its clearing step assumed the reopened text cursor was at the end. Corrected the test to select all text before Delete. Final GREEN: **4 UI tests, 0 failures**, 95.450s (`/tmp/pentaphor-notes-ui-final.xcresult`). Signed physical iOS build succeeded (`/tmp/pentaphor-notes-device-build.log`). Reviewed memo input and list preview captures, saved as `docs/screenshots/08-quest-notes-editor.png` and `09-quest-notes-preview.png`. Ready for an in-place Xcode Run on the phone; no device installation or data reset was performed.

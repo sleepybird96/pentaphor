@@ -114,6 +114,11 @@ struct QuestHome: View {
                     QuestArt(id: quest.artID, pixelSize: 240).frame(width: 72, height: 72).background(Palette.art)
                     VStack(alignment: .leading, spacing: 5) {
                         Text(quest.name).font(.system(.body, weight: .bold)).multilineTextAlignment(.leading)
+                        if let notes = quest.notes, !notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            Text(notes).font(.caption).foregroundStyle(Palette.muted)
+                                .multilineTextAlignment(.leading).lineLimit(2)
+                                .accessibilityIdentifier("quest.notes.preview.\(quest.name)")
+                        }
                         Text("\(progress.count) / \(progress.target)회 · \(quest.cadence.korean)")
                             .font(.system(.subheadline, design: .rounded, weight: .bold)).foregroundStyle(Palette.teal)
                             .accessibilityIdentifier("quest.progress.\(quest.name)")

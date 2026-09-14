@@ -6,17 +6,20 @@ struct QuestEditor: View {
     let quest: Quest?
     @Environment(\.dismiss) private var dismiss
     @State private var name: String
+    @State private var notes: String
     @State private var artID: String
     @State private var cadence: Cadence
     @State private var target: Int
     @State private var rewards: StatPoints
     @State private var showArt = false
     @State private var error: String?
-    @FocusState private var nameFocused: Bool
+    private enum Field: Hashable { case name, notes }
+    @FocusState private var focusedField: Field?
 
     init(store: QuestStore, quest: Quest?) {
         self.store = store; self.quest = quest
         _name = State(initialValue: quest?.name ?? "")
+        _notes = State(initialValue: quest?.notes ?? "")
         _artID = State(initialValue: quest?.artID ?? "climbing")
         _cadence = State(initialValue: quest?.cadence ?? .week)
         _target = State(initialValue: quest?.targetChanges.last?.target ?? 3)
@@ -31,7 +34,7 @@ struct QuestEditor: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 25) {
                     VStack(alignment: .leading, spacing: 8) { Eyebrow(title: quest == nil ? "NEW QUEST" : "YOUR NEXT CHAPTER"); Text(quest == nil ? "무엇을 해볼까?" : "퀘스트 수정").font(.system(size: 31, weight: .black)) }
-                    Button { nameFocused = false; showArt = true } label: {
+                    Button { focusedField = nil; showArt = true } label: {
                         ZStack(alignment: .leading) {
                             Palette.art
                             HStack(spacing: 0) {
@@ -48,11 +51,12 @@ struct QuestEditor: View {
                     VStack(alignment: .leading, spacing: 7) {
                         HStack { Text("퀘스트 이름").font(.caption.bold()); Spacer(); Text("이름은 자유롭게").font(.caption2).foregroundStyle(Palette.muted) }
                         TextField("어떤 행동을 해볼까?", text: $name).font(.system(size: 25, weight: .heavy)).padding(.vertical, 9)
-                            .focused($nameFocused).submitLabel(.done).onSubmit { nameFocused = false }
+                            .focused($focusedField, equals: .name).submitLabel(.done).onSubmit { focusedField = nil }
                             .accessibilityIdentifier("quest.name")
-                        Rectangle().fill(nameFocused ? Palette.teal : Palette.ink).frame(height: 2)
+                        Rectangle().fill(focusedField == .name ? Palette.teal : Palette.ink).frame(height: 2)
                         if name.count > 40 { Text("40자 이내로 적어줘.").font(.caption).foregroundStyle(.red) }
                     }
+                    notesInput
                     VStack(alignment: .leading, spacing: 12) {
                         HStack { Text("나만의 페이스").font(.headline); Spacer(); Text("매일 하지 않아도 돼.").font(.caption2).foregroundStyle(Palette.muted) }
                         Picker("주기", selection: $cadence) { ForEach(Cadence.allCases, id: \.self) { Text($0.korean).tag($0) } }.pickerStyle(.segmented).disabled(hasHistory)
@@ -84,10 +88,36 @@ struct QuestEditor: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) { Button("취소") { dismiss() } }
                 ToolbarItem(placement: .topBarTrailing) { Button("저장", action: save).disabled(!valid).accessibilityIdentifier("quest.save") }
-                ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("완료") { nameFocused = false } }
+                ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("완료") { focusedField = nil } }
             }
             .sheet(isPresented: $showArt) { ArtPicker(selectedID: $artID).presentationDetents([.large]) }
             .modifier(ErrorNotice(error: $error))
+        }
+    }
+
+    private var notesInput: some View {
+        VStack(alignment: .leading, spacing: 9) {
+            HStack {
+                Text("메모").font(.caption.bold())
+                Spacer()
+                Text("선택").font(.caption2).foregroundStyle(Palette.muted)
+            }
+            TextEditor(text: $notes)
+                .focused($focusedField, equals: .notes)
+                .font(.subheadline).scrollContentBackground(.hidden)
+                .frame(height: 112)
+                .overlay(alignment: .topLeading) {
+                    if notes.isEmpty {
+                        Text("준비물, 방법, 기억할 내용을 적어줘.")
+                            .font(.subheadline).foregroundStyle(Palette.muted)
+                            .padding(.horizontal, 5).padding(.top, 8)
+                            .allowsHitTesting(false).accessibilityHidden(true)
+                    }
+                }
+                .padding(10)
+                .background(Palette.ink.opacity(0.035), in: RoundedRectangle(cornerRadius: 8))
+                .overlay { RoundedRectangle(cornerRadius: 8).stroke(focusedField == .notes ? Palette.teal : Palette.ink.opacity(0.15), lineWidth: 1) }
+                .accessibilityLabel("메모").accessibilityIdentifier("quest.notes")
         }
     }
 
@@ -114,8 +144,8 @@ struct QuestEditor: View {
         guard valid else { return }
         do {
             try store.transact { engine in
-                if let quest { try engine.update(id: quest.id, name: name, artID: artID, cadence: cadence, target: target, rewards: rewards, at: Date()) }
-                else { _ = try engine.create(name: name, artID: artID, cadence: cadence, target: target, rewards: rewards, at: Date()) }
+                if let quest { try engine.update(id: quest.id, name: name, artID: artID, cadence: cadence, target: target, rewards: rewards, at: Date(), notes: notes) }
+                else { _ = try engine.create(name: name, artID: artID, cadence: cadence, target: target, rewards: rewards, at: Date(), notes: notes) }
             }
             dismiss()
         } catch { self.error = error.localizedDescription }
