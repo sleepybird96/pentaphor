@@ -147,6 +147,7 @@ final class PentaphorUITests: XCTestCase {
         capture(app, "02-home")
         complete.tap()
         XCTAssertTrue(app.staticTexts["achievement.title"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["운동"].exists, "Artwork must not assign a category to the completed quest.")
         capture(app, "03-achievement")
         reveal(app.buttons["achievement.undo"], in: app)
         app.buttons["achievement.undo"].tap()
@@ -170,13 +171,24 @@ final class PentaphorUITests: XCTestCase {
         app.launch()
         app.buttons["quest.create"].tap()
         let name = app.textFields["quest.name"]
+        XCTAssertFalse(app.buttons["quest.art"].staticTexts["운동"].exists)
+        XCTAssertEqual(name.placeholderValue, "퀘스트 이름")
+        app.buttons["quest.art"].tap()
+        XCTAssertTrue(app.buttons["배움"].waitForExistence(timeout: 5))
+        app.buttons["배움"].tap()
+        app.buttons["art.reading"].tap()
+        XCTAssertEqual(name.placeholderValue, "퀘스트 이름")
+        XCTAssertEqual(name.value as? String, "퀘스트 이름", "Choosing art must leave an unnamed quest empty.")
+        XCTAssertFalse(app.buttons["quest.art"].staticTexts["배움"].exists)
         name.tap()
         name.typeText("My own name")
         app.buttons["quest.art"].tap()
-        XCTAssertTrue(app.buttons["art.reading"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["art.climbing"].waitForExistence(timeout: 5))
         capture(app, "04-art-picker")
-        app.buttons["art.reading"].tap()
+        app.buttons["art.climbing"].tap()
         XCTAssertEqual(name.value as? String, "My own name")
+        XCTAssertEqual(name.placeholderValue, "퀘스트 이름")
+        XCTAssertFalse(app.buttons["quest.art"].staticTexts["운동"].exists)
         app.buttons["quest.save"].tap()
         app.buttons["quest.edit.My own name"].tap()
         reveal(app.buttons["quest.archive"], in: app)
@@ -189,13 +201,15 @@ final class PentaphorUITests: XCTestCase {
     }
     @MainActor private func clearNotesUsingEditMenu(_ notes: XCUIElement, in app: XCUIApplication) {
         // Long-press the first line, not the editor's blank center. Use the
-        // iOS edit menu and software Delete key instead of assuming Cmd-A worked.
+        // iOS edit menu instead of assuming Cmd-A worked or the keyboard stayed visible.
         notes.coordinate(withNormalizedOffset: CGVector(dx: 0.08, dy: 0.12)).press(forDuration: 1.2)
         let selectAll = app.descendants(matching: .any).matching(NSPredicate(format: "label IN %@", ["전체 선택", "Select All"])).firstMatch
         XCTAssertTrue(selectAll.waitForExistence(timeout: 3))
         capture(app, "13-memo-select-all")
         selectAll.tap()
-        app.keys["delete"].tap()
+        let cut = app.menuItems.matching(NSPredicate(format: "label IN %@", ["잘라내기", "오려두기", "Cut"])).firstMatch
+        XCTAssertTrue(cut.waitForExistence(timeout: 3))
+        cut.tap()
         XCTAssertEqual(notes.value as? String, "")
     }
 

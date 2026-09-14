@@ -41,7 +41,6 @@ struct QuestEditor: View {
                             HStack(spacing: 0) {
                                 VStack(alignment: .leading, spacing: 18) {
                                     Eyebrow(title: "MY NEXT CHAPTER", color: Palette.bright)
-                                    Text(ArtCatalog.art(artID).category).font(.title2.bold()).foregroundStyle(Palette.paper)
                                     Label("아트 바꾸기", systemImage: "arrow.up.right").font(.caption.bold()).foregroundStyle(Palette.paper)
                                 }.padding(.leading, 16)
                                 Spacer(minLength: 0)
@@ -51,7 +50,7 @@ struct QuestEditor: View {
                     }.buttonStyle(.plain).accessibilityIdentifier("quest.art").accessibilityLabel("아트 바꾸기, \(ArtCatalog.art(artID).label)")
                     VStack(alignment: .leading, spacing: 7) {
                         HStack { Text("퀘스트 이름").font(.caption.bold()); Spacer(); Text("이름은 자유롭게").font(.caption2).foregroundStyle(Palette.muted) }
-                        TextField("어떤 행동을 해볼까?", text: $name).font(.system(size: 25, weight: .heavy)).padding(.vertical, 9)
+                        TextField("퀘스트 이름", text: $name).font(.system(size: 25, weight: .heavy)).padding(.vertical, 9)
                             .focused($focusedField, equals: .name).submitLabel(.done).onSubmit { focusedField = nil }
                             .accessibilityIdentifier("quest.name")
                         Rectangle().fill(focusedField == .name ? Palette.teal : Palette.ink).frame(height: 2)

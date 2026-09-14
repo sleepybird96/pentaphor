@@ -35,7 +35,6 @@ struct AchievementView: View {
                         }.padding(21)
                     }.frame(height: 275).clipped()
                     VStack(alignment: .leading, spacing: 12) {
-                        Eyebrow(title: ArtCatalog.art(quest.artID).category, color: Palette.bright)
                         Text(quest.name).font(.system(size: 29, weight: .heavy)).accessibilityIdentifier("achievement.title")
                         Text("한 번의 도전이, 네 안에 남았어.").font(.caption).foregroundStyle(Palette.paper.opacity(0.75))
                         rewardsRow.opacity(rewardsVisible ? 1 : 0).offset(y: rewardsVisible ? 0 : 10)
