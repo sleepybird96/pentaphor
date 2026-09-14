@@ -7,11 +7,15 @@ private struct AchievementPresentation: Identifiable {
     let result: CompletionResult
 }
 
+private struct QuestEditorPresentation: Identifiable {
+    let id = UUID()
+    let quest: Quest?
+}
+
 struct QuestHome: View {
     let store: QuestStore
     @State private var tab = 0
-    @State private var showEditor = false
-    @State private var editingQuest: Quest?
+    @State private var editor: QuestEditorPresentation?
     @State private var showArchive = false
     @State private var achievement: AchievementPresentation?
     @State private var graceQuest: Quest?
@@ -35,7 +39,7 @@ struct QuestHome: View {
         }
         .foregroundStyle(Palette.ink).background(Palette.paper)
         .safeAreaInset(edge: .bottom, spacing: 0) { tabBar }
-        .sheet(isPresented: $showEditor) { QuestEditor(store: store, quest: editingQuest) }
+        .sheet(item: $editor) { presentation in QuestEditor(store: store, quest: presentation.quest) }
         .sheet(isPresented: $showArchive) { ArchiveView(store: store) }
         .fullScreenCover(item: $achievement) { presentation in
             AchievementView(store: store, quest: presentation.quest, result: presentation.result)
@@ -95,7 +99,7 @@ struct QuestHome: View {
                         }
                     }
                 }
-                PrimaryButton(title: "새 퀘스트 만들기") { editingQuest = nil; showEditor = true }.accessibilityIdentifier("quest.create")
+                PrimaryButton(title: "새 퀘스트 만들기") { editor = QuestEditorPresentation(quest: nil) }.accessibilityIdentifier("quest.create")
                 Text("매일 하지 않아도 돼. 네 페이스로 이어가면 돼.")
                     .font(.caption).foregroundStyle(Palette.muted).frame(maxWidth: .infinity)
             }.padding(24)
@@ -105,7 +109,7 @@ struct QuestHome: View {
     private func questRow(_ quest: Quest, now: Date) -> some View {
         let progress = store.engine.progress(for: quest, at: now)
         return HStack(spacing: 12) {
-            Button { editingQuest = quest; showEditor = true } label: {
+            Button { editor = QuestEditorPresentation(quest: quest) } label: {
                 HStack(spacing: 12) {
                     QuestArt(id: quest.artID, pixelSize: 240).frame(width: 72, height: 72).background(Palette.art)
                     VStack(alignment: .leading, spacing: 5) {
@@ -114,10 +118,16 @@ struct QuestHome: View {
                             .font(.system(.subheadline, design: .rounded, weight: .bold)).foregroundStyle(Palette.teal)
                             .accessibilityIdentifier("quest.progress.\(quest.name)")
                         if progress.achieved { Text("목표 달성 ✓").font(.caption2).foregroundStyle(Palette.muted) }
+                        Label("수정", systemImage: "pencil")
+                            .font(.caption.bold()).foregroundStyle(Palette.teal)
+                            .padding(.horizontal, 8).padding(.vertical, 4)
+                            .background(Palette.teal.opacity(0.08), in: RoundedRectangle(cornerRadius: 5))
                     }
                     Spacer(minLength: 0)
                 }
+                .contentShape(Rectangle())
             }.buttonStyle(.plain).accessibilityIdentifier("quest.edit.\(quest.name)")
+                .accessibilityHint("퀘스트 이름과 목표, 포인트를 수정해.")
             Button {
                 let now = Date()
                 if store.engine.canRecordPreviousWeek(for: quest, at: now) {

@@ -51,3 +51,13 @@ Final UI regression on the completed core and midnight fix: **2 tests, 0 failure
 ## 2026-09-14 — approved icon integration
 
 Applied the user's approved 180-degree SHIFT emblem as both AppIcon and shared native BrandBar logo. Production image is opaque 1024×1024 with system-masked corners. Preserved the user's configured development Team in XcodeGen. Existing UI regression passed 2/2 (46.295s); simulator build and bundle verification passed. This changes visual assets and presentation only; domain rules and storage are untouched. Reviewed captures and generation provenance are in `design/brand/README.md`.
+
+## 2026-09-14 — visible quest editing entry
+
+User reported no discoverable way to edit a quest. Root cause: artwork/name already opened QuestEditor, but the row gave no visible indication of that action. Added a pencil + ‘수정’ chip inside the existing edit button and made its entire content rectangle tappable. The completion button remains a separate action.
+
+Added real UI coverage: create a quest → find visibly labelled edit entry → open prefilled editor → rename existing quest → verify no completion or old-name duplicate → relaunch and reopen the saved edit. Initial filtered invocation selected zero tests and was not counted as validation. Full semantic RED ran 3 tests with 1 expected failure at the missing visible ‘수정’ assertion (`/tmp/pentaphor-edit-entry-red-full.xcresult`).
+
+The first implementation exposed a second real bug: after relaunch, the first edit opened an empty creation form (asserted field value was the placeholder rather than the saved quest name). The test failed at the persisted edit prefill assertion (`/tmp/pentaphor-edit-entry-green.xcresult`). Replaced separate presentation boolean/selected quest state with one item-driven sheet payload, so editor identity and quest data arrive together on first and subsequent opens.
+
+Final GREEN: 3 UI tests, 0 failures, 62.090s (`/tmp/pentaphor-edit-entry-final.xcresult`). Physical iOS signed build succeeded (`/tmp/pentaphor-edit-entry-device.log`). Visually checked `docs/screenshots/06-visible-edit-entry.png` and `07-edit-existing-quest.png`, including the prefilled editor after relaunch. The updated build is ready for an in-place Xcode Run on the user's phone; no physical-device data was reset or modified during testing.
