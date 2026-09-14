@@ -4,6 +4,13 @@ public struct QuestEngine: Sendable {
     public private(set) var state: AppState
     public init(state: AppState) { self.state = state }
     public var calculator: PeriodCalculator { PeriodCalculator(timeZoneID: state.timeZoneID) }
+    public var activeQuests: [Quest] { state.quests.filter { !$0.isArchived && $0.deletedAt == nil } }
+    public var archivedQuests: [Quest] { state.quests.filter { $0.isArchived && $0.deletedAt == nil } }
+    public mutating func delete(id: UUID, at date: Date) throws {
+        guard let index = state.quests.firstIndex(where: { $0.id == id && $0.deletedAt == nil }) else { throw QuestError.notFound }
+        // Keep the definition for historical labels and earned streak bonuses.
+        state.quests[index].deletedAt = date
+    }
     public func canRecordPreviousWeek(for quest: Quest, at date: Date) -> Bool {
         quest.cadence == .week && calculator.canRecordPreviousWeek(at: date)
             && quest.createdAt < calculator.period(containing: date, cadence: .week).start
@@ -41,7 +48,7 @@ public struct QuestEngine: Sendable {
             guard existing.questID == questID, !existing.isVoided else { throw QuestError.duplicateRequest }
             return CompletionResult(completion: existing, before: totals, after: totals, bonus: 0, streak: 0)
         }
-        guard let quest = state.quests.first(where: { $0.id == questID }) else { throw QuestError.notFound }
+        guard let quest = state.quests.first(where: { $0.id == questID && $0.deletedAt == nil }) else { throw QuestError.notFound }
         guard !quest.isArchived else { throw QuestError.archived }
         var period = calculator.period(containing: date, cadence: quest.cadence)
         if previousWeek {
@@ -62,7 +69,7 @@ public struct QuestEngine: Sendable {
         state.completions[index].isVoided = true
     }
     public mutating func update(id: UUID, name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at date: Date, notes: String? = nil) throws {
-        guard let index = state.quests.firstIndex(where: { $0.id == id }) else { throw QuestError.notFound }
+        guard let index = state.quests.firstIndex(where: { $0.id == id && $0.deletedAt == nil }) else { throw QuestError.notFound }
         let name = try validatedName(name, artID: artID, target: target, rewards: rewards)
         var quest = state.quests[index]
         let records = state.completions.filter { $0.questID == id }
@@ -81,7 +88,7 @@ public struct QuestEngine: Sendable {
         state.quests[index] = quest
     }
     public mutating func setArchived(id: UUID, archived: Bool) throws {
-        guard let index = state.quests.firstIndex(where: { $0.id == id }) else { throw QuestError.notFound }
+        guard let index = state.quests.firstIndex(where: { $0.id == id && $0.deletedAt == nil }) else { throw QuestError.notFound }
         state.quests[index].isArchived = archived
     }
     @discardableResult

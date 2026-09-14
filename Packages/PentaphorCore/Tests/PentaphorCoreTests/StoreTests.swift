@@ -13,6 +13,18 @@ import Testing
 }
 
 @MainActor struct StoreTests {
+    @Test func failedDeleteKeepsQuestAndRecordsVisible() throws {
+        let repository = FailingStorage()
+        let store = try QuestStore(repository: repository, timeZoneID: "Asia/Seoul")
+        let quest = try store.transact { try $0.create(name: "독서", artID: "reading", cadence: .week, target: 1, rewards: StatPoints(knowledge: 2), at: created) }
+        _ = try store.transact { try $0.complete(questID: quest.id, at: created) }
+        let before = store.engine.state
+        repository.fails = true
+        #expect(throws: CocoaError.self) { try store.transact { try $0.delete(id: quest.id, at: created) } }
+        #expect(store.engine.state == before)
+        #expect(repository.persisted == before)
+        #expect(store.engine.activeQuests.map(\.id) == [quest.id])
+    }
     @Test func failedSaveDoesNotPublishPhantomQuestOrPoints() throws {
         let repository = FailingStorage()
         let store = try QuestStore(repository: repository, timeZoneID: "Asia/Seoul")

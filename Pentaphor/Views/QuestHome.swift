@@ -81,7 +81,7 @@ struct QuestHome: View {
                     Button { showArchive = true } label: { Image(systemName: "archivebox").font(.title3).frame(width: 44, height: 44) }
                         .accessibilityLabel("보관한 퀘스트").accessibilityIdentifier("quest.archived")
                 }
-                if store.engine.state.quests.filter({ !$0.isArchived }).isEmpty {
+                if store.engine.activeQuests.isEmpty {
                     VStack(alignment: .leading, spacing: 18) {
                         Image(systemName: "pentagon").font(.system(size: 70, weight: .ultraLight)).foregroundStyle(Palette.teal)
                         Text("아직 비어 있는 첫 페이지").font(.title2.bold())
@@ -90,7 +90,7 @@ struct QuestHome: View {
                     }.padding(.vertical, 42).frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     ForEach(Cadence.allCases, id: \.self) { cadence in
-                        let quests = store.engine.state.quests.filter { !$0.isArchived && $0.cadence == cadence }
+                        let quests = store.engine.activeQuests.filter { $0.cadence == cadence }
                         if !quests.isEmpty {
                             VStack(alignment: .leading, spacing: 0) {
                                 HStack { Text(cadence.periodLabel).font(.headline); Spacer(); Text("\(quests.count) QUESTS").font(.caption.monospaced()).foregroundStyle(Palette.muted) }.padding(.bottom, 8)

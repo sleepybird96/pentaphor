@@ -3,6 +3,46 @@ import XCTest
 final class PentaphorUITests: XCTestCase {
     override func setUpWithError() throws { continueAfterFailure = false }
 
+    @MainActor func testDeleteCanBeCancelledAndPreservesRecordedGrowthAfterRelaunch() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        app.buttons["quest.create"].tap()
+        app.textFields["quest.name"].tap()
+        app.textFields["quest.name"].typeText("Keep my growth\n")
+        XCTAssertFalse(app.buttons["quest.delete"].exists)
+        app.buttons["quest.save"].tap()
+        app.buttons["quest.complete.Keep my growth"].tap()
+        reveal(app.buttons["achievement.done"], in: app)
+        app.buttons["achievement.done"].tap()
+        app.buttons["quest.edit.Keep my growth"].tap()
+        let delete = app.buttons["quest.delete"]
+        XCTAssertTrue(delete.waitForExistence(timeout: 5))
+        reveal(delete, in: app)
+        XCTAssertGreaterThan(delete.frame.minY, app.buttons["quest.archive"].frame.minY)
+        capture(app, "10-quest-delete-entry")
+        delete.tap()
+        let alert = app.alerts["퀘스트를 삭제할까?"]
+        XCTAssertTrue(alert.waitForExistence(timeout: 5))
+        capture(app, "11-quest-delete-confirmation")
+        alert.buttons["취소"].tap()
+        XCTAssertTrue(delete.exists)
+        delete.tap()
+        alert.buttons["삭제하기"].tap()
+        XCTAssertTrue(app.staticTexts["아직 비어 있는 첫 페이지"].waitForExistence(timeout: 5))
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertFalse(app.buttons["quest.edit.Keep my growth"].exists)
+        app.buttons["quest.archived"].tap()
+        XCTAssertTrue(app.staticTexts["보관한 퀘스트가 없어"].waitForExistence(timeout: 5))
+        app.buttons["archive.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["2 P"].waitForExistence(timeout: 5))
+        app.buttons["tab.history"].tap()
+        XCTAssertTrue(app.staticTexts["Keep my growth"].waitForExistence(timeout: 5))
+    }
+
     @MainActor func testNotesPersistAsMultilineTextAndCancelPreservesSavedNotes() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]

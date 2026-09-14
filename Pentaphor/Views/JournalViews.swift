@@ -83,7 +83,7 @@ struct ArchiveView: View {
                     Eyebrow(title: "A CHAPTER TO RETURN TO")
                     Text("잠시 쉬어가는 퀘스트").font(.title2.bold())
                     Text("지금까지의 기록은 그대로.\n다시 이어가고 싶을 때 꺼내면 돼.").font(.subheadline).foregroundStyle(Palette.muted).lineSpacing(5)
-                    let archived = store.engine.state.quests.filter(\.isArchived)
+                    let archived = store.engine.archivedQuests
                     if archived.isEmpty { ContentUnavailableView("보관한 퀘스트가 없어", systemImage: "archivebox") }
                     ForEach(archived) { quest in
                         HStack(spacing: 12) {

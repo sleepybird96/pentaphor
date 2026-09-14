@@ -13,6 +13,7 @@ struct QuestEditor: View {
     @State private var rewards: StatPoints
     @State private var showArt = false
     @State private var error: String?
+    @State private var confirmDeletion = false
     private enum Field: Hashable { case name, notes }
     @FocusState private var focusedField: Field?
 
@@ -79,6 +80,11 @@ struct QuestEditor: View {
                             catch { self.error = error.localizedDescription }
                         }.font(.subheadline).frame(maxWidth: .infinity, minHeight: 44).accessibilityIdentifier("quest.archive")
                         Text("보관해도 지금까지의 기록과 파라미터는 남아.").font(.caption).foregroundStyle(Palette.muted)
+                        Button("퀘스트 삭제하기", role: .destructive) {
+                            focusedField = nil
+                            confirmDeletion = true
+                        }.buttonStyle(.plain).font(.subheadline).foregroundStyle(.red)
+                            .frame(maxWidth: .infinity, minHeight: 44).accessibilityIdentifier("quest.delete")
                     }
                 }.padding(24)
             }
@@ -91,6 +97,18 @@ struct QuestEditor: View {
                 ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("완료") { focusedField = nil } }
             }
             .sheet(isPresented: $showArt) { ArtPicker(selectedID: $artID).presentationDetents([.large]) }
+            .alert("퀘스트를 삭제할까?", isPresented: $confirmDeletion) {
+                Button("취소", role: .cancel) {}
+                Button("삭제하기", role: .destructive) {
+                    guard let quest else { return }
+                    do {
+                        try store.transact { try $0.delete(id: quest.id, at: Date()) }
+                        dismiss()
+                    } catch { self.error = error.localizedDescription }
+                }
+            } message: {
+                Text("퀘스트는 복원할 수 없어. 지금까지의 완료 기록과 획득 파라미터는 그대로 남아.")
+            }
             .modifier(ErrorNotice(error: $error))
         }
     }

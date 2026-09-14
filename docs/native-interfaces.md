@@ -26,6 +26,7 @@ struct Quest: Identifiable, Codable, Equatable, Sendable {
     let createdAt: Date; var isArchived: Bool; var rewards: StatPoints
     var targetChanges: [TargetChange]
     var notes: String? // Missing in legacy v1 records; nil means no memo.
+    var deletedAt: Date? // Missing in legacy v1 records; nil means not deleted.
 }
 struct Completion: Identifiable, Codable, Equatable, Sendable {
     let id: UUID; let questID: UUID; let recordedAt: Date; let period: PeriodWindow
@@ -52,11 +53,13 @@ struct QuestEngine {
     private(set) var state: AppState
     var totals: StatPoints; var bonuses: [StreakBonus]
     var calculator: PeriodCalculator
+    var activeQuests: [Quest]; var archivedQuests: [Quest]
     func progress(for quest: Quest, at date: Date) -> QuestProgress
     func target(for quest: Quest, period: PeriodWindow) -> Int
     mutating func create(name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at: Date, notes: String = "", id: UUID = UUID()) throws -> Quest
     mutating func update(id: UUID, name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at: Date, notes: String? = nil) throws
     mutating func setArchived(id: UUID, archived: Bool) throws
+    mutating func delete(id: UUID, at: Date) throws
     mutating func complete(questID: UUID, at: Date, previousWeek: Bool = false, requestID: UUID = UUID()) throws -> CompletionResult
     mutating func undo(completionID: UUID) throws
 }
@@ -79,6 +82,8 @@ Names in errors use `LocalizedError.errorDescription` Korean copy. Art IDs are v
 Activity list gets labels/art from quest definition; stored rewards/periods remain authoritative. State is initially empty. Capture before/after result only after a successful transaction, then present achievement; on error, show an alert and keep current screen/state.
 
 Notes are optional quest metadata, not completion snapshots. Preserve multiline text exactly. `update(notes: nil)` preserves the previous memo; `update(notes: "")` clears it. Legacy records missing `notes` decode as nil. Editor drafts are local until Save commits through QuestStore.
+
+Deletion marks the quest with `deletedAt` and retains its definition for history labels and streak calculations. List screens use `activeQuests` / `archivedQuests`, both excluding deleted quests. History and totals continue to use all definitions and completion snapshots. Deleted quests reject new completions, updates and archive/restore operations; an already recorded completion request remains idempotent. Save failure never publishes the deletion. `quest.delete` opens a confirmation alert before committing.
 
 UI acceptance selectors: `quest.create`, `quest.name`, `quest.target`, `quest.save`, `quest.complete.<name>`, `achievement.title`, `achievement.undo`, `achievement.done`, `tab.history`, `tab.stats`.
 

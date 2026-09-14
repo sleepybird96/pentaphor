@@ -68,6 +68,7 @@ public struct Quest: Identifiable, Codable, Equatable, Sendable {
     public var rewards: StatPoints
     public var targetChanges: [TargetChange]
     public var notes: String? = nil
+    public var deletedAt: Date? = nil
 }
 
 public struct Completion: Identifiable, Codable, Equatable, Sendable {
