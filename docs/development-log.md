@@ -145,3 +145,7 @@ Extended the existing settings acceptance test to relaunch with the saved achiev
 GREEN: all **3 affected native acceptance tests passed**, 63.817s (`/tmp/pentaphor-launch-independent-green.xcresult`): saved achievement simplification with animated launch, pending load/foreground resume, and error/retry. Core regression: **57 tests in 11 suites passed**, 0.549s (`/tmp/pentaphor-launch-independent-core.log`). Signed physical-iOS build succeeded (`/tmp/pentaphor-launch-independent-device.log`). The other seven UI tests were not rerun for this scoped correction.
 
 Visually reviewed the lowered header and recorded a normal-speed launch with saved achievement simplification still enabled: all five axes animate before the existing quest appears. Updated screenshot 21 and the launch video; added screenshot 23 as the preference regression capture. No physical-phone installation or user-data changes.
+
+## 2026-09-14 — bring the launch tagline closer
+
+Raised the Korean launch tagline by 48pt at the user's request, keeping the logo and polygon positions. Visually checked the native iPhone 17 Pro simulator capture and updated `docs/screenshots/21-launch-growth.png`. Simulator and signed physical-iOS builds both succeeded (`/tmp/pentaphor-launch-tagline-simulator.log`, `/tmp/pentaphor-launch-tagline-device.log`). Layout-only change; no new tests or full regression rerun.

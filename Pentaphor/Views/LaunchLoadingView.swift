@@ -45,6 +45,7 @@ struct LaunchLoadingView: View {
                 Spacer(minLength: 30)
                 Text(BrandCopy.tagline).font(.subheadline).foregroundStyle(Palette.paper.opacity(0.65))
                     .multilineTextAlignment(.center).padding(.bottom, 36)
+                    .offset(y: -48)
             }
             .padding(.horizontal, 24).frame(maxWidth: .infinity, maxHeight: .infinity)
         }

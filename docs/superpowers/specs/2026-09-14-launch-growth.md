@@ -13,3 +13,5 @@ Verify: gate ordering, no finish before a full cycle, late load waits until next
 Visual polish: native iOS static launch background uses the same ink color; the animated entry hides the status bar until leaving.
 
 Layout correction: lower the logo/name/slogan group by 32pt while keeping the polygon and footer positions.
+
+Footer correction: raise the Korean tagline by 48pt to bring the brand, polygon, and supporting line into one tighter visual group.
