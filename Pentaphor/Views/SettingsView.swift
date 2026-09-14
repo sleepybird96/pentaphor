@@ -153,8 +153,8 @@ private struct GuideDetailView: View {
                     Eyebrow(title: BrandCopy.slogan)
                     Text(BrandCopy.tagline).font(.headline)
                     explanation("버전", "\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"))")
-                    explanation("이 기기에 쌓이는 기록", "닉네임, 설정, 퀘스트, 완료 기록은 이 기기에 저장돼. 현재 앱은 계정 없이 작동하며, 기록을 서버로 전송하거나 광고·분석 도구로 수집하지 않아.")
-                    explanation("데이터 보관", "현재 앱 자체의 클라우드 동기화나 백업·복원 기능은 없어. 앱을 삭제하면 기기에 저장된 기록이 함께 삭제될 수 있어.")
+                    explanation("이 기기에 쌓이는 기록", "닉네임, 설정, 퀘스트, 완료 기록은 이 기기에 저장됩니다. 현재 앱은 계정 없이 이용할 수 있으며, 기록을 서버로 전송하거나 광고·분석 도구로 수집하지 않습니다.")
+                    explanation("데이터 보관", "현재 앱 자체의 클라우드 동기화 및 백업·복원 기능은 제공하지 않습니다. 앱을 삭제하면 기기에 저장된 기록이 함께 삭제될 수 있습니다.")
                 }
             }.padding(24).frame(maxWidth: .infinity, alignment: .leading)
         }.background(Palette.paper).foregroundStyle(Palette.ink)
