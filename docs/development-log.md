@@ -193,3 +193,12 @@ Initial no-op RED run: 16 tests failed (19 assertions and 2 missing-result error
 User personally accepted the initial API access terms and created the team key with Developer access. The browser download action consumed the one-time key download, but the local file was not obtained; user reported the download was interrupted. The browser tool has no supported download-resume capability, and native Codex UI control is denied. Asked user to resume from the Codex downloads list before considering key reissuance. No real API call using the key or API-authenticated binary upload has been claimed.
 
 Separately verified **build 1.0 (2)** after renewed browser login: Personal contains 2 builds, and build 2 is **Internal / Testing**. Previous build delivery is therefore confirmed; current automation credential setup remains pending.
+
+
+## 2026-09-15 — real API authentication and distribution signing blocker
+
+User downloaded a replacement team API key personally. Configured it outside the repository with directory mode 0700 and file modes 0600; no key material or JWT was logged. Real API status verified build **1.0 (2)** ready in Personal.
+
+Ran the full API deployment for **1.0 (3)**. All **96 tests passed**: automation 19 (0.033s), Release core 66 (0.120s), native UI 11 (327.444s). Archive succeeded. Artifacts are under `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`.
+
+Export exited 70 before upload with `Cloud signing permission error` and `No signing certificate "iOS Distribution" found`. Read-only keychain identity inspection showed only Apple Development. The Developer API key authenticates and reads status, but cannot perform the cloud distribution signing used on this Mac. Apple documents local Apple Distribution certificates as an alternative. Prepared Xcode Settings → Apple Accounts → JiSang Park → Manage Certificates → Apple Distribution; stopped before creating the persistent signing credential for user confirmation. Preserve the build 3 archive and resume export after credential setup, without repeating the tests or allocating another build. No build 3 installation readiness claimed.

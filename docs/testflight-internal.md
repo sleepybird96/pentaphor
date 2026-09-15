@@ -19,7 +19,7 @@
 
 ## API 키 기반 기본 명령
 
-처음 한 번 App Store Connect의 **사용자 및 액세스 → 통합 → App Store Connect API → 팀 키**에서 키를 발급한다. 현재 자동화는 `PENTAPHOR TestFlight`라는 **제품 개발** 권한의 팀 키를 사용한다. 팀 키는 계정의 모든 앱에 해당 권한이 적용된다. 스크립트는 PENTAPHOR 앱 ID와 내부 그룹 `Personal`을 고정 검증한다.
+처음 한 번 App Store Connect의 **사용자 및 액세스 → 통합 → App Store Connect API → 팀 키**에서 키를 발급한다. 자동화에는 **제품 개발** 권한의 팀 키를 연결한다. 팀 키는 계정의 모든 앱에 해당 권한이 적용된다. 스크립트는 PENTAPHOR 앱 ID와 내부 그룹 `Personal`을 고정 검증한다.
 
 필요 환경: Xcode, Python 3.11+, `scripts/requirements-testflight.txt`의 cryptography. 현재 Mac에는 해당 버전이 설치되어 있다. 새 환경에서는 프로젝트 밖의 가상환경에 의존성을 설치한다.
 
@@ -80,4 +80,6 @@ TestFlight의 같은 번들 ID 앱으로 업데이트하며, 기존 앱을 먼�
 
 ## API 연결 진행 상태
 
-자동화 코드와 19개 오프라인 테스트, 실제 Xcode 설정 JSON 조회 검증은 완료됐다. API 이용 신청과 `PENTAPHOR TestFlight` 제품 개발 키 생성도 완료됐다. 다만 첫 다운로드가 중단되어 로컬 `.p8` 파일을 아직 확보하지 못했다. `configure`와 실제 API 조회/배포 검증은 키 다운로드 복구 또는 새 키 발급 후 이어서 진행한다. 이 상태를 API 자동화 연결 완료로 보고하지 않는다.
+2026-09-15 사용자가 새 키를 직접 다운로드한 뒤 로컬 보안 경로에 연결했다. 실제 API 인증과 기존 **1.0 (2)**의 `Personal` 설치 가능 상태 조회가 성공했다. 새 **1.0 (3)**은 자동화 19개·Release 코어 66개·UI 11개, 총 96개 테스트와 아카이브까지 성공했다. 다만 export에서 `Cloud signing permission error`와 배포 인증서 없음으로 중단되어 업로드되지 않았다. 현재 Mac의 유효한 코드 서명 인증서는 Apple Development뿐이다. API 제품 개발 권한만으로 현재 클라우드 배포 서명이 허용되지 않으므로, Xcode의 해당 팀에 로컬 Apple Distribution 인증서를 추가한 뒤 보존한 아카이브로 export를 재시도한다. 새 인증서 생성은 사용자 확인 대기 중이며, 자동 배포 완료로 보고하지 않는다. Apple은 [로컬 Apple Distribution 인증서를 키체인에 추가하는 서명 방식](https://developer.apple.com/help/account/certificates/cloud-managed-certificates)을 지원한다.
+
+검증 및 재개 대상: `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`. `Pentaphor.xcarchive`, `ExportOptions.plist`, `delivery.json`과 실패 로그를 보존했다. API 조회에서 빌드 3은 아직 존재하지 않았다. 인증서 준비 후 이 아카이브를 API 인증으로 export/upload하고, 빌드 3의 설치 가능 상태를 확인한다.
