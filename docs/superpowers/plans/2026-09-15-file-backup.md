@@ -23,4 +23,6 @@ AppState version1; bundle app.pentaphor.personal; team NX53XT8XMU; Personal inte
 
 ## Task 3: Review and delivery (root)
 - [x] Independent review core/app + target-fix integration. Resolve actual findings using regression tests.
-- [ ] Full `python3 scripts/testflight.py deploy`, verify exact Personal READY, update guides/spec evidence, commit only owned files.
+- [x] Full `python3 scripts/testflight.py deploy`, verify exact Personal READY, update guides/spec evidence, commit only owned files.
+
+Verified 173 tests, signed archive, upload and exact Personal READY for 1.0 (8). Implementation commit `c517b7e`; detailed RED/GREEN and delivery evidence in docs/development-log.md.

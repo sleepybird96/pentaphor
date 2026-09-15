@@ -303,3 +303,7 @@ Focused target UI GREEN verifies 1 / 14 after editing an already completed quest
 Default delivery selected **1.0 (8)** with unique artifacts at `~/Library/Developer/PentaphorDeliveries/20260915-082731-n2kdclhl/`. Automation 19 (0.023s), Release core 108 (0.243s) and native app 27 (0.096s) passed. Full UI regression and signed upload remain in progress.
 
 Full default verification passed **173 tests**: automation 19 (0.023s), Release core 108 (0.243s), native app 27 (0.096s), UI 19 (521.857s), with `TEST SUCCEEDED`. The original pipeline proceeded to the signed Release archive. No app changes occurred after the verified suite.
+
+Signed archive succeeded and the original export uploaded **1.0 (8)** at **08:39:29 UTC** without another keychain approval. Code commit: `c517b7e`. Apple processing and exact Personal availability are pending the original deployment check.
+
+The original deployment finished with **READY / exit 0**, verifying exact **1.0 (8)** as valid, internal-only, in beta testing and included in **Personal**. The backup/restore and immediate-goal update is ready to install. All 173 tests and signed archive correspond to code commit `c517b7e`; only documentation changed afterward. The existing development branch and checkout are retained per the standing local/internal delivery workflow.
