@@ -105,6 +105,11 @@ struct QuestHome: View {
                 drainPresentations()
             }
         }
+        .onChange(of: store.replacementGeneration) { _, _ in
+            recap.requestCheck()
+            foregroundDate = Date()
+            drainPresentations()
+        }
         .onChange(of: graceQuest?.id) { _, id in
             if id == nil { drainAfterDialog() }
         }

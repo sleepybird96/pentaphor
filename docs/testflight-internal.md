@@ -76,7 +76,7 @@ API 자동화에 문제가 생겨도 기존 `Configuration/TestFlightExport.plis
 
 `ITSAppUsesNonExemptEncryption = false`는 현재 코드와 의존성이 별도 암호화 기능을 구현하지 않는다는 확인에 기반한다. 암호화 기능이나 SDK를 추가할 때 다시 확인한다. [Apple의 암호화 항목 안내](https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption)
 
-TestFlight의 같은 번들 ID 앱으로 업데이트하며, 기존 앱을 먼저 삭제하지 않는다. 사용자 기록은 기기에 저장되며 동기화/백업 기능은 아직 없다.
+TestFlight의 같은 번들 ID 앱으로 업데이트하며, 기존 앱을 먼저 삭제하지 않는다. 사용자 기록은 기기에 저장된다. 설정에서 파일 백업·복원을 지원하며 iCloud Drive를 저장 위치로 선택할 수 있다. 자동 클라우드 동기화는 없다.
 
 ## 최근 업로드
 

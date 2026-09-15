@@ -162,7 +162,7 @@ import Testing
         #expect(throws: QuestError.notFound) { try engine.updateReminder(id: UUID(), reminder: nil) }
     }
 
-    @Test func editsUseCurrentSnapshotAndFutureTargetWithUpdatedTitleAndTime() throws {
+    @Test func editsUseUpdatedCurrentAndFutureTargetWithUpdatedTitleAndTime() throws {
         var engine = try remindedEngine(days: [2])
         let id = engine.state.quests[0].id
         let now = instant("2026-09-14T10:00:00Z")
@@ -173,7 +173,7 @@ import Testing
         #expect(plan.map(\.fireDate) == [instant("2026-09-14T12:30:00Z"), instant("2026-09-21T12:30:00Z")])
         #expect(plan.allSatisfy { $0.title == "수정한 독서" })
         try #require(plan.count == 2)
-        #expect(plan[0].body.contains("1"))
+        #expect(plan[0].body.contains("4"))
         #expect(plan[1].body.contains("5"))
     }
 

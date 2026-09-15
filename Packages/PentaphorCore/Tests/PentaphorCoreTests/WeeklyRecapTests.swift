@@ -52,7 +52,7 @@ struct WeeklyRecapTests {
         #expect(next.gains == StatPoints(knowledge: 2, courage: 2))
     }
 
-    @Test func snapshotsAndWeeklyBonusesIncludePriorGrowthButExcludeNewerGrowth() throws {
+    @Test func editedTargetRecomputesWeeklyGoalAndBonusWhileRewardSnapshotsPreserveGrowth() throws {
         var (engine, quest) = try fixture()
         for day in ["2026-08-31T03:00:00Z", "2026-09-01T03:00:00Z", "2026-09-07T03:00:00Z"] {
             try engine.complete(questID: quest.id, at: instant(day))
@@ -65,10 +65,10 @@ struct WeeklyRecapTests {
         let report = try #require(WeeklyRecapBuilder.latest(engine: engine, now: cutoff))
         #expect(report.before == StatPoints(stamina: 4))
         #expect(report.baseGains == StatPoints(stamina: 2, knowledge: 1))
-        #expect(report.streakBonus == 1)
-        #expect(report.gains == StatPoints(stamina: 2, knowledge: 1, perseverance: 1))
-        #expect(report.after == StatPoints(stamina: 6, knowledge: 1, perseverance: 1))
-        #expect(report.weeklyGoalsAchieved == 1)
+        #expect(report.streakBonus == 0)
+        #expect(report.gains == StatPoints(stamina: 2, knowledge: 1))
+        #expect(report.after == StatPoints(stamina: 6, knowledge: 1))
+        #expect(report.weeklyGoalsAchieved == 0)
         #expect(report.activities.first?.name == "새 이름")
         #expect(engine.state == original)
     }

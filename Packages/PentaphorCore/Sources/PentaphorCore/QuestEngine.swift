@@ -105,10 +105,18 @@ public struct QuestEngine: Sendable {
         if cadence != quest.cadence || cadence == .once {
             quest.targetChanges = [TargetChange(effectiveFrom: current.start, target: target)]
         } else {
-            let hasCurrentActivity = records.contains { $0.period == current }
-            let effective = hasCurrentActivity ? current.end : current.start
-            quest.targetChanges.removeAll { $0.effectiveFrom >= effective }
-            quest.targetChanges.append(TargetChange(effectiveFrom: effective, target: target))
+            quest.targetChanges.removeAll { $0.effectiveFrom >= current.start }
+            quest.targetChanges.append(TargetChange(effectiveFrom: current.start, target: target))
+        }
+        // Current-period goal edits also govern qualification and reminders that read snapshots.
+        // Include voided records so they cannot retain a stale target when activity resumes.
+        for completionIndex in state.completions.indices {
+            let completion = state.completions[completionIndex]
+            guard completion.questID == id, completion.period == current else { continue }
+            state.completions[completionIndex] = Completion(
+                id: completion.id, questID: completion.questID, recordedAt: completion.recordedAt,
+                period: completion.period, target: target, rewards: completion.rewards,
+                isVoided: completion.isVoided)
         }
         quest.name = name; quest.artID = artID; quest.cadence = cadence; quest.rewards = rewards
         if let notes { quest.notes = notes.isEmpty ? nil : notes }

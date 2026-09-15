@@ -3,6 +3,14 @@ import Observation
 
 @MainActor @Observable public final class QuestStore {
     public private(set) var engine: QuestEngine
+    public private(set) var replacementGeneration: Int = 0
+    /// Persist the entire validated candidate before publishing it to observing views.
+    public func replaceState(_ state: AppState) throws {
+        try AppStateValidator.validate(state)
+        try repository.save(state)
+        engine = QuestEngine(state: state)
+        replacementGeneration += 1
+    }
     private let repository: any StateRepository
     public init(repository: any StateRepository, timeZoneID: String = TimeZone.current.identifier) throws {
         self.repository = repository

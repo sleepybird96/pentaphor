@@ -34,7 +34,7 @@ import SwiftData
         return try decode(document.payload)
     }
     public func save(_ state: AppState) throws {
-        try validate(state)
+        try AppStateValidator.validate(state)
         let payload = try JSONEncoder().encode(state)
         let documents = try context.fetch(FetchDescriptor<StateDocument>())
         guard documents.count <= 1 else { throw QuestError.invalidState }
@@ -50,44 +50,8 @@ import SwiftData
     private func decode(_ payload: Data) throws -> AppState {
         do {
             let state = try JSONDecoder().decode(AppState.self, from: payload)
-            try validate(state)
+            try AppStateValidator.validate(state)
             return state
         } catch { throw QuestError.invalidState }
-    }
-    private func validate(_ state: AppState) throws {
-        guard state.version == 1, TimeZone(identifier: state.timeZoneID) != nil else { throw QuestError.invalidState }
-        if let marker = state.weeklyRecapAcknowledgedThrough {
-            guard marker.timeIntervalSinceReferenceDate.isFinite,
-                  PeriodCalculator(timeZoneID: state.timeZoneID).period(containing: marker, cadence: .week).start == marker
-            else { throw QuestError.invalidState }
-        }
-        if let preferences = state.preferences {
-            guard preferences.nickname.count <= 20,
-                  preferences.nickname.rangeOfCharacter(from: .newlines) == nil else { throw QuestError.invalidState }
-        }
-        let questIDs = Set(state.quests.map(\.id))
-        guard questIDs.count == state.quests.count,
-              Set(state.completions.map(\.id)).count == state.completions.count else { throw QuestError.invalidState }
-        let recordsByQuest = Dictionary(grouping: state.completions, by: \.questID)
-        for quest in state.quests {
-            let name = quest.name.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard (1...40).contains(name.count), QuestArtIDs.all.contains(quest.artID),
-                  validRewards(quest.rewards), quest.reminder?.isValid != false, !quest.targetChanges.isEmpty,
-                  quest.targetChanges.allSatisfy({ (1...99).contains($0.target) }) else { throw QuestError.invalidState }
-            if quest.cadence == .once {
-                let records = recordsByQuest[quest.id] ?? []
-                let lifetime = PeriodCalculator(timeZoneID: state.timeZoneID).period(containing: quest.createdAt, cadence: .once)
-                guard quest.targetChanges.allSatisfy({ $0.target == 1 }),
-                      records.filter({ !$0.isVoided }).count <= 1,
-                      records.allSatisfy({ $0.target == 1 && $0.period == lifetime }) else { throw QuestError.invalidState }
-            }
-        }
-        for completion in state.completions {
-            guard questIDs.contains(completion.questID), (1...99).contains(completion.target),
-                  validRewards(completion.rewards) else { throw QuestError.invalidState }
-        }
-    }
-    private func validRewards(_ rewards: StatPoints) -> Bool {
-        Stat.allCases.allSatisfy { (0...2).contains(rewards[$0]) } && rewards.total <= 2
     }
 }

@@ -3,7 +3,7 @@ import Testing
 @testable import PentaphorCore
 
 struct QuestEditingTests {
-    @Test func editedRewardDoesNotRewriteHistoryAndTargetWaitsForNextPeriod() throws {
+    @Test func editedRewardDoesNotRewriteHistoryAndTargetAppliesToCurrentPeriod() throws {
         var engine = emptyEngine()
         let quest = try engine.create(name: "독서", artID: "reading", cadence: .week, target: 2, rewards: StatPoints(knowledge: 2), at: created)
         _ = try engine.complete(questID: quest.id, at: created)
@@ -11,11 +11,11 @@ struct QuestEditingTests {
         let updated = try #require(engine.state.quests.first)
         #expect(updated.name == "새 이름")
         #expect(updated.artID == "studying")
-        #expect(engine.progress(for: updated, at: created).target == 2)
+        #expect(engine.progress(for: updated, at: created).target == 1)
         #expect(engine.progress(for: updated, at: instant("2026-09-14T03:00:00Z")).target == 1)
         _ = try engine.complete(questID: quest.id, at: created)
         #expect(engine.totals == StatPoints(knowledge: 2, courage: 2))
-        #expect(engine.state.completions.map(\.target) == [2,2])
+        #expect(engine.state.completions.map(\.target) == [1,1])
     }
     @Test func noActivityAllowsImmediateTargetAndCadenceChange() throws {
         var engine = emptyEngine()

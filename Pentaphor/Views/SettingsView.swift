@@ -40,6 +40,9 @@ struct SettingsView: View {
                             .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
                     }
                     reminderSection
+                    NavigationLink { BackupSettingsView(store: store) } label: {
+                        settingsRow("백업 · 복원", symbol: "externaldrive")
+                    }.accessibilityIdentifier("settings.backup")
                     VStack(alignment: .leading, spacing: 0) {
                         sectionTitle("기록과 사용 안내").padding(.bottom, 9)
                         NavigationLink { GuideDetailView(page: .time, timeZoneID: store.engine.state.timeZoneID) } label: {
@@ -69,6 +72,12 @@ struct SettingsView: View {
             }
             .modifier(ErrorNotice(error: $error))
             .task { await reminderService.synchronize(state: store.engine.state) }
+            .onChange(of: store.replacementGeneration) { _, _ in
+                nickname = store.engine.preferences.nickname
+                savedNickname = false
+                editingNickname = false
+                testRequested = false
+            }
         }.tint(Palette.teal)
     }
 
@@ -270,7 +279,7 @@ private struct GuideDetailView: View {
                     Text(BrandCopy.tagline).font(.headline)
                     explanation("버전", "\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"))")
                     explanation("이 기기에 쌓이는 기록", "닉네임, 설정, 퀘스트, 완료 기록은 이 기기에 저장됩니다. 현재 앱은 계정 없이 이용할 수 있으며, 기록을 서버로 전송하거나 광고·분석 도구로 수집하지 않습니다.")
-                    explanation("데이터 보관", "현재 앱 자체의 클라우드 동기화 및 백업·복원 기능은 제공하지 않습니다. 앱을 삭제하면 기기에 저장된 기록이 함께 삭제될 수 있습니다.")
+                    explanation("데이터 보관", "설정의 ‘백업 · 복원’에서 백업 파일을 저장하거나 불러올 수 있습니다. iCloud Drive 등 앱 밖의 위치에 파일을 보관해 주세요. 자동 클라우드 백업과 기기 간 동기화는 제공하지 않습니다. 앱을 삭제하면 기기에 저장된 기록과 복원 전 백업이 함께 삭제될 수 있습니다.")
                 }
             }.padding(24).frame(maxWidth: .infinity, alignment: .leading)
         }.background(Palette.paper).foregroundStyle(Palette.ink)

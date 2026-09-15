@@ -1,6 +1,94 @@
 import XCTest
 
 final class PentaphorUITests: XCTestCase {
+    @MainActor func testEditedTargetFourteenAppliesImmediatelyAfterCompletionAndRelaunch() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        skipIntroduction(app)
+        app.buttons["quest.create"].tap()
+        app.textFields["quest.name"].tap()
+        app.textFields["quest.name"].typeText("Fourteen\n")
+        app.buttons["quest.save"].tap()
+        app.buttons["quest.complete.Fourteen"].tap()
+        reveal(app.buttons["achievement.done"], in: app)
+        app.buttons["achievement.done"].tap()
+        app.buttons["quest.edit.Fourteen"].tap()
+        let target = app.steppers["quest.target"]
+        reveal(target, in: app)
+        for _ in 0..<11 { target.buttons.element(boundBy: 1).tap() }
+        app.buttons["quest.save"].tap()
+        XCTAssertTrue(app.staticTexts["quest.progress.Fourteen"].label.contains("1 / 14"))
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["quest.progress.Fourteen"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.staticTexts["quest.progress.Fourteen"].label.contains("1 / 14"))
+    }
+
+    @MainActor func testBackupPageProvidesFileExportAndImport() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        skipIntroduction(app)
+        app.buttons["settings.open"].tap()
+        reveal(app.buttons["settings.backup"], in: app)
+        app.buttons["settings.backup"].tap()
+        XCTAssertTrue(app.buttons["backup.export"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["backup.import"].exists)
+        app.buttons["backup.export"].tap()
+        XCTAssertTrue(app.textFields.firstMatch.waitForExistence(timeout: 8))
+        capture(app, "31-backup-file-export")
+        let exportName = try XCTUnwrap(app.textFields["DOCPicker.filenameTextField"].value as? String)
+        app.buttons["저장"].tap()
+        XCTAssertTrue(app.staticTexts["backup.notice"].waitForExistence(timeout: 8))
+        app.navigationBars.buttons["설정"].tap()
+        app.buttons["settings.done"].tap()
+        app.buttons["quest.create"].tap()
+        app.textFields["quest.name"].tap()
+        app.textFields["quest.name"].typeText("After Backup\n")
+        app.buttons["quest.save"].tap()
+        app.buttons["quest.complete.After Backup"].tap()
+        reveal(app.buttons["achievement.done"], in: app)
+        app.buttons["achievement.done"].tap()
+        app.buttons["settings.open"].tap()
+        reveal(app.buttons["settings.backup"], in: app)
+        app.buttons["settings.backup"].tap()
+        app.buttons["backup.import"].tap()
+        let file = app.cells.matching(NSPredicate(format: "label CONTAINS %@", exportName)).firstMatch
+        XCTAssertTrue(file.waitForExistence(timeout: 8))
+        file.tap()
+        XCTAssertTrue(app.staticTexts["backup.preview"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.staticTexts["backup.preview.summary"].label.contains("퀘스트 0개"))
+        capture(app, "32-backup-restore-preview")
+        app.buttons["backup.cancel"].tap()
+        XCTAssertTrue(app.staticTexts["backup.summary"].label.contains("퀘스트 1개"))
+        app.buttons["backup.import"].tap()
+        XCTAssertTrue(file.waitForExistence(timeout: 8))
+        file.tap()
+        XCTAssertTrue(app.buttons["backup.restore"].waitForExistence(timeout: 8))
+        app.buttons["backup.restore"].tap()
+        XCTAssertTrue(app.buttons["backup.recovery"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.staticTexts["backup.summary"].label.contains("퀘스트 0개"))
+        capture(app, "33-backup-restored-recovery")
+        reveal(app.buttons["backup.recovery"], in: app)
+        app.buttons["backup.recovery"].tap()
+        XCTAssertTrue(app.staticTexts["backup.preview"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["backup.preview.summary"].label.contains("완료 기록 1개"))
+        app.buttons["backup.restore"].tap()
+        app.navigationBars.buttons["설정"].tap()
+        app.buttons["settings.done"].tap()
+        XCTAssertTrue(app.buttons["quest.edit.After Backup"].waitForExistence(timeout: 5))
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["2 P"].exists)
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertTrue(app.buttons["quest.edit.After Backup"].waitForExistence(timeout: 8))
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["2 P"].exists)
+    }
+
     @MainActor func testWeeklyRecapColdLaunchAcknowledgementAndHistoryReplayPreservePoints() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap"]

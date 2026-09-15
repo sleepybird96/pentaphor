@@ -86,7 +86,7 @@ struct QuestEditor: View {
                         Text(cadence.scheduleDescription)
                             .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
                         if hasHistory {
-                            Text(cadence == .once ? "첫 기록 이후에는 반복 방식을 바꿀 수 없어. 이미 받은 포인트는 그대로야." : "첫 기록 이후에는 주기를 바꿀 수 없어. 현재 기간에 기록이 있으면 목표 횟수 변경은 다음 기간부터 적용돼. 이미 받은 포인트는 그대로야.")
+                            Text(cadence == .once ? "첫 기록 이후에는 반복 방식을 바꿀 수 없어. 이미 받은 포인트는 그대로야." : "첫 기록 이후에는 주기를 바꿀 수 없어. 목표 횟수 변경은 이번 기간부터 바로 적용돼. 이미 받은 행동 포인트는 그대로야.")
                                 .font(.caption).foregroundStyle(Palette.teal).lineSpacing(4)
                         }
                     }
