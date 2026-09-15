@@ -6,3 +6,8 @@ xcuserdata/
 .superpowers/
 test-results/
 *.xcresult
+
+# Local deployment credentials and Python caches
+*.p8
+__pycache__/
+.venv-testflight/

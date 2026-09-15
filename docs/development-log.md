@@ -183,3 +183,13 @@ Advanced project build number to 2 and regenerated Xcode project; only the build
 Archive: `/Users/gsang2/Library/Developer/Xcode/Archives/2026-09-15/Pentaphor-Internal-2-OneTime.xcarchive`. Apple upload succeeded at **2026-09-15 03:10:07 UTC**, with `Uploaded Pentaphor` and `EXPORT SUCCEEDED` (`/tmp/pentaphor-testflight-2-upload.log`). Uses existing internal-only export configuration and unchanged signing team.
 
 After upload, App Store Connect browser refresh redirected to login with an expired session. Upload is complete, but Apple processing and Personal group availability are not yet verified. Asked user to sign in again for the final availability check; no claim of install-ready status.
+
+## 2026-09-15 — API-based TestFlight automation
+
+User approved replacing browser-session-dependent verification with an App Store Connect team API key. Added `scripts/testflight.py`, dependency declaration, 19 offline regression tests, credential ignores and operating instructions. The command checks API app/group identity, uses numeric server build allocation and a local deployment lock, requires automation/core/native tests before archive/upload, authenticates Xcode with the key, and polls exact internal-only build readiness and Personal membership. JWT signing uses cryptography ES256, with private files outside Git and no token/key output.
+
+Initial no-op RED run: 16 tests failed (19 assertions and 2 missing-result errors). Implemented and passed 18 tests, then independent review reproduced Xcode stderr warnings contaminating `-showBuildSettings -json` output. Added a real subprocess regression that failed, separated JSON stdout from stderr, and pinned the settings query to generic iOS. Final **19 tests passed** (`/tmp/pentaphor-api-tests-final.log`), and the actual Xcode settings command parsed successfully with the expected bundle/team/version. Reviewer validated endpoint names, filters and state enums against Apple's published OpenAPI.
+
+User personally accepted the initial API access terms and created the team key with Developer access. The browser download action consumed the one-time key download, but the local file was not obtained; user reported the download was interrupted. The browser tool has no supported download-resume capability, and native Codex UI control is denied. Asked user to resume from the Codex downloads list before considering key reissuance. No real API call using the key or API-authenticated binary upload has been claimed.
+
+Separately verified **build 1.0 (2)** after renewed browser login: Personal contains 2 builds, and build 2 is **Internal / Testing**. Previous build delivery is therefore confirmed; current automation credential setup remains pending.
