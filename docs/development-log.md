@@ -263,3 +263,9 @@ User requested replacing the hard-to-notice permission text button with a toggle
 TDD: core RED reproduced missing persistence and planner suppression (2 assertions); native RED reproduced uncancelled reservations and foreground/test delivery; UI RED failed on the absent master toggle. Implemented the preference, planner/service gating and UI. Independent read-only review approved the bounded diff. Swift 6.2.4 initially crashed during IR generation of the directly passed actor-isolated Binding setter; replacing the method reference with an explicit closure removed that compiler crash. Focused native GREEN passed all 12 reminder service tests; final UI/full delivery checks continue.
 
 Focused GREEN completed: 12 native reminder tests (0.020s), master-toggle persistence/relaunch UI (18.596s) and actual SpringBoard test-notification UI (22.052s). The toggle screenshot was visually reviewed next to the existing haptics/effects controls. Full API delivery for **1.0 (6)** started at `~/Library/Developer/PentaphorDeliveries/20260915-061543-uy_2rrpi/`; final readiness is not yet claimed.
+
+Full build 6 verification passed **131 tests**: automation 19 (0.031s), Release core 80 (0.218s), app-hosted 18 (0.073s), UI 14 (403.977s). Signed archive succeeded and the same default pipeline proceeded to export/upload.
+
+Build 6 export/upload succeeded at **06:25:39 UTC** without another keychain prompt after the user previously chose Always Allow. Apple processing and Personal availability are pending the original automatic status check.
+
+The original deployment finished with **READY / exit 0**, verifying exact **1.0 (6)** as valid, internal-only, in beta testing and included in **Personal**. The toggle update is ready to install. No app changes occurred after the verified 131-test run. Code commit: `a812371`.
