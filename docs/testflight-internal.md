@@ -76,7 +76,7 @@ API 자동화에 문제가 생겨도 기존 `Configuration/TestFlightExport.plis
 
 `ITSAppUsesNonExemptEncryption = false`는 현재 코드와 의존성이 별도 암호화 기능을 구현하지 않는다는 확인에 기반한다. 암호화 기능이나 SDK를 추가할 때 다시 확인한다. [Apple의 암호화 항목 안내](https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption)
 
-TestFlight의 같은 번들 ID 앱으로 업데이트하며, 기존 앱을 먼저 삭제하지 않는다. 사용자 기록은 기기에 저장된다. 설정에서 파일 백업·복원을 지원하며 iCloud Drive를 저장 위치로 선택할 수 있다. 자동 클라우드 동기화는 없다.
+TestFlight의 같은 번들 ID 앱으로 업데이트하며, 기존 앱을 먼저 삭제하지 않는다. 사용자 기록은 기기에 저장된다. 설정에서 iCloud Drive 전용 수동 백업과 기존 파일 복원을 지원한다. 자동 클라우드 동기화는 없다.
 
 ## 최근 업로드
 
@@ -103,3 +103,12 @@ TestFlight의 같은 번들 ID 앱으로 업데이트하며, 기존 앱을 먼�
 이 Mac에서는 이후 기본 `deploy` 명령을 사용한다. 다른 Mac으로 옮기거나 인증서·프로파일이 만료되면 로컬 서명 준비가 다시 필요하다. 현재 인증서와 대응 프로파일 만료는 **2027-09-15**다. API 키 권한을 확대하지 않았다.
 
 검증 기록: `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`. `Pentaphor.xcarchive`, `ExportOptions.plist`, `delivery.json`, 96개 테스트 로그, `local-profile-setup.log`, 최종 업로드 로그 `upload-provisioned.log`를 보존했다. 실패 로그 `upload.log`, `upload-local-signing.log`는 이전 시도의 진단 기록이다.
+
+
+## iCloud Documents 서명 (2026-09-15)
+
+기존 앱 ID에 iCloud Documents와 전용 컨테이너 `iCloud.app.pentaphor.personal`을 Xcode의 로그인된 팀 계정으로 등록했다. CloudKit과 키-값 동기화는 활성화하지 않는다. XcodeGen 설정은 `Pentaphor/Pentaphor.entitlements`를 포함하고, Info.plist의 `NSUbiquitousContainers`는 사용자 자신의 iCloud Drive에 PENTAPHOR 문서 폴더를 표시한다. 여기서 public document scope는 파일 앱 접근을 의미하며 다른 사용자에게 공개하는 설정이 아니다.
+
+API 키에는 프로파일 생성 권한이 없어 생성 요청이 403으로 거절됐다. 키 권한을 확대하지 않고 로그인된 개발자 웹 계정으로 **PENTAPHOR App Store iCloud 20260915** (`C4X8F9A722`) 프로파일을 생성했다. 기존 Apple Distribution 인증서(`2Q3H9LB7TJ`)와 동일 앱/팀, iCloud 컨테이너를 포함하는 ACTIVE 프로파일을 API로 읽어 Xcode 표준 Provisioning Profiles 폴더에 설치했다. 키 파일은 기존 공용 자격 증명 위치를 유지한다.
+
+`Configuration/TestFlightExport.plist`는 이 배포 프로파일을 명시한 수동 export 서명을 사용한다. 아카이브의 개발 서명은 계속 자동 관리한다. API 업로드와 Personal 준비 상태 확인도 기존 명령 그대로다. 프로파일이 만료되거나 기능을 추가하면 관리자 계정으로 해당 프로파일을 갱신하고 Xcode 표준 폴더에 설치한다. 새 기능이 없는 매번의 업로드에는 재발급이 필요하지 않다.

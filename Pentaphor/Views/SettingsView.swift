@@ -278,8 +278,8 @@ private struct GuideDetailView: View {
                     Eyebrow(title: BrandCopy.slogan)
                     Text(BrandCopy.tagline).font(.headline)
                     explanation("버전", "\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"))")
-                    explanation("이 기기에 쌓이는 기록", "닉네임, 설정, 퀘스트, 완료 기록은 이 기기에 저장됩니다. 현재 앱은 계정 없이 이용할 수 있으며, 기록을 서버로 전송하거나 광고·분석 도구로 수집하지 않습니다.")
-                    explanation("데이터 보관", "설정의 ‘백업 · 복원’에서 백업 파일을 저장하거나 불러올 수 있습니다. iCloud Drive 등 앱 밖의 위치에 파일을 보관해 주세요. 자동 클라우드 백업과 기기 간 동기화는 제공하지 않습니다. 앱을 삭제하면 기기에 저장된 기록과 복원 전 백업이 함께 삭제될 수 있습니다.")
+                    explanation("이 기기에 쌓이는 기록", "닉네임, 설정, 퀘스트, 완료 기록은 이 기기에 저장됩니다. 별도 앱 계정 없이 이용할 수 있으며, 광고·분석 도구로 기록을 수집하지 않습니다. iCloud 백업을 누르면 현재 기록의 사본이 사용자의 Apple 계정에 연결된 iCloud Drive로 저장됩니다.")
+                    explanation("데이터 보관", "설정의 ‘백업 · 복원’에서 iCloud Drive의 PENTAPHOR 폴더에 수동 백업할 수 있습니다. iCloud 업로드 완료를 확인한 뒤 앱을 삭제하거나 기기를 변경해 주세요. 자동 백업과 앱 기록의 실시간 동기화는 제공하지 않습니다. 앱을 삭제하면 기기의 기록과 복원 전 백업은 삭제될 수 있지만, 업로드된 iCloud 백업 파일로 복원할 수 있습니다.")
                 }
             }.padding(24).frame(maxWidth: .infinity, alignment: .leading)
         }.background(Palette.paper).foregroundStyle(Palette.ink)

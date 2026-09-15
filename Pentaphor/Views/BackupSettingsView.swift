@@ -3,15 +3,17 @@ import PentaphorCore
 
 struct BackupSettingsView: View {
     let store: QuestStore
-    @State private var document: BackupDocument?
-    @State private var showExporter = false
+    @Environment(\.scenePhase) private var scenePhase
+    private let cloud = CloudBackupEnvironment.writer
+    @State private var cloudFile: URL?
+    @State private var cloudState: CloudBackupUploadState = .pending
+    @State private var importerDirectory: URL?
     @State private var showImporter = false
     @State private var preview: BackupSnapshot?
     @State private var restoration = BackupRestoreSession(recovery: FileBackupRecoveryRepository(directory: BackupFileLocations.recoveryDirectory))
     @State private var busy = false
     @State private var error: String?
     @State private var notice: String?
-    @State private var filename = "PENTAPHOR-backup"
 
     private var recoverySnapshot: BackupSnapshot? { restoration.recoverySnapshot }
 
@@ -26,12 +28,28 @@ struct BackupSettingsView: View {
                 }
                 summary(store.engine.state)
                 VStack(alignment: .leading, spacing: 10) {
-                    PrimaryButton(title: "백업 파일 저장") { export() }
+                    PrimaryButton(title: "iCloud에 백업 저장") { export() }
                         .accessibilityIdentifier("backup.export")
-                    Text("저장 위치에서 iCloud Drive나 원하는 폴더를 선택하세요. 이 파일로 다른 기기에서도 복원할 수 있습니다.")
+                    Text("iCloud Drive → PENTAPHOR에 저장합니다. 버튼을 누를 때만 백업하며, 기록은 자동으로 동기화하지 않습니다.")
                         .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
                 }
-                Button { notice = nil; showImporter = true } label: {
+                if let cloudFile {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("이번 iCloud 백업").font(.headline)
+                        Text(cloudFile.lastPathComponent).font(.caption).textSelection(.enabled)
+                            .accessibilityIdentifier("backup.cloud.filename")
+                        Text(cloudStatusText).font(.subheadline).foregroundStyle(Palette.teal)
+                            .accessibilityIdentifier("backup.cloud.status")
+                        if cloudState != .uploaded {
+                            Text("업로드 완료를 확인한 다음 앱을 삭제하거나 기기를 변경해 주세요. 네트워크와 iCloud 저장 공간에 따라 시간이 걸릴 수 있습니다.")
+                                .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
+                            Button("업로드 상태 새로고침") { Task { await refreshCloudState() } }
+                                .font(.subheadline.bold()).frame(minHeight: 44)
+                        }
+                    }.padding(18).frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Palette.teal.opacity(0.07), in: CutCorner())
+                }
+                Button { openImporter() } label: {
                     Label("백업 파일 불러오기", systemImage: "square.and.arrow.down")
                         .font(.headline).frame(maxWidth: .infinity, minHeight: 48)
                         .background(Palette.teal.opacity(0.08), in: CutCorner())
@@ -50,7 +68,7 @@ struct BackupSettingsView: View {
                     Text("가장 최근 복원 직전의 데이터 한 개를 이 기기에 보관합니다. 앱 삭제나 기기 분실에 대비하려면 백업 파일을 별도로 저장하세요.")
                         .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
                 }
-                if busy { ProgressView("백업 파일 확인 중…") }
+                if busy { ProgressView("백업 처리 중…") }
                 if let notice {
                     Label(notice, systemImage: "checkmark.circle.fill")
                         .font(.subheadline).foregroundStyle(Palette.teal)
@@ -61,18 +79,13 @@ struct BackupSettingsView: View {
         .background(Palette.paper).foregroundStyle(Palette.ink)
         .navigationTitle("백업 · 복원").navigationBarTitleDisplayMode(.inline)
         .disabled(busy)
-        .fileExporter(isPresented: $showExporter, document: document, contentType: .pentaphorBackup, defaultFilename: filename) { result in
-            switch result {
-            case .success: notice = "백업 파일을 저장했습니다."
-            case .failure(let failure): handle(failure)
-            }
-        }
         .fileImporter(isPresented: $showImporter, allowedContentTypes: [.pentaphorBackup]) { result in
             switch result {
             case .success(let url): importFile(url)
             case .failure(let failure): handle(failure)
             }
         }
+        .fileDialogDefaultDirectory(importerDirectory)
         .sheet(item: $preview) { snapshot in
             NavigationStack {
                 ScrollView {
@@ -100,6 +113,23 @@ struct BackupSettingsView: View {
             Button("확인") { error = nil }
         } message: { Text(error ?? "") }
         .task { loadRecovery() }
+        .task(id: cloudFile) {
+            guard cloudFile != nil else { return }
+            for _ in 0..<30 {
+                guard !Task.isCancelled else { return }
+                await refreshCloudState()
+                guard cloudState == .pending else { return }
+                do { try await Task.sleep(for: .seconds(2)) } catch { return }
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { Task { await refreshCloudState() } }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .NSUbiquityIdentityDidChange)) { _ in
+            cloudFile = nil
+            importerDirectory = nil
+            cloudState = .pending
+        }
     }
 
     private func summary(_ state: AppState, identifier: String = "backup.summary") -> some View {
@@ -116,16 +146,48 @@ struct BackupSettingsView: View {
     }
 
     private func export() {
+        notice = nil
+        busy = true
+        let state = store.engine.state
+        Task {
+            defer { busy = false }
+            do {
+                let file = try await Task.detached { try cloud.save(state, at: Date()) }.value
+                cloudState = .pending
+                cloudFile = file
+            } catch { handle(error) }
+        }
+    }
+
+    private var cloudStatusText: String {
+        switch cloudState {
+        case .pending: "파일 저장됨 · iCloud 업로드 확인 전"
+        case .uploaded: "iCloud 업로드 완료"
+        case .failed(let reason): "iCloud 업로드 확인 필요 · " + reason
+        }
+    }
+
+    private func refreshCloudState() async {
+        guard let file = cloudFile else { return }
         do {
-            notice = nil
-            let date = Date()
-            document = try BackupDocument(data: BackupCodec.make(state: store.engine.state, at: date))
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            formatter.dateFormat = "yyyy-MM-dd-HHmmss"
-            filename = "PENTAPHOR-" + formatter.string(from: date)
-            showExporter = true
-        } catch { handle(error) }
+            let status = try await Task.detached { try cloud.uploadState(for: file) }.value
+            guard cloudFile == file, !Task.isCancelled else { return }
+            cloudState = status
+        } catch {
+            guard cloudFile == file, !Task.isCancelled else { return }
+            cloudState = .failed(error.localizedDescription)
+        }
+    }
+
+    private func openImporter() {
+        notice = nil
+        busy = true
+        Task {
+            // Legacy portable backups remain importable even when iCloud is unavailable.
+            importerDirectory = await Task.detached { try? cloud.documentsDirectory() }.value
+            busy = false
+            showImporter = true
+        }
     }
 
     private func importFile(_ url: URL) {

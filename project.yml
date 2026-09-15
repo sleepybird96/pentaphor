@@ -27,6 +27,7 @@ targets:
         TARGETED_DEVICE_FAMILY: "1"
         DEVELOPMENT_TEAM: NX53XT8XMU
         CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: Pentaphor/Pentaphor.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_FILE: Pentaphor/Info.plist

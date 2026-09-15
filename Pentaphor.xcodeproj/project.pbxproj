@@ -23,6 +23,7 @@
 		301085A0E36C71009AEB2877 /* reading.png in Resources */ = {isa = PBXBuildFile; fileRef = CC92229E02443C6D3EC9D9FE /* reading.png */; };
 		3301C0D6DB06CDBD1CB8254F /* hiking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA71ECDC2D6054067052BAD /* hiking.png */; };
 		344BC39A6A2955DAF7588227 /* BackupRestoreSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD735373704EA439F8CF133 /* BackupRestoreSession.swift */; };
+		3B1E67E091EEB709D6320EA0 /* CloudBackupWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C575C128E8FF6533D07A86DC /* CloudBackupWriter.swift */; };
 		3B42557F010D03CBF4C96180 /* knitting.png in Resources */ = {isa = PBXBuildFile; fileRef = BF7A1DAC13FD3B343F8A954C /* knitting.png */; };
 		3E3FDCBAD07D6F75D626D7BF /* QuestCompletionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */; };
 		4218EE3742324BBED4076C8D /* art-catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = DB0211DC55CB02E9FA736E6C /* art-catalog.json */; };
@@ -42,6 +43,7 @@
 		5F7114D2105AB002EAB39196 /* ironing.png in Resources */ = {isa = PBXBuildFile; fileRef = F9DCE2C860936708891B5FF5 /* ironing.png */; };
 		617E985458248C54953C8EDA /* QuestReminderFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */; };
 		69D89E4AE6880F388E56936F /* push-ups.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2247B82D5551916C8C9597 /* push-ups.png */; };
+		6BCE52018B0603E157132037 /* CloudBackupEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C073159909C64EE4D1039B7 /* CloudBackupEnvironment.swift */; };
 		7046DEA2D7B1443F164F733F /* public-speaking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1B99DB68861F7708E1838C /* public-speaking.png */; };
 		73B1107751455986AFBA7B66 /* cleaning.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FFD5637E3B98AED997D9D68 /* cleaning.png */; };
 		74AA3877ED7A6C786ECB1244 /* plant-care.png in Resources */ = {isa = PBXBuildFile; fileRef = B693C6D8F90AAC3E99852430 /* plant-care.png */; };
@@ -94,6 +96,7 @@
 		F1268D4AC82EF25E58B839E1 /* stargazing.png in Resources */ = {isa = PBXBuildFile; fileRef = 29F0B3E3AB1186DECD35F78A /* stargazing.png */; };
 		F5CA19178D7E2F8152F13BCC /* pet-feeding.png in Resources */ = {isa = PBXBuildFile; fileRef = 708CF17B9B6842749442625E /* pet-feeding.png */; };
 		F5E5F2DE6BDF3BB5577201A0 /* museum.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5CA4DFEBE37E87D2A67AFE /* museum.png */; };
+		F7A99EFB56BE73B92C87B970 /* CloudBackupWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF18340D7959AE7021C38FD6 /* CloudBackupWriterTests.swift */; };
 		F8327AF721CD164D76F10AED /* litter-picking.png in Resources */ = {isa = PBXBuildFile; fileRef = 869076CB7746008E3B8A6641 /* litter-picking.png */; };
 		FA72F0DC25501FB96FC1F326 /* studying.png in Resources */ = {isa = PBXBuildFile; fileRef = CF625E62D5F44A74BC12168C /* studying.png */; };
 		FB09E954E1BAB481DD2ABA6B /* stretching.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EFF677647CA1596C481637B /* stretching.png */; };
@@ -165,6 +168,7 @@
 		88578211DC805EDC512DD955 /* QuestEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestEditor.swift; sourceTree = "<group>"; };
 		890E2B89FA2A749C9B7623D3 /* QuestHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestHome.swift; sourceTree = "<group>"; };
 		892FCED0C13569F307855B3B /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basketball.png; sourceTree = "<group>"; };
+		8C073159909C64EE4D1039B7 /* CloudBackupEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupEnvironment.swift; sourceTree = "<group>"; };
 		8E5CA4DFEBE37E87D2A67AFE /* museum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = museum.png; sourceTree = "<group>"; };
 		8F77B8529680D00558BF5B4A /* PentaphorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PentaphorUITests.swift; sourceTree = "<group>"; };
 		90A23C4A3FBEAD0D4FF81329 /* fishing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fishing.png; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 		9E617ACD45245BAC1D0AA346 /* PentaphorCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PentaphorCore; path = Packages/PentaphorCore; sourceTree = SOURCE_ROOT; };
 		A1E32E40864FAB8351CABF3B /* calling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calling.png; sourceTree = "<group>"; };
 		A9ED948BB9E9CD11F6969809 /* groceries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groceries.png; sourceTree = "<group>"; };
+		ACFA9047C8CA40F07576B41B /* Pentaphor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pentaphor.entitlements; sourceTree = "<group>"; };
 		AD805FD3695414F65788E155 /* bathroom-cleaning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bathroom-cleaning.png"; sourceTree = "<group>"; };
 		B639A746121DDEE0D15E4CE9 /* BrandCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandCopy.swift; sourceTree = "<group>"; };
 		B693C6D8F90AAC3E99852430 /* plant-care.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plant-care.png"; sourceTree = "<group>"; };
@@ -187,6 +192,7 @@
 		BF8ECA4198D4EC27FD4EAD11 /* pottery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pottery.png; sourceTree = "<group>"; };
 		C06001EE005788AC70789E2D /* dog-walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dog-walking.png"; sourceTree = "<group>"; };
 		C3D45FCDA547D3381A7E4BFB /* badminton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badminton.png; sourceTree = "<group>"; };
+		C575C128E8FF6533D07A86DC /* CloudBackupWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupWriter.swift; sourceTree = "<group>"; };
 		C783B128B3DFA45179DA87DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA552D2D60BD2C9B5D952B42 /* skincare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skincare.png; sourceTree = "<group>"; };
 		CA5C7186CD63F8955536BACC /* toothbrushing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toothbrushing.png; sourceTree = "<group>"; };
@@ -205,6 +211,7 @@
 		E165E700E09D486A20D72ACE /* cooking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cooking.png; sourceTree = "<group>"; };
 		E6BA9E35A72594658398C110 /* childcare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = childcare.png; sourceTree = "<group>"; };
 		E96D8839697AD366C843EE7E /* walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walking.png; sourceTree = "<group>"; };
+		EF18340D7959AE7021C38FD6 /* CloudBackupWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupWriterTests.swift; sourceTree = "<group>"; };
 		F5610A031D72700BCAD1F211 /* Pentaphor.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Pentaphor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestReminderServiceTests.swift; sourceTree = "<group>"; };
 		F751F8216B05B210AF9EC13E /* meeting-friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meeting-friends.png"; sourceTree = "<group>"; };
@@ -259,6 +266,7 @@
 			children = (
 				DC0545A60D859751417B5FB5 /* BackupFileTests.swift */,
 				5D3CC8C47935BA441A657D2D /* BackupRestoreSessionTests.swift */,
+				EF18340D7959AE7021C38FD6 /* CloudBackupWriterTests.swift */,
 				5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */,
 				F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */,
 				BDD6415F23AC2899F278BDF8 /* WeeklyRecapCoordinatorTests.swift */,
@@ -301,6 +309,7 @@
 			children = (
 				C783B128B3DFA45179DA87DE /* Assets.xcassets */,
 				304C17827C3B1FFAC7BA9179 /* Info.plist */,
+				ACFA9047C8CA40F07576B41B /* Pentaphor.entitlements */,
 				DB8ACF0DA4BD872537F99B09 /* App */,
 				60A0435276F40E854EC29BA8 /* Resources */,
 				2EBEFCD754ED0EA511408C3B /* Views */,
@@ -397,6 +406,8 @@
 			children = (
 				E05F61449639513417C6AED6 /* BackupDocument.swift */,
 				3DD735373704EA439F8CF133 /* BackupRestoreSession.swift */,
+				8C073159909C64EE4D1039B7 /* CloudBackupEnvironment.swift */,
+				C575C128E8FF6533D07A86DC /* CloudBackupWriter.swift */,
 				040B0985E1384ACEB384EC84 /* PentaphorApp.swift */,
 				627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */,
 				715912424B1C74D0F3D6F31B /* QuestReminderService.swift */,
@@ -592,6 +603,8 @@
 				344BC39A6A2955DAF7588227 /* BackupRestoreSession.swift in Sources */,
 				7CE1EF1AC41B583114B0F81A /* BackupSettingsView.swift in Sources */,
 				1CF0FBBC8EFD6C901EDC0401 /* BrandCopy.swift in Sources */,
+				6BCE52018B0603E157132037 /* CloudBackupEnvironment.swift in Sources */,
+				3B1E67E091EEB709D6320EA0 /* CloudBackupWriter.swift in Sources */,
 				9F4927B38D22CD39ED90F6FC /* DesignSystem.swift in Sources */,
 				B0302BF94F6AEEB0E801B27D /* IntroductionView.swift in Sources */,
 				EDFE8B3E0AB6815F5F4C0384 /* JournalViews.swift in Sources */,
@@ -617,6 +630,7 @@
 			files = (
 				7C863BA1F729F34217A528CC /* BackupFileTests.swift in Sources */,
 				B4CFA13866BDF6CE55C21342 /* BackupRestoreSessionTests.swift in Sources */,
+				F7A99EFB56BE73B92C87B970 /* CloudBackupWriterTests.swift in Sources */,
 				C1E6D4F64F8EF00312E5729D /* QuestCompletionActionTests.swift in Sources */,
 				54E90EC70CAE0C5F81F13CFD /* QuestReminderServiceTests.swift in Sources */,
 				4F75EE778D14DA665B7DA22A /* WeeklyRecapCoordinatorTests.swift in Sources */,
@@ -651,6 +665,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pentaphor/Pentaphor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
@@ -709,6 +724,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pentaphor/Pentaphor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;

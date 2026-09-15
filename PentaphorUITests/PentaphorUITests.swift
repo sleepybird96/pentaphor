@@ -28,7 +28,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testBackupPageProvidesFileExportAndImport() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-cloud-backup"]
         app.launch()
         skipIntroduction(app)
         app.buttons["settings.open"].tap()
@@ -37,11 +37,11 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(app.buttons["backup.export"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["backup.import"].exists)
         app.buttons["backup.export"].tap()
-        XCTAssertTrue(app.textFields.firstMatch.waitForExistence(timeout: 8))
-        capture(app, "31-backup-file-export")
-        let exportName = try XCTUnwrap(app.textFields["DOCPicker.filenameTextField"].value as? String)
-        app.buttons["저장"].tap()
-        XCTAssertTrue(app.staticTexts["backup.notice"].waitForExistence(timeout: 8))
+        XCTAssertTrue(app.staticTexts["backup.cloud.filename"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.textFields["DOCPicker.filenameTextField"].exists)
+        let exportName = app.staticTexts["backup.cloud.filename"].label.replacingOccurrences(of: ".pentaphor", with: "")
+        XCTAssertTrue(app.staticTexts["backup.cloud.status"].label.contains("업로드 확인 전"))
+        capture(app, "31-backup-icloud-pending")
         app.navigationBars.buttons["설정"].tap()
         app.buttons["settings.done"].tap()
         app.buttons["quest.create"].tap()
@@ -82,11 +82,28 @@ final class PentaphorUITests: XCTestCase {
         app.buttons["tab.stats"].tap()
         XCTAssertTrue(app.staticTexts["2 P"].exists)
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing", "--ui-test-cloud-backup"]
         app.launch()
         XCTAssertTrue(app.buttons["quest.edit.After Backup"].waitForExistence(timeout: 8))
         app.buttons["tab.stats"].tap()
         XCTAssertTrue(app.staticTexts["2 P"].exists)
+    }
+
+    @MainActor func testUnavailableCloudExplainsFailureWithoutOpeningLocalExporter() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-cloud-unavailable"]
+        app.launch()
+        skipIntroduction(app)
+        app.buttons["settings.open"].tap()
+        reveal(app.buttons["settings.backup"], in: app)
+        app.buttons["settings.backup"].tap()
+        app.buttons["backup.export"].tap()
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 8))
+        XCTAssertTrue(app.alerts.firstMatch.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "iCloud Drive를 사용할 수 없습니다")).firstMatch.exists)
+        XCTAssertFalse(app.textFields["DOCPicker.filenameTextField"].exists)
+        app.alerts.buttons["확인"].tap()
+        XCTAssertTrue(app.staticTexts["backup.summary"].label.contains("완료 기록 0개"))
+        capture(app, "34-backup-icloud-unavailable")
     }
 
     @MainActor func testWeeklyRecapColdLaunchAcknowledgementAndHistoryReplayPreservePoints() throws {
