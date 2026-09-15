@@ -29,11 +29,14 @@
 		4D5B2F71DEF5EDE12AA0EC02 /* pottery.png in Resources */ = {isa = PBXBuildFile; fileRef = BF8ECA4198D4EC27FD4EAD11 /* pottery.png */; };
 		4F18981D9312BAABD0D79201 /* skincare.png in Resources */ = {isa = PBXBuildFile; fileRef = CA552D2D60BD2C9B5D952B42 /* skincare.png */; };
 		5175BD7DE4B8AB977D3BA88D /* laundry.png in Resources */ = {isa = PBXBuildFile; fileRef = 755B6E972D89B2F81FFE585D /* laundry.png */; };
+		54E90EC70CAE0C5F81F13CFD /* QuestReminderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */; };
 		5836737AB3280EEB4BD30619 /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = CB04B7769CBAEDFBD39C028E /* running.png */; };
 		593ABACBF376559768FFE557 /* chess.png in Resources */ = {isa = PBXBuildFile; fileRef = FE73A3BA6956344063DAF010 /* chess.png */; };
 		5A5B81B04C6B89F112421214 /* QuestHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890E2B89FA2A749C9B7623D3 /* QuestHome.swift */; };
 		5B2B24F26FBBFA5805D049E5 /* AchievementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F780C2FE61C49A761DE10280 /* AchievementView.swift */; };
+		5F6D0AF354D4F9FD1F2FB701 /* ReminderNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CB25303E6A01D813854D63 /* ReminderNotificationCenter.swift */; };
 		5F7114D2105AB002EAB39196 /* ironing.png in Resources */ = {isa = PBXBuildFile; fileRef = F9DCE2C860936708891B5FF5 /* ironing.png */; };
+		617E985458248C54953C8EDA /* QuestReminderFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */; };
 		69D89E4AE6880F388E56936F /* push-ups.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2247B82D5551916C8C9597 /* push-ups.png */; };
 		7046DEA2D7B1443F164F733F /* public-speaking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1B99DB68861F7708E1838C /* public-speaking.png */; };
 		73B1107751455986AFBA7B66 /* cleaning.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FFD5637E3B98AED997D9D68 /* cleaning.png */; };
@@ -66,6 +69,7 @@
 		C9D8D6766977706558CDFA27 /* tennis.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB91945B705A440BF0258EF /* tennis.png */; };
 		CD2B7812AFB3D9E1E1A6FC2F /* outfit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9468199CAB7D650CF4BDB1B0 /* outfit.png */; };
 		CF9F6B174918D9A5538072E0 /* childcare.png in Resources */ = {isa = PBXBuildFile; fileRef = E6BA9E35A72594658398C110 /* childcare.png */; };
+		CFBD2D7435FB8BB72D0D4279 /* QuestReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715912424B1C74D0F3D6F31B /* QuestReminderService.swift */; };
 		D6AAA377757C964A1906EAFE /* swimming.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3AB215863DB33F456338D0 /* swimming.png */; };
 		D70426D0882EB7AB111B1907 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C783B128B3DFA45179DA87DE /* Assets.xcassets */; };
 		D81A76674858C5211BB7CD18 /* photography.png in Resources */ = {isa = PBXBuildFile; fileRef = B97552AF1D5D0C89E3AF9F21 /* photography.png */; };
@@ -126,6 +130,7 @@
 		3FFD5637E3B98AED997D9D68 /* cleaning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cleaning.png; sourceTree = "<group>"; };
 		43BD1281D04F2DC32C58C79C /* hydration.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hydration.png; sourceTree = "<group>"; };
 		484D02F55EC2779D17FB0A94 /* dishwashing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dishwashing.png; sourceTree = "<group>"; };
+		48CB25303E6A01D813854D63 /* ReminderNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderNotificationCenter.swift; sourceTree = "<group>"; };
 		543DBD62EDF5DF0EB93D194A /* language-practice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "language-practice.png"; sourceTree = "<group>"; };
 		5B1B99DB68861F7708E1838C /* public-speaking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "public-speaking.png"; sourceTree = "<group>"; };
 		5D94F224DD4FF2837662C4D6 /* ParameterRadar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterRadar.swift; sourceTree = "<group>"; };
@@ -136,8 +141,10 @@
 		627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCompletionAction.swift; sourceTree = "<group>"; };
 		675C0882B29C922EAD2A5070 /* jump-rope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jump-rope.png"; sourceTree = "<group>"; };
 		68B68F4F5EEBC8714CBCE5C3 /* baking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baking.png; sourceTree = "<group>"; };
+		6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestReminderFields.swift; sourceTree = "<group>"; };
 		708CF17B9B6842749442625E /* pet-feeding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pet-feeding.png"; sourceTree = "<group>"; };
 		70E634A1CEF7A4D8A23E9578 /* organizing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = organizing.png; sourceTree = "<group>"; };
+		715912424B1C74D0F3D6F31B /* QuestReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestReminderService.swift; sourceTree = "<group>"; };
 		755B6E972D89B2F81FFE585D /* laundry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = laundry.png; sourceTree = "<group>"; };
 		7E5918AE8BCE44A2D56E6B02 /* PentaphorUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PentaphorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869076CB7746008E3B8A6641 /* litter-picking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "litter-picking.png"; sourceTree = "<group>"; };
@@ -182,6 +189,7 @@
 		E6BA9E35A72594658398C110 /* childcare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = childcare.png; sourceTree = "<group>"; };
 		E96D8839697AD366C843EE7E /* walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walking.png; sourceTree = "<group>"; };
 		F5610A031D72700BCAD1F211 /* Pentaphor.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Pentaphor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestReminderServiceTests.swift; sourceTree = "<group>"; };
 		F751F8216B05B210AF9EC13E /* meeting-friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meeting-friends.png"; sourceTree = "<group>"; };
 		F780C2FE61C49A761DE10280 /* AchievementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementView.swift; sourceTree = "<group>"; };
 		F9DCE2C860936708891B5FF5 /* ironing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ironing.png; sourceTree = "<group>"; };
@@ -232,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */,
+				F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */,
 			);
 			path = PentaphorTests;
 			sourceTree = "<group>";
@@ -258,6 +267,7 @@
 				5D94F224DD4FF2837662C4D6 /* ParameterRadar.swift */,
 				88578211DC805EDC512DD955 /* QuestEditor.swift */,
 				890E2B89FA2A749C9B7623D3 /* QuestHome.swift */,
+				6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */,
 				2266A50777F1E74FBC7AF966 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -364,6 +374,8 @@
 			children = (
 				040B0985E1384ACEB384EC84 /* PentaphorApp.swift */,
 				627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */,
+				715912424B1C74D0F3D6F31B /* QuestReminderService.swift */,
+				48CB25303E6A01D813854D63 /* ReminderNotificationCenter.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -559,6 +571,9 @@
 				3E3FDCBAD07D6F75D626D7BF /* QuestCompletionAction.swift in Sources */,
 				8CC784698E562D025D9D4298 /* QuestEditor.swift in Sources */,
 				5A5B81B04C6B89F112421214 /* QuestHome.swift in Sources */,
+				617E985458248C54953C8EDA /* QuestReminderFields.swift in Sources */,
+				CFBD2D7435FB8BB72D0D4279 /* QuestReminderService.swift in Sources */,
+				5F6D0AF354D4F9FD1F2FB701 /* ReminderNotificationCenter.swift in Sources */,
 				240B27693C2120ECF8A8925B /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,6 +583,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1E6D4F64F8EF00312E5729D /* QuestCompletionActionTests.swift in Sources */,
+				54E90EC70CAE0C5F81F13CFD /* QuestReminderServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

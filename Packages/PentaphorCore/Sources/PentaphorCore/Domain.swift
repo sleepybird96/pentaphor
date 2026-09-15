@@ -69,6 +69,7 @@ public struct Quest: Identifiable, Codable, Equatable, Sendable {
     public var targetChanges: [TargetChange]
     public var notes: String? = nil
     public var deletedAt: Date? = nil
+    public var reminder: QuestReminder? = nil
 }
 
 public struct Completion: Identifiable, Codable, Equatable, Sendable {
@@ -113,7 +114,7 @@ public struct CompletionResult: Sendable {
 }
 
 public enum QuestError: Error, LocalizedError, Equatable {
-    case invalidName, invalidArt, invalidTarget, invalidRewards, notFound, archived
+    case invalidName, invalidArt, invalidTarget, invalidRewards, invalidReminder, notFound, archived
     case graceExpired, predatesQuest, cadenceLocked, duplicateRequest, alreadyCompleted, invalidState
     public var errorDescription: String? {
         switch self {
@@ -121,6 +122,7 @@ public enum QuestError: Error, LocalizedError, Equatable {
         case .invalidArt: "퀘스트 아트를 골라줘."
         case .invalidTarget: "목표는 1~99회로 정해줘."
         case .invalidRewards: "포인트는 음수 없이 최대 2까지 나눠줘."
+        case .invalidReminder: "알림 요일과 시간을 확인해줘."
         case .notFound: "이 기록을 찾지 못했어."
         case .archived: "보관한 퀘스트야. 먼저 복원해줘."
         case .graceExpired: "지난주 기록은 월요일 오전 9시 전까지만 가능해."

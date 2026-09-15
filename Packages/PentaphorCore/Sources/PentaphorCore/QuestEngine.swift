@@ -103,6 +103,11 @@ public struct QuestEngine: Sendable {
         if let notes { quest.notes = notes.isEmpty ? nil : notes }
         state.quests[index] = quest
     }
+    public mutating func updateReminder(id: UUID, reminder: QuestReminder?) throws {
+        guard let index = state.quests.firstIndex(where: { $0.id == id && $0.deletedAt == nil }) else { throw QuestError.notFound }
+        guard reminder?.isValid != false else { throw QuestError.invalidReminder }
+        state.quests[index].reminder = reminder
+    }
     public mutating func setArchived(id: UUID, archived: Bool) throws {
         guard let index = state.quests.firstIndex(where: { $0.id == id && $0.deletedAt == nil }) else { throw QuestError.notFound }
         state.quests[index].isArchived = archived

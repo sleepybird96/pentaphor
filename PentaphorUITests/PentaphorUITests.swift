@@ -1,6 +1,103 @@
 import XCTest
 
 final class PentaphorUITests: XCTestCase {
+    @MainActor func testSettingsDeliversRealTestNotificationWithoutAwardingPoints() throws {
+        // A missing OS adapter or foreground presentation delegate breaks this test.
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        skipIntroduction(app)
+        app.buttons["settings.open"].tap()
+        let status = app.staticTexts["settings.reminder.authorization"]
+        XCTAssertTrue(status.waitForExistence(timeout: 5))
+        reveal(status, in: app)
+        let monitor = addUIInterruptionMonitor(withDescription: "Notification permission") { alert in
+            let allow = alert.buttons.matching(NSPredicate(format: "label IN %@", ["Allow", "허용"])).firstMatch
+            guard allow.exists else { return false }
+            allow.tap()
+            return true
+        }
+        defer { removeUIInterruptionMonitor(monitor) }
+        let allow = app.buttons["settings.reminder.allow"]
+        if allow.exists {
+            reveal(allow, in: app)
+            allow.tap()
+            app.navigationBars.firstMatch.tap()
+        }
+        let allowed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == %@", "허용됨"), object: status)
+        XCTAssertEqual(XCTWaiter.wait(for: [allowed], timeout: 5), .completed)
+        let test = app.buttons["settings.reminder.test"]
+        reveal(test, in: app)
+        capture(app, "25-reminder-settings")
+        test.tap()
+
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let notification = springboard.descendants(matching: .any)
+            .matching(NSPredicate(format: "label CONTAINS %@", "알림이 잘 도착했습니다.")).firstMatch
+        XCTAssertTrue(notification.waitForExistence(timeout: 10), "The real five-second notification must appear in iOS, beyond the in-app success message.")
+        XCTAssertTrue(springboard.descendants(matching: .any)
+            .matching(NSPredicate(format: "label CONTAINS %@", "PENTAPHOR")).firstMatch.exists)
+        capture(springboard, "26-real-test-notification")
+        notification.tap()
+        XCTAssertTrue(app.buttons["settings.done"].waitForExistence(timeout: 5), "A test notification must not open a quest editor.")
+        app.buttons["settings.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["0 P"].waitForExistence(timeout: 5), "Receiving and opening a test notification must not award points.")
+    }
+
+    @MainActor func testReminderSelectionPersistsAndCancelledChangesStayUnsaved() throws {
+        // Missing reminder persistence or saving a cancelled draft breaks this flow.
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        skipIntroduction(app)
+        app.buttons["quest.create"].tap()
+        app.textFields["quest.name"].tap()
+        app.textFields["quest.name"].typeText("Evening Practice\n")
+        let enabled = app.switches["quest.reminder.enabled"]
+        XCTAssertTrue(enabled.waitForExistence(timeout: 5))
+        reveal(enabled, in: app)
+        XCTAssertEqual(enabled.value as? String, "0")
+        let monitor = addUIInterruptionMonitor(withDescription: "Notification permission") { alert in
+            let allow = alert.buttons.matching(NSPredicate(format: "label IN %@", ["Allow", "허용"])).firstMatch
+            guard allow.exists else { return false }
+            allow.tap()
+            return true
+        }
+        defer { removeUIInterruptionMonitor(monitor) }
+        enabled.tap()
+        app.navigationBars.firstMatch.tap() // Handles the prompt without changing a draft control.
+        let tuesday = app.buttons["quest.reminder.weekday.3"]
+        reveal(tuesday, in: app)
+        XCTAssertEqual(app.buttons["quest.reminder.weekday.2"].value as? String, "선택됨")
+        XCTAssertEqual(tuesday.value as? String, "선택 안 됨")
+        tuesday.tap()
+        XCTAssertEqual(tuesday.value as? String, "선택됨")
+        XCTAssertEqual(app.staticTexts["quest.reminder.time.summary"].label, "20:00")
+        capture(app, "24-reminder-editor")
+        app.buttons["quest.save"].tap()
+        XCTAssertTrue(app.buttons["quest.edit.Evening Practice"].waitForExistence(timeout: 5))
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        app.buttons["quest.edit.Evening Practice"].tap()
+        reveal(enabled, in: app)
+        XCTAssertEqual(enabled.value as? String, "1")
+        reveal(tuesday, in: app)
+        XCTAssertEqual(tuesday.value as? String, "선택됨")
+        XCTAssertEqual(app.staticTexts["quest.reminder.time.summary"].label, "20:00")
+        for day in [2, 3, 4, 6] { app.buttons["quest.reminder.weekday.\(day)"].tap() }
+        XCTAssertFalse(app.buttons["quest.save"].isEnabled, "An enabled reminder must have at least one weekday.")
+        app.buttons["취소"].tap()
+        app.buttons["quest.edit.Evening Practice"].tap()
+        reveal(tuesday, in: app)
+        XCTAssertEqual(tuesday.value as? String, "선택됨")
+        XCTAssertTrue(app.buttons["quest.save"].isEnabled)
+        app.buttons["취소"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["0 P"].exists, "Editing reminders must never award points.")
+    }
+
     @MainActor func testUnifiedListAndOneTimeCompletionUndoAcrossRelaunch() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]

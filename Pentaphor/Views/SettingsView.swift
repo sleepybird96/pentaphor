@@ -5,10 +5,14 @@ struct SettingsView: View {
     let store: QuestStore
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(QuestReminderService.self) private var reminderService
+    @Environment(\.openURL) private var openURL
     @State private var nickname: String
     @State private var savedNickname = false
     @State private var showIntroduction = false
     @State private var error: String?
+    @State private var reminderActionRunning = false
+    @State private var testRequested = false
     @FocusState private var editingNickname: Bool
 
     init(store: QuestStore) {
@@ -35,6 +39,7 @@ struct SettingsView: View {
                         Text(reduceMotion ? "아이폰의 ‘동작 줄이기’가 켜져 있어. 간소한 연출을 적용하고 있어." : "움직이는 연출 대신, 쌓인 결과를 바로 보여줘. 아이폰의 ‘동작 줄이기’도 따라가.")
                             .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
                     }
+                    reminderSection
                     VStack(alignment: .leading, spacing: 0) {
                         sectionTitle("기록과 사용 안내").padding(.bottom, 9)
                         NavigationLink { GuideDetailView(page: .time, timeZoneID: store.engine.state.timeZoneID) } label: {
@@ -63,7 +68,86 @@ struct SettingsView: View {
                 IntroductionView(store: store, isReplay: true) { _ in showIntroduction = false }
             }
             .modifier(ErrorNotice(error: $error))
+            .task { await reminderService.synchronize(state: store.engine.state) }
         }.tint(Palette.teal)
+    }
+
+    private var reminderSection: some View {
+        VStack(alignment: .leading, spacing: 13) {
+            sectionTitle("퀘스트 알림")
+            HStack {
+                Text("아이폰 알림 권한").font(.subheadline)
+                Spacer()
+                Text(reminderAuthorizationLabel).font(.subheadline.bold()).foregroundStyle(Palette.teal)
+                    .accessibilityIdentifier("settings.reminder.authorization")
+            }
+            switch reminderService.authorization {
+            case .denied:
+                Text("알림이 꺼져 있어. 퀘스트별 요일과 시각은 보관돼. 아이폰 설정에서 알림을 허용한 뒤 앱으로 돌아와줘.")
+                    .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
+                Button("아이폰 알림 설정 열기") {
+                    if let url = URL(string: UIApplication.openNotificationSettingsURLString) { openURL(url) }
+                }.font(.subheadline.bold()).frame(minHeight: 44)
+                    .accessibilityIdentifier("settings.reminder.open-settings")
+            case .notDetermined:
+                Button("알림 허용하기") {
+                    reminderActionRunning = true
+                    Task {
+                        await reminderService.requestPermission()
+                        await reminderService.synchronize(state: store.engine.state)
+                        reminderActionRunning = false
+                    }
+                }.font(.subheadline.bold()).frame(minHeight: 44).disabled(reminderActionRunning)
+                    .accessibilityIdentifier("settings.reminder.allow")
+            case .allowed:
+                Text("예약된 퀘스트 알림 \(reminderService.scheduledCount)개")
+                    .font(.caption).foregroundStyle(Palette.muted)
+                    .accessibilityIdentifier("settings.reminder.count")
+                Button("5초 뒤 테스트 알림 받기") {
+                    reminderActionRunning = true
+                    testRequested = false
+                    Task {
+                        await reminderService.sendTest()
+                        testRequested = reminderService.errorMessage == nil && reminderService.authorization == .allowed
+                        reminderActionRunning = false
+                    }
+                }.font(.subheadline.bold()).frame(minHeight: 44).disabled(reminderActionRunning)
+                    .accessibilityIdentifier("settings.reminder.test")
+                Text(testRequested ? "테스트 알림을 요청했어. 알림이 나타나는 방식은 아이폰 설정을 따라가. 기록과 포인트는 바뀌지 않아." : "실제 아이폰 알림으로 확인해봐. 테스트는 기록과 포인트에 영향을 주지 않아.")
+                    .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
+                    .accessibilityIdentifier("settings.reminder.test-status")
+            case .unknown:
+                ProgressView("알림 권한 확인 중").font(.caption)
+            }
+            if let message = reminderService.errorMessage {
+                Text(message).font(.caption).foregroundStyle(.red).lineSpacing(4)
+                    .accessibilityIdentifier("settings.reminder.error")
+                Button("알림 예약 다시 시도") {
+                    reminderActionRunning = true
+                    Task {
+                        await reminderService.synchronize(state: store.engine.state)
+                        reminderActionRunning = false
+                    }
+                }.font(.subheadline.bold()).frame(minHeight: 44).disabled(reminderActionRunning)
+                    .accessibilityIdentifier("settings.reminder.retry")
+            }
+            Text("퀘스트 수정에서 요일과 시각을 골라. 그 주·그 달의 목표를 채우면 해당 기간의 남은 알림은 쉬고, 한 번 퀘스트는 완료하면 멈춰.")
+                .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
+            Text("알림 시각과 요일은 저장된 기록 시간대(\(store.engine.state.timeZoneID))를 따라가.")
+                .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
+            Text("앞으로 최대 42일 동안의 알림 중 가까운 60개까지 이 기기에 예약해. 앱을 열거나 기록을 바꿀 때 채워지므로, 오래 열지 않으면 예약된 알림이 끝날 수 있어.")
+                .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
+                .accessibilityIdentifier("settings.reminder.reservation-notice")
+        }
+    }
+
+    private var reminderAuthorizationLabel: String {
+        switch reminderService.authorization {
+        case .unknown: "확인 중"
+        case .notDetermined: "아직 선택하지 않음"
+        case .denied: "허용 안 됨"
+        case .allowed: "허용됨"
+        }
     }
 
     private var nicknameSection: some View {

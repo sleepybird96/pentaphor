@@ -67,7 +67,7 @@ import SwiftData
         for quest in state.quests {
             let name = quest.name.trimmingCharacters(in: .whitespacesAndNewlines)
             guard (1...40).contains(name.count), QuestArtIDs.all.contains(quest.artID),
-                  validRewards(quest.rewards), !quest.targetChanges.isEmpty,
+                  validRewards(quest.rewards), quest.reminder?.isValid != false, !quest.targetChanges.isEmpty,
                   quest.targetChanges.allSatisfy({ (1...99).contains($0.target) }) else { throw QuestError.invalidState }
             if quest.cadence == .once {
                 let records = recordsByQuest[quest.id] ?? []

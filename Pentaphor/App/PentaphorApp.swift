@@ -3,14 +3,17 @@ import PentaphorCore
 
 @main
 struct PentaphorApp: App {
+    @State private var reminders = QuestReminderService()
     var body: some Scene {
         WindowGroup {
-            AppEntryView().tint(Palette.teal).preferredColorScheme(.light)
+            AppEntryView().environment(reminders).tint(Palette.teal).preferredColorScheme(.light)
         }
     }
 }
 
 private struct AppEntryView: View {
+    @Environment(QuestReminderService.self) private var reminders
+    @Environment(\.scenePhase) private var scenePhase
     @State private var store: QuestStore?
     @State private var loadError: String?
     @State private var gate = LaunchGate()
@@ -42,6 +45,15 @@ private struct AppEntryView: View {
         .background((gate.isFinished ? Palette.paper : Palette.ink).ignoresSafeArea())
         .statusBarHidden(!gate.isFinished)
         .task { if loadAttempt == 0 { await load() } }
+        .task(id: store?.engine.state) { await synchronizeReminders() }
+        .task(id: scenePhase) { if scenePhase == .active { await synchronizeReminders() } }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+            Task { await synchronizeReminders() }
+        }
+    }
+
+    @MainActor private func synchronizeReminders() async {
+        if let state = store?.engine.state { await reminders.synchronize(state: state) }
     }
 
     @MainActor private func load() async {

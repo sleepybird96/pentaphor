@@ -14,6 +14,7 @@ private struct QuestEditorPresentation: Identifiable {
 
 struct QuestHome: View {
     let store: QuestStore
+    @Environment(QuestReminderService.self) private var reminders
     @State private var tab = 0
     @State private var editor: QuestEditorPresentation?
     @State private var showArchive = false
@@ -48,10 +49,11 @@ struct QuestHome: View {
         }
         .foregroundStyle(Palette.ink).background(Palette.paper)
         .safeAreaInset(edge: .bottom, spacing: 0) { tabBar }
-        .sheet(item: $editor) { presentation in QuestEditor(store: store, quest: presentation.quest) }
-        .sheet(isPresented: $showSettings) { SettingsView(store: store) }
+        .sheet(item: $editor, onDismiss: openReminderQuest) { presentation in QuestEditor(store: store, quest: presentation.quest) }
+        .sheet(isPresented: $showSettings, onDismiss: openReminderQuest) { SettingsView(store: store) }
         .fullScreenCover(isPresented: $showIntroduction, onDismiss: {
-            if createAfterIntroduction {
+            if reminders.pendingQuestID != nil { openReminderQuest() }
+            else if createAfterIntroduction {
                 createAfterIntroduction = false
                 editor = QuestEditorPresentation(quest: nil)
             }
@@ -61,8 +63,8 @@ struct QuestHome: View {
                 showIntroduction = false
             }
         }
-        .sheet(isPresented: $showArchive) { ArchiveView(store: store) }
-        .fullScreenCover(item: $achievement) { presentation in
+        .sheet(isPresented: $showArchive, onDismiss: openReminderQuest) { ArchiveView(store: store) }
+        .fullScreenCover(item: $achievement, onDismiss: openReminderQuest) { presentation in
             AchievementView(store: store, quest: presentation.quest, result: presentation.result)
         }
         .confirmationDialog("어느 주에 기록할까?", isPresented: Binding(get: { graceQuest != nil }, set: { if !$0 { graceQuest = nil } }), titleVisibility: .visible) {
@@ -73,7 +75,36 @@ struct QuestHome: View {
             Button("취소", role: .cancel) { graceQuest = nil }
         } message: { Text("월요일 오전 9시 전까지 지난주 기록을 선택할 수 있어.") }
         .modifier(ErrorNotice(error: $error))
+        .onChange(of: reminders.pendingQuestID, initial: true) { _, _ in openReminderQuest() }
         .onChange(of: scenePhase) { _, phase in if phase == .active { foregroundDate = Date() } }
+    }
+
+    private func openReminderQuest() {
+        guard let id = reminders.pendingQuestID else { return }
+        tab = 0
+        // Wait for the actual dismissal callback before presenting another sheet.
+        if editor != nil { editor = nil; return }
+        if showSettings { showSettings = false; return }
+        if showArchive { showArchive = false; return }
+        if achievement != nil { achievement = nil; return }
+        if showIntroduction {
+            createAfterIntroduction = false
+            showIntroduction = false
+            return
+        }
+        if graceQuest != nil || error != nil {
+            graceQuest = nil
+            error = nil
+            Task {
+                try? await Task.sleep(for: .milliseconds(400))
+                openReminderQuest()
+            }
+            return
+        }
+        reminders.pendingQuestID = nil
+        if let quest = store.engine.activeQuests.first(where: { $0.id == id }) {
+            editor = QuestEditorPresentation(quest: quest)
+        }
     }
 
     private var tabBar: some View {

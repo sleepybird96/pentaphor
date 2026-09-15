@@ -11,6 +11,8 @@ struct QuestEditor: View {
     @State private var cadence: Cadence
     @State private var target: Int
     @State private var rewards: StatPoints
+    @State private var reminderEnabled: Bool
+    @State private var reminder: QuestReminder
     @State private var showArt = false
     @State private var error: String?
     @State private var confirmDeletion = false
@@ -28,10 +30,15 @@ struct QuestEditor: View {
         _cadence = State(initialValue: quest?.cadence ?? .week)
         _target = State(initialValue: quest?.targetChanges.last?.target ?? 3)
         _rewards = State(initialValue: quest?.rewards ?? StatPoints(stamina: 1, courage: 1))
+        _reminderEnabled = State(initialValue: quest?.reminder != nil)
+        _reminder = State(initialValue: quest?.reminder ?? QuestReminder(weekdays: [2, 4, 6], hour: 20, minute: 0))
     }
 
     private var hasHistory: Bool { guard let quest else { return false }; return store.engine.state.completions.contains { $0.questID == quest.id } }
-    private var valid: Bool { (1...40).contains(name.trimmingCharacters(in: .whitespacesAndNewlines).count) && rewards.total <= 2 }
+    private var valid: Bool {
+        (1...40).contains(name.trimmingCharacters(in: .whitespacesAndNewlines).count)
+            && rewards.total <= 2 && (!reminderEnabled || reminder.isValid)
+    }
 
     var body: some View {
         NavigationStack {
@@ -83,6 +90,8 @@ struct QuestEditor: View {
                                 .font(.caption).foregroundStyle(Palette.teal).lineSpacing(4)
                         }
                     }
+                    QuestReminderFields(isEnabled: $reminderEnabled, reminder: $reminder,
+                                        timeZoneID: store.engine.state.timeZoneID)
                     allocation
                     if showsFirstQuestHelp {
                         VStack(alignment: .leading, spacing: 8) {
@@ -194,8 +203,14 @@ struct QuestEditor: View {
         guard valid else { return }
         do {
             try store.transact { engine in
-                if let quest { try engine.update(id: quest.id, name: name, artID: artID, cadence: cadence, target: cadence == .once ? 1 : target, rewards: rewards, at: Date(), notes: notes) }
-                else { _ = try engine.create(name: name, artID: artID, cadence: cadence, target: cadence == .once ? 1 : target, rewards: rewards, at: Date(), notes: notes) }
+                let savedID: UUID
+                if let quest {
+                    try engine.update(id: quest.id, name: name, artID: artID, cadence: cadence, target: cadence == .once ? 1 : target, rewards: rewards, at: Date(), notes: notes)
+                    savedID = quest.id
+                } else {
+                    savedID = try engine.create(name: name, artID: artID, cadence: cadence, target: cadence == .once ? 1 : target, rewards: rewards, at: Date(), notes: notes).id
+                }
+                try engine.updateReminder(id: savedID, reminder: reminderEnabled ? reminder : nil)
             }
             dismiss()
         } catch { self.error = error.localizedDescription }
