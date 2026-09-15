@@ -23,7 +23,7 @@ API_ORIGIN = 'https://api.appstoreconnect.apple.com'
 APP_ID = '6811887105'
 BUNDLE_ID = 'app.pentaphor.personal'
 TEAM_ID = 'NX53XT8XMU'
-DEFAULT_CONFIG = Path.home()/'.config/pentaphor/app-store-connect.json'
+DEFAULT_CONFIG = Path.home()/'.config/deploy-credentials/apple'/TEAM_ID/'app-store-connect.json'
 DEFAULT_SIMULATOR = 'B3147374-5BC7-48E0-952D-C3E55BE423C3'
 
 class DeliveryError(RuntimeError): pass

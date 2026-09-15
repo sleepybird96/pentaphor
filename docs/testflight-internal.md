@@ -32,7 +32,11 @@ python3 scripts/testflight.py configure \
   --issuer-id ISSUER_ID
 ```
 
-키와 설정은 `~/.config/pentaphor/`에 복사하며 디렉터리 0700, 파일 0600 권한으로 제한한다. 프로젝트 밖에 저장하고, 키 원문과 JWT는 로그에 출력하지 않는다. 기존 설정은 덮어쓰지 않는다. `.p8` 파일은 Git에서도 제외한다.
+배포 자격 증명의 공용 보관 루트는 `~/.config/deploy-credentials/`다. Apple 키와 설정은 서비스·팀별 경로 `apple/NX53XT8XMU/`에 보관한다. 같은 개발자 팀의 다른 앱에서도 이 위치를 재사용하며 프로젝트별로 키를 복제하지 않는다.
+
+현재 기본 설정은 `~/.config/deploy-credentials/apple/NX53XT8XMU/app-store-connect.json`, 개인키는 같은 폴더의 `AuthKey.p8`이다. 디렉터리 0700, 파일 0600 권한으로 제한하며 키 원문과 JWT는 로그에 출력하지 않는다. `configure`는 지정한 원본을 이 위치에 복사하고 기존 설정을 덮어쓰지 않는다. 처음 연결하거나 교체할 때는 새 경로의 실제 API 인증을 검증한 뒤 원본과 바이트가 같은 다운로드 중복본을 정리한다. `.p8` 파일은 Git에서도 제외한다.
+
+Apple Distribution 인증서의 개인키는 macOS 키체인에서 관리한다. 별도 `.p12` 파일로 내보내 중복 보관하지 않는다. Xcode가 관리하는 프로비저닝 프로파일과 빌드 산출물은 Xcode의 표준 경로를 유지한다. 프로젝트의 `Configuration/TestFlightExport.plist`는 비밀키가 없는 배포 설정이므로 Git에서 계속 관리한다.
 
 이후 앱 변경을 배포할 때 실행한다.
 

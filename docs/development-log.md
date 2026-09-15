@@ -213,3 +213,12 @@ Used the already signed-in Xcode account once to export locally with the new cer
 Resumed the same tested **1.0 (3)** archive using the original export settings and API authentication arguments. Upload succeeded at **03:53:31 UTC** (`upload-provisioned.log`, `EXPORT SUCCEEDED`). API polling then returned **ready** and process exit 0 after verifying the exact iOS build, valid processing, internal-only audience, IN_BETA_TESTING state and Personal group membership. **1.0 (3) is ready to install in TestFlight.**
 
 The preserved verification remains **96 passing tests** (19 automation + 66 Release core + 11 native UI); no app code changed during signing recovery. Artifacts remain in `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`. Future changes use the existing default `python3 scripts/testflight.py deploy`; migration to another Mac or certificate/profile renewal requires local signing setup again.
+
+
+## 2026-09-15 — shared deployment credential storage
+
+At the user's request, consolidated the Apple API credential and config into `~/.config/deploy-credentials/apple/NX53XT8XMU/`, organized by provider and team for reuse across apps. Updated the deployment CLI default, operating guide and AGENTS.md. The private key remains referenced by the adjacent config; Apple Distribution signing private keys remain in macOS Keychain and Xcode-managed profiles retain their standard location. No private signing-key export was created.
+
+Copied to the new location with directory modes 0700 and credential file modes 0600, verified the configured and Downloads private keys were byte-identical, then verified the new credentials through the real Apple API. After switching the CLI default and passing all 19 automation tests (0.041s), acquired both deployment locks and removed only the verified duplicate Downloads key and obsolete config/key/lock. The now-empty `~/.config/pentaphor/` directory was removed. No key files were found in the repository.
+
+The default CLI's live status check confirmed **1.0 (3)** ready in Personal using the new path. This is deployment tooling and local credential organization only; app code and its binary are unchanged, so no new TestFlight build is required.
