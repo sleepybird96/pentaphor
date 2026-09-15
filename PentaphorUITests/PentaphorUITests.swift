@@ -1,6 +1,65 @@
 import XCTest
 
 final class PentaphorUITests: XCTestCase {
+    @MainActor func testUnifiedListAndOneTimeCompletionUndoAcrossRelaunch() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        skipIntroduction(app)
+        for (name, cadence) in [("Monthly", "매월"), ("Weekly", "매주"), ("One Time", "한 번")] {
+            reveal(app.buttons["quest.create"], in: app)
+            app.buttons["quest.create"].tap()
+            app.textFields["quest.name"].tap()
+            app.textFields["quest.name"].typeText(name + "\n")
+            let picker = app.segmentedControls.firstMatch
+            reveal(picker, in: app)
+            XCTAssertTrue(picker.buttons[cadence].exists)
+            guard picker.buttons[cadence].exists else { return }
+            picker.buttons[cadence].tap()
+            if cadence == "한 번" {
+                XCTAssertFalse(app.steppers["quest.target"].exists)
+                capture(app, "24-one-time-editor")
+            }
+            app.buttons["quest.save"].tap()
+            XCTAssertTrue(app.buttons["quest.edit." + name].waitForExistence(timeout: 5))
+        }
+        XCTAssertFalse(app.staticTexts["이번 주"].exists)
+        XCTAssertFalse(app.staticTexts["이번 달"].exists)
+        XCTAssertLessThan(app.buttons["quest.edit.Monthly"].frame.minY, app.buttons["quest.edit.Weekly"].frame.minY)
+        XCTAssertLessThan(app.buttons["quest.edit.Weekly"].frame.minY, app.buttons["quest.edit.One Time"].frame.minY)
+        XCTAssertEqual(app.staticTexts["quest.progress.One Time"].label, "한 번")
+        capture(app, "25-unified-quests")
+        app.buttons["quest.complete.One Time"].tap()
+        XCTAssertTrue(app.staticTexts["achievement.title"].waitForExistence(timeout: 5))
+        reveal(app.buttons["achievement.done"], in: app)
+        XCTAssertTrue(app.staticTexts["완료한 퀘스트는 기록에 남겨뒀어."].exists)
+        capture(app, "26-one-time-achievement")
+        app.buttons["achievement.done"].tap()
+        XCTAssertFalse(app.buttons["quest.complete.One Time"].exists)
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        XCTAssertTrue(app.buttons["quest.complete.Weekly"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["quest.complete.One Time"].exists)
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["2 P"].exists)
+        app.buttons["tab.history"].tap()
+        XCTAssertTrue(app.staticTexts["한 번 · 완료"].exists)
+        capture(app, "27-one-time-history")
+        app.buttons["One Time 기록 되돌리기"].tap()
+        app.buttons["기록 되돌리기"].tap()
+        app.buttons["tab.quests"].tap()
+        XCTAssertTrue(app.buttons["quest.complete.One Time"].waitForExistence(timeout: 5))
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["0 P"].exists)
+        app.buttons["tab.quests"].tap()
+        app.buttons["quest.complete.One Time"].tap()
+        XCTAssertTrue(app.staticTexts["achievement.title"].waitForExistence(timeout: 5))
+        reveal(app.buttons["achievement.undo"], in: app)
+        app.buttons["achievement.undo"].tap()
+        XCTAssertTrue(app.buttons["quest.complete.One Time"].waitForExistence(timeout: 5))
+    }
+
     @MainActor func testLaunchPresentationWaitsForLoadingThenShowsIntroduction() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-slow-load"]
@@ -196,7 +255,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(delete.exists)
         delete.tap()
         alert.buttons["삭제하기"].tap()
-        XCTAssertTrue(app.staticTexts["아직 비어 있는 첫 페이지"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["다음 걸음을 기다리는 중"].waitForExistence(timeout: 5))
         app.terminate()
         app.launchArguments = ["--ui-testing"]
         app.launch()

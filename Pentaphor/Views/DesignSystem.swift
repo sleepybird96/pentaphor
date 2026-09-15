@@ -124,8 +124,16 @@ struct PrimaryButton: View {
 }
 
 extension Cadence {
-    var korean: String { self == .week ? "매주" : "매월" }
-    var periodLabel: String { self == .week ? "이번 주" : "이번 달" }
+    var korean: String {
+        switch self { case .once: "한 번"; case .week: "매주"; case .month: "매월" }
+    }
+    var scheduleDescription: String {
+        switch self {
+        case .once: "기한 없이 두고, 한 번 완료하면 기록으로 남아."
+        case .week: "새 주는 월요일 0시에 시작해. 지난주 기록은 월요일 오전 9시 전까지 선택할 수 있어."
+        case .month: "매월 1일, 새로운 달의 첫걸음이 시작돼."
+        }
+    }
 }
 
 struct ErrorNotice: ViewModifier {

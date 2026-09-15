@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Cadence: String, Codable, CaseIterable, Sendable { case week, month }
+public enum Cadence: String, Codable, CaseIterable, Sendable { case once, week, month }
 
 public struct PeriodWindow: Codable, Equatable, Hashable, Sendable {
     public let start: Date
@@ -21,11 +21,14 @@ public struct PeriodCalculator: Sendable {
         self.calendar = calendar
     }
     public func period(containing date: Date, cadence: Cadence) -> PeriodWindow {
+        // One-time progress has no calendar rollover. These boundaries are internal only.
+        if cadence == .once { return PeriodWindow(start: .distantPast, end: .distantFuture, cadence: .once) }
         let interval = calendar.dateInterval(of: cadence == .week ? .weekOfYear : .month, for: date)!
         return PeriodWindow(start: interval.start, end: interval.end, cadence: cadence)
     }
     public func previous(to window: PeriodWindow) -> PeriodWindow {
-        period(containing: calendar.date(byAdding: .day, value: -1, to: window.start)!, cadence: window.cadence)
+        if window.cadence == .once { return window }
+        return period(containing: calendar.date(byAdding: .day, value: -1, to: window.start)!, cadence: window.cadence)
     }
     public func canRecordPreviousWeek(at date: Date) -> Bool {
         calendar.component(.weekday, from: date) == 2 && calendar.component(.hour, from: date) < 9

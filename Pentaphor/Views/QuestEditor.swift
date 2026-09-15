@@ -68,16 +68,18 @@ struct QuestEditor: View {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack { Text("나만의 페이스").font(.headline); Spacer(); Text("매일 하지 않아도 돼.").font(.caption2).foregroundStyle(Palette.muted) }
                         if showsFirstQuestHelp {
-                            Text("이번 주나 이번 달에 몇 번 하고 싶어?").font(.subheadline).foregroundStyle(Palette.teal)
+                            Text("한 번 해볼까, 주기적으로 이어갈까?").font(.subheadline).foregroundStyle(Palette.teal)
                         }
-                        Picker("주기", selection: $cadence) { ForEach(Cadence.allCases, id: \.self) { Text($0.korean).tag($0) } }.pickerStyle(.segmented).disabled(hasHistory)
-                        Stepper(value: $target, in: 1...99) {
-                            Text("목표 \(target)회").font(.system(.title3, design: .rounded, weight: .bold))
-                        }.accessibilityIdentifier("quest.target")
-                        Text(cadence == .week ? "새 주는 월요일 0시에 시작해. 지난주 기록은 월요일 오전 9시 전까지 선택할 수 있어." : "매월 1일, 새로운 달의 첫걸음이 시작돼.")
+                        Picker("반복", selection: $cadence) { ForEach(Cadence.allCases, id: \.self) { Text($0.korean).tag($0) } }.pickerStyle(.segmented).disabled(hasHistory).accessibilityIdentifier("quest.cadence")
+                        if cadence != .once {
+                            Stepper(value: $target, in: 1...99) {
+                                Text("목표 \(target)회").font(.system(.title3, design: .rounded, weight: .bold))
+                            }.accessibilityIdentifier("quest.target")
+                        }
+                        Text(cadence.scheduleDescription)
                             .font(.caption).foregroundStyle(Palette.muted).lineSpacing(4)
                         if hasHistory {
-                            Text("첫 기록 이후에는 주기를 바꿀 수 없어. 현재 기간에 기록이 있으면 목표 횟수 변경은 다음 기간부터 적용돼. 이미 받은 포인트는 그대로야.")
+                            Text(cadence == .once ? "첫 기록 이후에는 반복 방식을 바꿀 수 없어. 이미 받은 포인트는 그대로야." : "첫 기록 이후에는 주기를 바꿀 수 없어. 현재 기간에 기록이 있으면 목표 횟수 변경은 다음 기간부터 적용돼. 이미 받은 포인트는 그대로야.")
                                 .font(.caption).foregroundStyle(Palette.teal).lineSpacing(4)
                         }
                     }
@@ -183,7 +185,7 @@ struct QuestEditor: View {
                     Button { rewards[stat] += 1 } label: { Image(systemName: "plus").frame(width: 44, height: 46) }.disabled(rewards.total >= 2).opacity(rewards.total >= 2 ? 0.3 : 1).accessibilityLabel("\(stat.title) 포인트 늘리기")
                 }.overlay(alignment: .bottom) { Rectangle().fill(Palette.ink.opacity(0.16)).frame(height: 1) }
             }
-            Text("한 번 완료할 때마다 최대 2포인트.\n연속 목표 달성 보너스는 끈기에 따로 쌓여.")
+            Text(cadence == .once ? "완료하면 내가 정한 포인트가 쌓여.\n한 번 퀘스트에는 연속 달성 보너스가 없어." : "한 번 완료할 때마다 최대 2포인트.\n연속 목표 달성 보너스는 끈기에 따로 쌓여.")
                 .font(.caption).foregroundStyle(Palette.muted).lineSpacing(5).padding(.top, 13)
         }
     }
@@ -192,8 +194,8 @@ struct QuestEditor: View {
         guard valid else { return }
         do {
             try store.transact { engine in
-                if let quest { try engine.update(id: quest.id, name: name, artID: artID, cadence: cadence, target: target, rewards: rewards, at: Date(), notes: notes) }
-                else { _ = try engine.create(name: name, artID: artID, cadence: cadence, target: target, rewards: rewards, at: Date(), notes: notes) }
+                if let quest { try engine.update(id: quest.id, name: name, artID: artID, cadence: cadence, target: cadence == .once ? 1 : target, rewards: rewards, at: Date(), notes: notes) }
+                else { _ = try engine.create(name: name, artID: artID, cadence: cadence, target: cadence == .once ? 1 : target, rewards: rewards, at: Date(), notes: notes) }
             }
             dismiss()
         } catch { self.error = error.localizedDescription }

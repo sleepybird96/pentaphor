@@ -63,11 +63,19 @@ import SwiftData
         let questIDs = Set(state.quests.map(\.id))
         guard questIDs.count == state.quests.count,
               Set(state.completions.map(\.id)).count == state.completions.count else { throw QuestError.invalidState }
+        let recordsByQuest = Dictionary(grouping: state.completions, by: \.questID)
         for quest in state.quests {
             let name = quest.name.trimmingCharacters(in: .whitespacesAndNewlines)
             guard (1...40).contains(name.count), QuestArtIDs.all.contains(quest.artID),
                   validRewards(quest.rewards), !quest.targetChanges.isEmpty,
                   quest.targetChanges.allSatisfy({ (1...99).contains($0.target) }) else { throw QuestError.invalidState }
+            if quest.cadence == .once {
+                let records = recordsByQuest[quest.id] ?? []
+                let lifetime = PeriodCalculator(timeZoneID: state.timeZoneID).period(containing: quest.createdAt, cadence: .once)
+                guard quest.targetChanges.allSatisfy({ $0.target == 1 }),
+                      records.filter({ !$0.isVoided }).count <= 1,
+                      records.allSatisfy({ $0.target == 1 && $0.period == lifetime }) else { throw QuestError.invalidState }
+            }
         }
         for completion in state.completions {
             guard questIDs.contains(completion.questID), (1...99).contains(completion.target),

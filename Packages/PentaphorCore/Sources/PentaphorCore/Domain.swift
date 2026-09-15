@@ -114,7 +114,7 @@ public struct CompletionResult: Sendable {
 
 public enum QuestError: Error, LocalizedError, Equatable {
     case invalidName, invalidArt, invalidTarget, invalidRewards, notFound, archived
-    case graceExpired, predatesQuest, cadenceLocked, duplicateRequest, invalidState
+    case graceExpired, predatesQuest, cadenceLocked, duplicateRequest, alreadyCompleted, invalidState
     public var errorDescription: String? {
         switch self {
         case .invalidName: "퀘스트 이름을 1~40자로 적어줘."
@@ -125,6 +125,7 @@ public enum QuestError: Error, LocalizedError, Equatable {
         case .archived: "보관한 퀘스트야. 먼저 복원해줘."
         case .graceExpired: "지난주 기록은 월요일 오전 9시 전까지만 가능해."
         case .predatesQuest: "퀘스트를 만들기 전 기간에는 기록할 수 없어."
+        case .alreadyCompleted: "이미 완료한 퀘스트야. 기록을 되돌리면 다시 완료할 수 있어."
         case .cadenceLocked: "기록이 있는 퀘스트는 주기를 바꿀 수 없어. 새 퀘스트로 만들어줘."
         case .duplicateRequest: "이미 처리한 기록 요청이야."
         case .invalidState: "저장된 기록을 읽을 수 없어. 원본은 그대로 보관했어."

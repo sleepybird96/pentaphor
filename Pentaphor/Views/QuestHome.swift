@@ -104,19 +104,13 @@ struct QuestHome: View {
                 if store.engine.activeQuests.isEmpty {
                     VStack(alignment: .leading, spacing: 18) {
                         Image(systemName: "pentagon").font(.system(size: 70, weight: .ultraLight)).foregroundStyle(Palette.teal)
-                        Text("아직 비어 있는 첫 페이지").font(.title2.bold())
+                        Text(store.engine.state.completions.isEmpty ? "아직 비어 있는 첫 페이지" : "다음 걸음을 기다리는 중").font(.title2.bold())
                         Text(BrandCopy.tagline).font(.body).lineSpacing(6).foregroundStyle(Palette.muted)
                         Eyebrow(title: "ONE QUEST AT A TIME.")
                     }.padding(.vertical, 42).frame(maxWidth: .infinity, alignment: .leading)
                 } else {
-                    ForEach(Cadence.allCases, id: \.self) { cadence in
-                        let quests = store.engine.activeQuests.filter { $0.cadence == cadence }
-                        if !quests.isEmpty {
-                            VStack(alignment: .leading, spacing: 0) {
-                                HStack { Text(cadence.periodLabel).font(.headline); Spacer(); Text("\(quests.count) QUESTS").font(.caption.monospaced()).foregroundStyle(Palette.muted) }.padding(.bottom, 8)
-                                ForEach(quests) { quest in questRow(quest, now: now) }
-                            }
-                        }
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(store.engine.activeQuests) { quest in questRow(quest, now: now) }
                     }
                 }
                 PrimaryButton(title: "새 퀘스트 만들기") { editor = QuestEditorPresentation(quest: nil) }.accessibilityIdentifier("quest.create")
@@ -139,7 +133,7 @@ struct QuestHome: View {
                                 .multilineTextAlignment(.leading).lineLimit(2)
                                 .accessibilityIdentifier("quest.notes.preview.\(quest.name)")
                         }
-                        Text("\(progress.count) / \(progress.target)회 · \(quest.cadence.korean)")
+                        Text(quest.cadence == .once ? "한 번" : "\(progress.count) / \(progress.target)회 · \(quest.cadence.korean)")
                             .font(.system(.subheadline, design: .rounded, weight: .bold)).foregroundStyle(Palette.teal)
                             .accessibilityIdentifier("quest.progress.\(quest.name)")
                         if progress.achieved { Text("목표 달성 ✓").font(.caption2).foregroundStyle(Palette.muted) }

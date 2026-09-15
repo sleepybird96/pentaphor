@@ -12,7 +12,10 @@ public struct QuestEngine: Sendable {
         state.preferences = candidate
     }
     public var calculator: PeriodCalculator { PeriodCalculator(timeZoneID: state.timeZoneID) }
-    public var activeQuests: [Quest] { state.quests.filter { !$0.isArchived && $0.deletedAt == nil } }
+    public var activeQuests: [Quest] {
+        let completedIDs = Set(state.completions.filter { !$0.isVoided }.map(\.questID))
+        return state.quests.filter { !$0.isArchived && $0.deletedAt == nil && ($0.cadence != .once || !completedIDs.contains($0.id)) }
+    }
     public var archivedQuests: [Quest] { state.quests.filter { $0.isArchived && $0.deletedAt == nil } }
     public mutating func delete(id: UUID, at date: Date) throws {
         guard let index = state.quests.firstIndex(where: { $0.id == id && $0.deletedAt == nil }) else { throw QuestError.notFound }
@@ -30,6 +33,7 @@ public struct QuestEngine: Sendable {
     }
     public var bonuses: [StreakBonus] {
         state.quests.flatMap { quest -> [StreakBonus] in
+            guard quest.cadence != .once else { return [] }
             let groups = Dictionary(grouping: state.completions.filter { $0.questID == quest.id && !$0.isVoided }, by: \.period)
             let qualified = groups.filter { $0.value.count >= ($0.value.first?.target ?? Int.max) }.map(\.key).sorted { $0.start < $1.start }
             var last: PeriodWindow?
@@ -58,6 +62,9 @@ public struct QuestEngine: Sendable {
         }
         guard let quest = state.quests.first(where: { $0.id == questID && $0.deletedAt == nil }) else { throw QuestError.notFound }
         guard !quest.isArchived else { throw QuestError.archived }
+        if quest.cadence == .once, state.completions.contains(where: { $0.questID == questID && !$0.isVoided }) {
+            throw QuestError.alreadyCompleted
+        }
         var period = calculator.period(containing: date, cadence: quest.cadence)
         if previousWeek {
             guard quest.cadence == .week, calculator.canRecordPreviousWeek(at: date) else { throw QuestError.graceExpired }
@@ -69,7 +76,7 @@ public struct QuestEngine: Sendable {
         let completion = Completion(id: requestID, questID: questID, recordedAt: date, period: period, target: target(for: quest, period: period), rewards: quest.rewards, isVoided: false)
         state.completions.append(completion)
         let added = bonuses.filter { !oldBonuses.contains($0.id) }
-        let streak = bonuses.first { $0.questID == questID && $0.period == period }?.streak ?? added.map(\.streak).max() ?? (progress(for: quest, at: period.start).achieved ? 1 : 0)
+        let streak = quest.cadence == .once ? 0 : bonuses.first { $0.questID == questID && $0.period == period }?.streak ?? added.map(\.streak).max() ?? (progress(for: quest, at: period.start).achieved ? 1 : 0)
         return CompletionResult(completion: completion, before: before, after: totals, bonus: added.count, streak: streak)
     }
     public mutating func undo(completionID: UUID) throws {
@@ -78,12 +85,13 @@ public struct QuestEngine: Sendable {
     }
     public mutating func update(id: UUID, name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at date: Date, notes: String? = nil) throws {
         guard let index = state.quests.firstIndex(where: { $0.id == id && $0.deletedAt == nil }) else { throw QuestError.notFound }
+        guard cadence != .once || target == 1 else { throw QuestError.invalidTarget }
         let name = try validatedName(name, artID: artID, target: target, rewards: rewards)
         var quest = state.quests[index]
         let records = state.completions.filter { $0.questID == id }
         guard cadence == quest.cadence || records.isEmpty else { throw QuestError.cadenceLocked }
         let current = calculator.period(containing: date, cadence: cadence)
-        if cadence != quest.cadence {
+        if cadence != quest.cadence || cadence == .once {
             quest.targetChanges = [TargetChange(effectiveFrom: current.start, target: target)]
         } else {
             let hasCurrentActivity = records.contains { $0.period == current }
@@ -102,6 +110,7 @@ public struct QuestEngine: Sendable {
     @discardableResult
     public mutating func create(name: String, artID: String, cadence: Cadence, target: Int, rewards: StatPoints, at date: Date, notes: String = "", id: UUID = UUID()) throws -> Quest {
         guard !state.quests.contains(where: { $0.id == id }) else { throw QuestError.duplicateRequest }
+        guard cadence != .once || target == 1 else { throw QuestError.invalidTarget }
         let name = try validatedName(name, artID: artID, target: target, rewards: rewards)
         let quest = Quest(id: id, name: name, artID: artID, cadence: cadence, createdAt: date, isArchived: false, rewards: rewards, targetChanges: [TargetChange(effectiveFrom: calculator.period(containing: date, cadence: cadence).start, target: target)], notes: notes.isEmpty ? nil : notes)
         state.quests.append(quest)

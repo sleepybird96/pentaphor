@@ -48,7 +48,7 @@ struct HistoryView: View {
                             else { Button("되돌리기") { undoID = record.id }.font(.caption.bold()).frame(minHeight: 44).accessibilityLabel("\(quest?.name ?? "퀘스트") 기록 되돌리기") }
                         }.opacity(record.isVoided ? 0.55 : 1)
                         HStack {
-                            Text("\(periodDate(record.period.start)) 시작 · 목표 \(record.target)회")
+                            Text(record.period.cadence == .once ? "한 번 · 완료" : "\(periodDate(record.period.start)) 시작 · 목표 \(record.target)회")
                             Spacer()
                             Text(Stat.allCases.filter { record.rewards[$0] > 0 }.map { "\($0.title) +\(record.rewards[$0])" }.joined(separator: " · "))
                         }.font(.caption2).foregroundStyle(Palette.muted)

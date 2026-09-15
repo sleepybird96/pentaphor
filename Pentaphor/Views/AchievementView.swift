@@ -41,12 +41,19 @@ struct AchievementView: View {
                         ParameterRadar(before: result.before, after: result.after, progress: growth, simplifiedEffects: store.engine.preferences.simplifiedEffects)
                         HStack { Text("┄ 조금 전의 나"); Spacer(); Text("한 걸음 더 자랐어").foregroundStyle(Palette.gold) }.font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
                         Rectangle().fill(Palette.paper.opacity(0.16)).frame(height: 1).padding(.top, 5)
-                        HStack {
-                            Text("목표까지 남긴 발걸음").font(.subheadline.bold()); Spacer()
-                            Text("\(progress.count)").font(.system(size: 29, weight: .black, design: .rounded)) + Text(" / \(progress.target)회").font(.caption)
+                        if quest.cadence == .once {
+                            Label("퀘스트 완료", systemImage: "checkmark.circle.fill")
+                                .font(.headline).foregroundStyle(Palette.bright)
+                            Text("완료한 퀘스트는 기록에 남겨뒀어.")
+                                .font(.caption).foregroundStyle(Palette.paper.opacity(0.65))
+                        } else {
+                            HStack {
+                                Text("목표까지 남긴 발걸음").font(.subheadline.bold()); Spacer()
+                                Text("\(progress.count)").font(.system(size: 29, weight: .black, design: .rounded)) + Text(" / \(progress.target)회").font(.caption)
+                            }
+                            ProgressView(value: min(Double(progress.count) / Double(progress.target), 1)).tint(Palette.bright)
+                            Text(progress.achieved ? "목표 달성! 네 페이스를 찾았어." : "네 페이스로 이어가면 돼.").font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
                         }
-                        ProgressView(value: min(Double(progress.count) / Double(progress.target), 1)).tint(Palette.bright)
-                        Text(progress.achieved ? "목표 달성! 네 페이스를 찾았어." : "네 페이스로 이어가면 돼.").font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
                         if result.bonus > 0 {
                             VStack(alignment: .leading, spacing: 6) {
                                 Eyebrow(title: "KEEP YOUR OWN RHYTHM", color: Palette.gold)
