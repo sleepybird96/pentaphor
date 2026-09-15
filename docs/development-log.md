@@ -251,3 +251,7 @@ Full default delivery started for **1.0 (5)** at `~/Library/Developer/PentaphorD
 Full verification for build 5 passed **128 tests**: automation 19 (0.025s), Release core 79 (0.165s), app-hosted 17 (0.085s), UI 13 (382.373s). Signed archive succeeded; upload and Apple readiness verification are in progress.
 
 Export currently waits in codesign (with a matching macOS SecurityAgent process) before Apple upload. Asked the user to approve the Apple Distribution keychain prompt locally; no credential was requested in chat and no security UI bypass was attempted. Original deployment process remains running so approval can resume the same build/archive. Build 5 is **not yet verified uploaded or ready**.
+
+User selected Always Allow on the macOS keychain prompt. The original build 5 export resumed and uploaded successfully at **06:03:37 UTC** (`EXPORT SUCCEEDED`); no new archive or duplicate upload was created. Apple processing/group availability is being checked by the original deployment process.
+
+The original deployment process subsequently returned **READY** and exit 0: exact build **1.0 (5)** is valid, internal-only, in beta testing and included in **Personal**. The reminder update is ready to install. The verified 128 passing tests and signed archive are unchanged.

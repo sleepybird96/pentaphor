@@ -39,8 +39,8 @@ Consumes core planner, exposes exact app interface from spec. Own center delegat
 
 ## Task 4: Review, full verification and delivery
 - [x] Review core, UI and platform diffs against spec; address concrete findings with covering tests.
-- [ ] Generate Xcode project, run `python3 scripts/testflight.py deploy` for all automation/core/native tests and signed build, then verify exact new build ready in Personal.
-- [ ] Update docs/development-log.md with test evidence, local notification limitation and delivery status; commit only intended files.
+- [x] Generate Xcode project, run `python3 scripts/testflight.py deploy` for all automation/core/native tests and signed build, then verify exact new build ready in Personal.
+- [x] Update docs/development-log.md with test evidence, local notification limitation and delivery status; commit only intended files.
 
 ## Execution evidence
 - Core RED then 79 core tests GREEN, including 13 reminder tests. Review found Santiago midnight DST-gap normalization; regression failed then passed after normalizing each candidate day's start.
@@ -51,3 +51,5 @@ Consumes core planner, exposes exact app interface from spec. Own center delegat
 - Final app-hosted GREEN: all 17 tests passed (11 reminder + 6 completion); real OS notification UI passed (21.548s). Independent scoped review confirmed the core DST and platform error/time/foreground fixes.
 
 - Full default delivery verification: 128 tests passed = automation 19 + Release core 79 + app-hosted 17 + UI 13. UI 382.373s; signed archive succeeded, Apple upload in progress.
+
+- Delivery complete: user approved keychain Always Allow, original export uploaded 06:03:37 UTC; exact 1.0 (5) verified READY in Personal, exit 0. Code commit 87b6481. No outstanding implementation or delivery work.
