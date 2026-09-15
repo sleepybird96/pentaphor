@@ -21,7 +21,7 @@
 
 처음 한 번 App Store Connect의 **사용자 및 액세스 → 통합 → App Store Connect API → 팀 키**에서 키를 발급한다. 자동화에는 **제품 개발** 권한의 팀 키를 연결한다. 팀 키는 계정의 모든 앱에 해당 권한이 적용된다. 스크립트는 PENTAPHOR 앱 ID와 내부 그룹 `Personal`을 고정 검증한다.
 
-필요 환경: Xcode, Python 3.11+, `scripts/requirements-testflight.txt`의 cryptography. 현재 Mac에는 해당 버전이 설치되어 있다. 새 환경에서는 프로젝트 밖의 가상환경에 의존성을 설치한다.
+필요 환경: Xcode, 유효한 로컬 Apple Distribution 인증서와 해당 인증서를 포함하는 App Store 배포 프로파일, Python 3.11+, `scripts/requirements-testflight.txt`의 cryptography. 현재 Mac에는 해당 버전이 설치되어 있다. 새 환경에서는 프로젝트 밖의 가상환경에 의존성을 설치한다.
 
 키 파일을 한 번 연결한다. 아래 값은 다운로드한 키의 경로와 Apple 화면에 표시된 ID로 교체한다.
 
@@ -78,8 +78,14 @@ TestFlight의 같은 번들 ID 앱으로 업데이트하며, 기존 앱을 먼�
 
 2026-09-15 **1.0 (2)**: 1회성 퀘스트와 통합 목록. 77개 테스트 통과 후 Release 아카이브 및 추가 Release 코어 테스트 66개 통과. Apple 업로드는 03:10:07 UTC에 성공했다. 재로그인 후 `Personal` 내부 그룹에서 **1.0 (2) · 내부 · 테스트 중** 상태를 확인했다. 현재 설치 가능한 빌드다.
 
-## API 연결 진행 상태
+## API 연결 검증
 
-2026-09-15 사용자가 새 키를 직접 다운로드한 뒤 로컬 보안 경로에 연결했다. 실제 API 인증과 기존 **1.0 (2)**의 `Personal` 설치 가능 상태 조회가 성공했다. 새 **1.0 (3)**은 자동화 19개·Release 코어 66개·UI 11개, 총 96개 테스트와 아카이브까지 성공했다. 다만 export에서 `Cloud signing permission error`와 배포 인증서 없음으로 중단되어 업로드되지 않았다. 현재 Mac의 유효한 코드 서명 인증서는 Apple Development뿐이다. API 제품 개발 권한만으로 현재 클라우드 배포 서명이 허용되지 않으므로, Xcode의 해당 팀에 로컬 Apple Distribution 인증서를 추가한 뒤 보존한 아카이브로 export를 재시도한다. 새 인증서 생성은 사용자 확인 대기 중이며, 자동 배포 완료로 보고하지 않는다. Apple은 [로컬 Apple Distribution 인증서를 키체인에 추가하는 서명 방식](https://developer.apple.com/help/account/certificates/cloud-managed-certificates)을 지원한다.
+2026-09-15 사용자가 다운로드한 팀 API 키를 로컬 보안 경로에 연결했고, 실제 API 조회로 **1.0 (2)**의 `Personal` 설치 가능 상태를 확인했다. 이어서 **1.0 (3)**의 자동화 19개·Release 코어 66개·UI 11개, 총 96개 테스트와 아카이브가 성공했다.
 
-검증 및 재개 대상: `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`. `Pentaphor.xcarchive`, `ExportOptions.plist`, `delivery.json`과 실패 로그를 보존했다. API 조회에서 빌드 3은 아직 존재하지 않았다. 인증서 준비 후 이 아카이브를 API 인증으로 export/upload하고, 빌드 3의 설치 가능 상태를 확인한다.
+최초 export는 `Cloud signing permission error`로 실패했다. 이 Mac에는 개발용 인증서만 있었으며, 제품 개발 권한의 API 키에는 클라우드 배포 서명과 배포 프로파일 생성 권한이 없었다. 사용자 승인 후 Xcode의 **Apple Accounts → JiSang Park → Manage Certificates → Apple Distribution**에서 배포 인증서를 생성했다. 기존 Xcode 계정으로 로컬 export를 한 번 수행하여 새 인증서를 포함하는 배포 프로파일도 준비했다. [Apple의 로컬 배포 서명 안내](https://developer.apple.com/help/account/certificates/cloud-managed-certificates).
+
+그 뒤 같은 아카이브와 기존 export 설정으로 API 키 인증 업로드에 성공했다(**03:53:31 UTC**, `EXPORT SUCCEEDED`). Apple 처리 완료 후 API가 `VALID`, `INTERNAL_ONLY`, `IN_BETA_TESTING` 및 `Personal` 그룹 포함을 확인했고 **READY**로 종료했다. **1.0 (3)**은 내부 테스트에서 설치 가능하다.
+
+이 Mac에서는 이후 기본 `deploy` 명령을 사용한다. 다른 Mac으로 옮기거나 인증서·프로파일이 만료되면 로컬 서명 준비가 다시 필요하다. 현재 인증서와 대응 프로파일 만료는 **2027-09-15**다. API 키 권한을 확대하지 않았다.
+
+검증 기록: `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`. `Pentaphor.xcarchive`, `ExportOptions.plist`, `delivery.json`, 96개 테스트 로그, `local-profile-setup.log`, 최종 업로드 로그 `upload-provisioned.log`를 보존했다. 실패 로그 `upload.log`, `upload-local-signing.log`는 이전 시도의 진단 기록이다.

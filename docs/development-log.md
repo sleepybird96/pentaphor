@@ -202,3 +202,14 @@ User downloaded a replacement team API key personally. Configured it outside the
 Ran the full API deployment for **1.0 (3)**. All **96 tests passed**: automation 19 (0.033s), Release core 66 (0.120s), native UI 11 (327.444s). Archive succeeded. Artifacts are under `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`.
 
 Export exited 70 before upload with `Cloud signing permission error` and `No signing certificate "iOS Distribution" found`. Read-only keychain identity inspection showed only Apple Development. The Developer API key authenticates and reads status, but cannot perform the cloud distribution signing used on this Mac. Apple documents local Apple Distribution certificates as an alternative. Prepared Xcode Settings → Apple Accounts → JiSang Park → Manage Certificates → Apple Distribution; stopped before creating the persistent signing credential for user confirmation. Preserve the build 3 archive and resume export after credential setup, without repeating the tests or allocating another build. No build 3 installation readiness claimed.
+
+
+## 2026-09-15 — API delivery ready, build 1.0 (3)
+
+User explicitly authorized creating the local Apple Distribution certificate. Created it in Xcode for the existing JiSang Park team; verified a valid distribution signing identity in the keychain. The next export exposed that the old App Store profile did not contain the new certificate. A public API profile creation request was rejected with 403 and created nothing.
+
+Used the already signed-in Xcode account once to export locally with the new certificate explicitly selected. That successfully prepared the matching App Store profile. Its embedded certificate fingerprint matches the local identity and it expires on 2027-09-15. No API role expansion or existing credential revocation was performed.
+
+Resumed the same tested **1.0 (3)** archive using the original export settings and API authentication arguments. Upload succeeded at **03:53:31 UTC** (`upload-provisioned.log`, `EXPORT SUCCEEDED`). API polling then returned **ready** and process exit 0 after verifying the exact iOS build, valid processing, internal-only audience, IN_BETA_TESTING state and Personal group membership. **1.0 (3) is ready to install in TestFlight.**
+
+The preserved verification remains **96 passing tests** (19 automation + 66 Release core + 11 native UI); no app code changed during signing recovery. Artifacts remain in `~/Library/Developer/PentaphorDeliveries/20260915-033747-co94ddgh/`. Future changes use the existing default `python3 scripts/testflight.py deploy`; migration to another Mac or certificate/profile renewal requires local signing setup again.
