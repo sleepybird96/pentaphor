@@ -10,6 +10,7 @@ User-approved identity: **STACK YOUR PROGRESS.** / **작은 행동을 쌓아, �
 - Replay is read-only, can be closed, does not clear nickname/preferences or award points. Existing data without preferences bypasses first launch, including an empty legacy store.
 - Use slogan in first launch, settings identity and empty quest state. Header uses compact progress identity. Keep own-pace reassurance in goal-setting context. Achievement and history copy emphasize accumulated actions.
 - Retain ivory/ink/teal/gold palette, bold italic English headlines and action art. All controls have 44pt targets; new screens scroll at large text sizes. System Reduce Motion always wins; settings can additionally simplify effects. Turn off haptic feedback when disabled.
+- Completion feedback is requested directly from the completion action after a successful transactional save, before presenting the achievement screen. It must not depend on an animation state change or screen appearance. Retain the UIKit feedback generator, respect the saved haptics preference, and never request success feedback for rejected or failed saves. Simplified visual effects do not mute haptics. No launch or settings-toggle preview haptics.
 
 ## Persistence and failure behavior
 Add optional `preferences` to v1 AppState, retaining old decoding and all quest/history snapshots. Fresh QuestStore creates explicit defaults. Missing preferences means established user (onboarding and first-quest help complete). Preference edits use the existing transactional save and only publish on success. Invalid nickname produces a friendly error, without changing state. Replay does not mutate state. Dismissing unfinished first quest keeps help available. Intro completion saves nickname and completion flag atomically before navigating away.
@@ -17,6 +18,7 @@ Add optional `preferences` to v1 AppState, retaining old decoding and all quest/
 ## Acceptance
 Core: fresh/legacy distinction, nickname normalization/validation/clearing, preference disk reopen, save rollback, untouched quest/history/timezone, motion policy.
 Native: complete intro into real first-quest editor, skip nickname/tour, zero points from previews, no reappearance after relaunch, editable settings persistence, read-only replay, all existing five UI flows continue passing.
+Native completion-action tests observe the UIKit feedback request boundary and verify save-before-feedback ordering, persisted off/on settings, failure suppression, and independence from simplified animation. These tests cannot prove that a physical device produces a perceptible vibration; validate that separately on iPhone.
 Build for simulator and signed iOS device. Inspect introduction, settings, guided creation screenshots. No device reset, installation, push, or publication.
 
 Backup/restore, reminders and recap remain the separately discussed next phase.

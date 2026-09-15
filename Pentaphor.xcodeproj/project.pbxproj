@@ -22,6 +22,7 @@
 		301085A0E36C71009AEB2877 /* reading.png in Resources */ = {isa = PBXBuildFile; fileRef = CC92229E02443C6D3EC9D9FE /* reading.png */; };
 		3301C0D6DB06CDBD1CB8254F /* hiking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA71ECDC2D6054067052BAD /* hiking.png */; };
 		3B42557F010D03CBF4C96180 /* knitting.png in Resources */ = {isa = PBXBuildFile; fileRef = BF7A1DAC13FD3B343F8A954C /* knitting.png */; };
+		3E3FDCBAD07D6F75D626D7BF /* QuestCompletionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */; };
 		4218EE3742324BBED4076C8D /* art-catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = DB0211DC55CB02E9FA736E6C /* art-catalog.json */; };
 		435B9178564F046F4B3313FD /* music.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0D0748F4E014D5173B6BCF /* music.png */; };
 		4A0EF2778DDCEA61DB34267E /* piano.png in Resources */ = {isa = PBXBuildFile; fileRef = 1911389AA7192F4E9A5C9819 /* piano.png */; };
@@ -52,6 +53,7 @@
 		9DB0CDBB783F0BCA43C13A6F /* bed-making.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D41AF37B3F6BCC19273A5A0 /* bed-making.png */; };
 		9F4927B38D22CD39ED90F6FC /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B43122BF1184605D8500DA /* DesignSystem.swift */; };
 		A4B97CD5699EA4E2516069DA /* jump-rope.png in Resources */ = {isa = PBXBuildFile; fileRef = 675C0882B29C922EAD2A5070 /* jump-rope.png */; };
+		A820FAE6DD324ADBF255C334 /* PentaphorCore in Frameworks */ = {isa = PBXBuildFile; productRef = 69D9E93AA1B0FAA6F5BD8A02 /* PentaphorCore */; };
 		A9E997D09ACF00916A46FDA8 /* hydration.png in Resources */ = {isa = PBXBuildFile; fileRef = 43BD1281D04F2DC32C58C79C /* hydration.png */; };
 		AB806C916ED008823A8B229C /* fishing.png in Resources */ = {isa = PBXBuildFile; fileRef = 90A23C4A3FBEAD0D4FF81329 /* fishing.png */; };
 		AFEA5D3190D25A49C4A568FF /* organizing.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E634A1CEF7A4D8A23E9578 /* organizing.png */; };
@@ -59,6 +61,7 @@
 		BCD38391EA0058400C3F7C0A /* cycling.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F3709D590C8C00FBDF13E3 /* cycling.png */; };
 		BD536DA8890BF2AC034C8B88 /* dog-walking.png in Resources */ = {isa = PBXBuildFile; fileRef = C06001EE005788AC70789E2D /* dog-walking.png */; };
 		BF7EEEBE7BE36117D17FC98B /* drawing.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E5DC13D901393D17159B38 /* drawing.png */; };
+		C1E6D4F64F8EF00312E5729D /* QuestCompletionActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */; };
 		C4AA72F63D81CE449D7AC054 /* travel.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC32561057987A4AAC34FE8 /* travel.png */; };
 		C9D8D6766977706558CDFA27 /* tennis.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB91945B705A440BF0258EF /* tennis.png */; };
 		CD2B7812AFB3D9E1E1A6FC2F /* outfit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9468199CAB7D650CF4BDB1B0 /* outfit.png */; };
@@ -85,6 +88,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		CC5A862754580005D61A3A4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF6CFF5342321D43C97A096E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C981CBBEC49B3B7B01D8248;
+			remoteInfo = Pentaphor;
+		};
 		CFB4E012ACA33A49483B6A6B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AF6CFF5342321D43C97A096E /* Project object */;
@@ -119,9 +129,11 @@
 		543DBD62EDF5DF0EB93D194A /* language-practice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "language-practice.png"; sourceTree = "<group>"; };
 		5B1B99DB68861F7708E1838C /* public-speaking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "public-speaking.png"; sourceTree = "<group>"; };
 		5D94F224DD4FF2837662C4D6 /* ParameterRadar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterRadar.swift; sourceTree = "<group>"; };
+		5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCompletionActionTests.swift; sourceTree = "<group>"; };
 		5ED18A73008C3C41A99BD6C8 /* climbing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = climbing.png; sourceTree = "<group>"; };
 		5EFF677647CA1596C481637B /* stretching.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stretching.png; sourceTree = "<group>"; };
 		5FA71ECDC2D6054067052BAD /* hiking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hiking.png; sourceTree = "<group>"; };
+		627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCompletionAction.swift; sourceTree = "<group>"; };
 		675C0882B29C922EAD2A5070 /* jump-rope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jump-rope.png"; sourceTree = "<group>"; };
 		68B68F4F5EEBC8714CBCE5C3 /* baking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baking.png; sourceTree = "<group>"; };
 		708CF17B9B6842749442625E /* pet-feeding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pet-feeding.png"; sourceTree = "<group>"; };
@@ -139,6 +151,7 @@
 		98E5DC13D901393D17159B38 /* drawing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drawing.png; sourceTree = "<group>"; };
 		9A2CAE39766665B7E168AAF3 /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		9BC32561057987A4AAC34FE8 /* travel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = travel.png; sourceTree = "<group>"; };
+		9D4A89B7837B2039071982F2 /* PentaphorTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PentaphorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E2247B82D5551916C8C9597 /* push-ups.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "push-ups.png"; sourceTree = "<group>"; };
 		9E617ACD45245BAC1D0AA346 /* PentaphorCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PentaphorCore; path = Packages/PentaphorCore; sourceTree = SOURCE_ROOT; };
 		A1E32E40864FAB8351CABF3B /* calling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calling.png; sourceTree = "<group>"; };
@@ -184,6 +197,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B43DEADAF918DB5071805D53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A820FAE6DD324ADBF255C334 /* PentaphorCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -200,16 +221,26 @@
 			children = (
 				09C5E02298D7682EAC7FDBFE /* Packages */,
 				56CB00D8177881A83C2B0796 /* Pentaphor */,
+				0E659582B877A78B7A88179E /* PentaphorTests */,
 				9AEF4A538F0900EE5C76D67B /* PentaphorUITests */,
 				5F06438ABFC807510E1E80D9 /* quest-art */,
 				0ED2145FB877ED285147A872 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		0E659582B877A78B7A88179E /* PentaphorTests */ = {
+			isa = PBXGroup;
+			children = (
+				5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */,
+			);
+			path = PentaphorTests;
+			sourceTree = "<group>";
+		};
 		0ED2145FB877ED285147A872 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				F5610A031D72700BCAD1F211 /* Pentaphor.app */,
+				9D4A89B7837B2039071982F2 /* PentaphorTests.xctest */,
 				7E5918AE8BCE44A2D56E6B02 /* PentaphorUITests.xctest */,
 			);
 			name = Products;
@@ -332,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				040B0985E1384ACEB384EC84 /* PentaphorApp.swift */,
+				627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -339,6 +371,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0E8F553761F2A75F360C9565 /* PentaphorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76AA56FDB9F0CD93803895A2 /* Build configuration list for PBXNativeTarget "PentaphorTests" */;
+			buildPhases = (
+				C7A990FBD0FD2BE7A280312A /* Sources */,
+				B43DEADAF918DB5071805D53 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				69452CB02F375E1EDA6C55D7 /* PBXTargetDependency */,
+			);
+			name = PentaphorTests;
+			packageProductDependencies = (
+				69D9E93AA1B0FAA6F5BD8A02 /* PentaphorCore */,
+			);
+			productName = PentaphorTests;
+			productReference = 9D4A89B7837B2039071982F2 /* PentaphorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		4374704BD7617C27D298879C /* PentaphorUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3D4B479F554930BD8AE9B805 /* Build configuration list for PBXNativeTarget "PentaphorUITests" */;
@@ -413,6 +465,7 @@
 			projectRoot = "";
 			targets = (
 				7C981CBBEC49B3B7B01D8248 /* Pentaphor */,
+				0E8F553761F2A75F360C9565 /* PentaphorTests */,
 				4374704BD7617C27D298879C /* PentaphorUITests */,
 			);
 		};
@@ -503,9 +556,18 @@
 				7F10873616894A42FB66C3F0 /* LaunchLoadingView.swift in Sources */,
 				76C1CC34584B410A0937E5E0 /* ParameterRadar.swift in Sources */,
 				0105F2DADC283A35697C9F69 /* PentaphorApp.swift in Sources */,
+				3E3FDCBAD07D6F75D626D7BF /* QuestCompletionAction.swift in Sources */,
 				8CC784698E562D025D9D4298 /* QuestEditor.swift in Sources */,
 				5A5B81B04C6B89F112421214 /* QuestHome.swift in Sources */,
 				240B27693C2120ECF8A8925B /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C7A990FBD0FD2BE7A280312A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1E6D4F64F8EF00312E5729D /* QuestCompletionActionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +582,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		69452CB02F375E1EDA6C55D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C981CBBEC49B3B7B01D8248 /* Pentaphor */;
+			targetProxy = CC5A862754580005D61A3A4C /* PBXContainerItemProxy */;
+		};
 		A54E2A9C53A9303DA2A66A41 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7C981CBBEC49B3B7B01D8248 /* Pentaphor */;
@@ -566,6 +633,23 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Pentaphor;
+			};
+			name = Debug;
+		};
+		95C4DF07152E0982F1D99D2C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.pentaphor.PentaphorTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pentaphor.app/Pentaphor";
 			};
 			name = Debug;
 		};
@@ -731,6 +815,23 @@
 			};
 			name = Release;
 		};
+		F57BC8117D38C6677437EA19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.pentaphor.PentaphorTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pentaphor.app/Pentaphor";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -748,6 +849,15 @@
 			buildConfigurations = (
 				B63C83B9FAF97B45CEE7C470 /* Debug */,
 				477495881310030A77A155AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		76AA56FDB9F0CD93803895A2 /* Build configuration list for PBXNativeTarget "PentaphorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95C4DF07152E0982F1D99D2C /* Debug */,
+				F57BC8117D38C6677437EA19 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -771,6 +881,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		69D9E93AA1B0FAA6F5BD8A02 /* PentaphorCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PentaphorCore;
+		};
 		905F37A675A3DBB2F2B2103A /* PentaphorCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PentaphorCore;

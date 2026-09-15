@@ -29,6 +29,20 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0E8F553761F2A75F360C9565"
+               BuildableName = "PentaphorTests.xctest"
+               BlueprintName = "PentaphorTests"
+               ReferencedContainer = "container:Pentaphor.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "4374704BD7617C27D298879C"
                BuildableName = "PentaphorUITests.xctest"
                BlueprintName = "PentaphorUITests"
@@ -53,6 +67,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0E8F553761F2A75F360C9565"
+               BuildableName = "PentaphorTests.xctest"
+               BlueprintName = "PentaphorTests"
+               ReferencedContainer = "container:Pentaphor.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
          <TestableReference
             skipped = "NO"
             parallelizable = "NO">

@@ -48,7 +48,7 @@ python3 scripts/testflight.py deploy
 
 1. 키 인증, 앱 ID·서명 팀, `Personal` 내부 그룹 및 자동 배포 설정 확인
 2. 현재 마케팅 버전의 서버 빌드 번호와 로컬 설정에서 다음 번호 선택
-3. 자동화 테스트, Release 코어 테스트, 전체 iPhone UI 테스트
+3. 자동화 테스트, Release 코어 테스트, iOS 앱 단위 테스트와 전체 iPhone UI 테스트
 4. 선택한 번호로 Release 아카이브와 API 인증 업로드
 5. 최대 30분간 Apple 처리와 `Personal` 배포 상태 확인
 

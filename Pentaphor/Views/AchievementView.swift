@@ -72,7 +72,6 @@ struct AchievementView: View {
         }.background(Palette.ink).foregroundStyle(Palette.paper)
             .preferredColorScheme(.dark)
             .modifier(ErrorNotice(error: $error))
-            .sensoryFeedback(.success, trigger: artVisible) { _, visible in visible && store.engine.preferences.hapticsEnabled }
             .task {
                 if store.engine.preferences.usesSimplifiedEffects(systemReduceMotion: reduceMotion) { artVisible = true; rewardsVisible = true; growth = 1; return }
                 withAnimation(.spring(response: 0.55, dampingFraction: 0.78)) { artVisible = true }

@@ -20,6 +20,7 @@ struct QuestHome: View {
     @State private var showSettings = false
     @State private var showIntroduction: Bool
     @State private var createAfterIntroduction = false
+    @State private var completionAction = QuestCompletionAction()
 
     init(store: QuestStore) {
         self.store = store
@@ -161,7 +162,7 @@ struct QuestHome: View {
     private func complete(_ quest: Quest, previousWeek: Bool) {
         graceQuest = nil
         do {
-            let result = try store.transact { try $0.complete(questID: quest.id, at: Date(), previousWeek: previousWeek) }
+            let result = try completionAction.perform(store: store, questID: quest.id, at: Date(), previousWeek: previousWeek)
             achievement = AchievementPresentation(quest: quest, result: result)
         } catch { self.error = error.localizedDescription }
     }
