@@ -10,3 +10,6 @@ The user selected iCloud Drive-only backup after reporting that the default File
 - Verify all tests and signing entitlements, then default TestFlight deploy and exact Personal READY. Real-device iCloud transport is a separate acceptance check if no logged-in test device is available.
 
 Primary sources: [Configuring iCloud](https://developer.apple.com/documentation/xcode/configuring-icloud-services), [iCloud document design](https://developer.apple.com/library/archive/documentation/General/Conceptual/iCloudDesignGuide/Chapters/DesigningForDocumentsIniCloud.html), [upload metadata](https://developer.apple.com/documentation/foundation/urlresourcevalues/ubiquitousitemisuploaded).
+
+## Delivery evidence
+180 tests passed; signed archive entitlements verified; 1.0 (9) uploaded and exact Personal READY confirmed. Implementation `90d3a14`; detailed RED/GREEN and live delivery evidence in docs/development-log.md. Live iCloud transfer on the user's iPhone is not simulated by the test fixture.
