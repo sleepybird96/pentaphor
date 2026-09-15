@@ -7,6 +7,13 @@ public struct ExperiencePreferences: Codable, Equatable, Sendable {
     public var hapticsEnabled = true
     public var simplifiedEffects = false
 
+    // Missing in older saved preferences: preserve their existing reminder behavior.
+    private var remindersEnabledOverride: Bool?
+    public var remindersEnabled: Bool {
+        get { remindersEnabledOverride ?? true }
+        set { remindersEnabledOverride = newValue }
+    }
+
     public init() {}
 
     // A missing field belongs to a user who already used the app before onboarding existed.

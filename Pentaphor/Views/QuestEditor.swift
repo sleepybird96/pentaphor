@@ -91,7 +91,7 @@ struct QuestEditor: View {
                         }
                     }
                     QuestReminderFields(isEnabled: $reminderEnabled, reminder: $reminder,
-                                        timeZoneID: store.engine.state.timeZoneID)
+                                        timeZoneID: store.engine.state.timeZoneID, globallyEnabled: store.engine.preferences.remindersEnabled)
                     allocation
                     if showsFirstQuestHelp {
                         VStack(alignment: .leading, spacing: 8) {

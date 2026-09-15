@@ -5,6 +5,36 @@ import PentaphorCore
 @MainActor final class QuestReminderServiceTests: XCTestCase {
     private let now = ISO8601DateFormatter().date(from: "2026-09-15T09:00:00Z")!
 
+    func testGlobalOffCancelsAlertsAndRestartRestoresSavedSchedule() async throws {
+        let center = TestReminderCenter()
+        var (engine, quest) = try configuredEngine()
+        let originalQuests = engine.state.quests
+        let service = QuestReminderService(center: center, now: { self.now })
+        await service.synchronize(state: engine.state)
+        await service.sendTest()
+        XCTAssertFalse(center.requests.isEmpty)
+        center.requests["another.feature"] = ScheduledReminderNotification(id: "another.feature", questID: nil, fireDate: now, title: "Other", body: "Other")
+        var preferences = engine.preferences
+        preferences.remindersEnabled = false
+        try engine.updatePreferences(preferences)
+        await service.synchronize(state: engine.state)
+        await service.sendTest()
+        XCTAssertEqual(Set(center.requests.keys), ["another.feature"])
+        XCTAssertEqual(service.scheduledCount, 0)
+        XCTAssertFalse(service.shouldPresent(identifier: "pentaphor.test", rawQuestID: nil, fireDate: nil))
+        let fire = ISO8601DateFormatter().date(from: "2026-09-15T11:00:00Z")!
+        XCTAssertFalse(service.shouldPresent(identifier: "pentaphor.quest.\(quest.id.uuidString).\(Int(fire.timeIntervalSince1970))", rawQuestID: quest.id.uuidString, fireDate: fire))
+        XCTAssertEqual(engine.state.quests, originalQuests)
+        let restarted = QuestReminderService(center: center, now: { self.now })
+        await restarted.synchronize(state: engine.state)
+        XCTAssertEqual(Set(center.requests.keys), ["another.feature"])
+        preferences.remindersEnabled = true
+        try engine.updatePreferences(preferences)
+        await restarted.synchronize(state: engine.state)
+        XCTAssertGreaterThan(restarted.scheduledCount, 0)
+        XCTAssertEqual(center.permissionRequests, 0)
+    }
+
     func testCompletionCancelsThisWeekAndKeepsNextWeek() async throws {
         let center = TestReminderCenter()
         let (engine, quest) = try configuredEngine()

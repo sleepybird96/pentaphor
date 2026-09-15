@@ -5,6 +5,7 @@ struct QuestReminderFields: View {
     @Binding var isEnabled: Bool
     @Binding var reminder: QuestReminder
     let timeZoneID: String
+    let globallyEnabled: Bool
     @Environment(QuestReminderService.self) private var reminderService
     @Environment(\.openURL) private var openURL
 
@@ -68,6 +69,10 @@ struct QuestReminderFields: View {
                 }.font(.caption).foregroundStyle(Palette.muted)
                 Text("\(timeZoneID) 기준 · 저장하면 적용돼.")
                     .font(.caption).foregroundStyle(Palette.muted)
+                if !globallyEnabled {
+                    Text("전체 알림이 꺼져 있어. 저장한 알림을 받으려면 설정에서 퀘스트 알림을 켜줘.")
+                        .font(.caption).foregroundStyle(Palette.teal).lineSpacing(4)
+                }
                 if reminderService.authorization == .denied {
                     Text("아이폰에서 알림이 꺼져 있어. 설정을 허용하면 저장한 요일과 시각으로 다시 알릴 수 있어.")
                         .font(.caption).foregroundStyle(Palette.teal).lineSpacing(4)
@@ -78,7 +83,7 @@ struct QuestReminderFields: View {
                 }
             }
         }.onChange(of: isEnabled) { _, enabled in
-            if enabled { Task { await reminderService.requestPermission() } }
+            if enabled && globallyEnabled { Task { await reminderService.requestPermission() } }
         }
     }
 }

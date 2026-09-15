@@ -1,6 +1,45 @@
 import XCTest
 
 final class PentaphorUITests: XCTestCase {
+    @MainActor func testNotificationMasterTogglePersistsAcrossRelaunch() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launch()
+        skipIntroduction(app)
+        app.buttons["settings.open"].tap()
+        let toggle = app.switches["settings.reminder.enabled"]
+        XCTAssertTrue(toggle.waitForExistence(timeout: 5))
+        reveal(toggle, in: app)
+        let monitor = addUIInterruptionMonitor(withDescription: "Notification permission") { alert in
+            let allow = alert.buttons.matching(NSPredicate(format: "label IN %@", ["Allow", "허용"])).firstMatch
+            guard allow.exists else { return false }
+            allow.tap()
+            return true
+        }
+        defer { removeUIInterruptionMonitor(monitor) }
+        if toggle.value as? String == "0" {
+            toggle.tap()
+            app.navigationBars.firstMatch.tap()
+        }
+        XCTAssertEqual(toggle.value as? String, "1")
+        capture(app, "27-reminder-master-on")
+        toggle.tap()
+        XCTAssertEqual(toggle.value as? String, "0")
+        XCTAssertFalse(app.buttons["settings.reminder.test"].exists)
+        app.terminate()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        app.buttons["settings.open"].tap()
+        reveal(toggle, in: app)
+        XCTAssertEqual(toggle.value as? String, "0")
+        toggle.tap()
+        XCTAssertEqual(toggle.value as? String, "1")
+        XCTAssertTrue(app.buttons["settings.reminder.test"].exists)
+        app.buttons["settings.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["0 P"].exists)
+    }
+
     @MainActor func testSettingsDeliversRealTestNotificationWithoutAwardingPoints() throws {
         // A missing OS adapter or foreground presentation delegate breaks this test.
         let app = XCUIApplication()
@@ -18,8 +57,8 @@ final class PentaphorUITests: XCTestCase {
             return true
         }
         defer { removeUIInterruptionMonitor(monitor) }
-        let allow = app.buttons["settings.reminder.allow"]
-        if allow.exists {
+        let allow = app.switches["settings.reminder.enabled"]
+        if allow.value as? String == "0" {
             reveal(allow, in: app)
             allow.tap()
             app.navigationBars.firstMatch.tap()

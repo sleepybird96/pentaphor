@@ -4,6 +4,24 @@ import Testing
 @testable import PentaphorCore
 
 @MainActor struct QuestReminderTests {
+    @Test func globalReminderSwitchPersistsAndPreservesQuestSchedules() throws {
+        var engine = try remindedEngine()
+        let original = engine.state
+        #expect(engine.preferences.remindersEnabled)
+        var preferences = engine.preferences
+        preferences.remindersEnabled = false
+        try engine.updatePreferences(preferences)
+        let saved = try JSONDecoder().decode(AppState.self, from: JSONEncoder().encode(engine.state))
+        #expect(!QuestEngine(state: saved).preferences.remindersEnabled)
+        #expect(saved.quests == original.quests)
+        #expect(QuestReminderPlanner.plan(engine: QuestEngine(state: saved), now: created).isEmpty)
+        preferences.remindersEnabled = true
+        try engine.updatePreferences(preferences)
+        #expect(!QuestReminderPlanner.plan(engine: engine, now: created).isEmpty)
+        let legacy = Data(#"{"nickname":"","hasCompletedOnboarding":true,"hasCreatedFirstQuest":true,"hapticsEnabled":true,"simplifiedEffects":false}"#.utf8)
+        #expect(try JSONDecoder().decode(ExperiencePreferences.self, from: legacy).remindersEnabled)
+    }
+
     @Test func rejectsInvalidDecodedReminderWithoutOverwritingSavedState() throws {
         var engine = emptyEngine()
         _ = try engine.create(name: "독서", artID: "reading", cadence: .week, target: 2, rewards: .zero, at: created)

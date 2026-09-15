@@ -36,7 +36,7 @@ public struct PlannedQuestReminder: Equatable, Sendable, Identifiable {
 
 public enum QuestReminderPlanner {
     public static func plan(engine: QuestEngine, now: Date, horizonDays: Int = 42, limit: Int = 60) -> [PlannedQuestReminder] {
-        guard horizonDays > 0, limit > 0, let timeZone = TimeZone(identifier: engine.state.timeZoneID) else { return [] }
+        guard engine.preferences.remindersEnabled, horizonDays > 0, limit > 0, let timeZone = TimeZone(identifier: engine.state.timeZoneID) else { return [] }
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = timeZone
         let firstDay = calendar.startOfDay(for: now)

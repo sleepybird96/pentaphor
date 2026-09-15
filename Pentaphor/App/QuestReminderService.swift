@@ -46,6 +46,7 @@ enum ReminderNotificationRouting {
     private var generation = 0
     private var worker: Task<Void, Never>?
     private static let prefix = "pentaphor.quest."
+    private var remindersEnabled: Bool { lastState?.preferences?.remindersEnabled ?? true }
 
     convenience init() {
         let system = SystemReminderNotificationCenter()
@@ -81,8 +82,8 @@ enum ReminderNotificationRouting {
         authorization = await center.authorization()
         let existing = await center.pending().filter { $0.id.hasPrefix(Self.prefix) }
         guard revision == generation else { return }
-        guard authorization == .allowed else {
-            center.remove(ids: existing.map(\.id))
+        guard authorization == .allowed, QuestEngine(state: state).preferences.remindersEnabled else {
+            center.remove(ids: existing.map(\.id) + ["pentaphor.test"])
             scheduledCount = 0
             schedulingError = nil
             return
@@ -122,18 +123,21 @@ enum ReminderNotificationRouting {
     }
 
     func sendTest() async {
+        guard remindersEnabled else { return }
         await requestPermission()
-        guard authorization == .allowed else { return }
+        guard authorization == .allowed, remindersEnabled else { return }
         do {
             try await center.add(ScheduledReminderNotification(
                 id: "pentaphor.test", questID: nil, fireDate: now().addingTimeInterval(5),
                 title: "PENTAPHOR", body: "알림이 잘 도착했습니다. 작은 행동을 쌓아 나를 키우다."
             ))
+            if !remindersEnabled { center.remove(ids: ["pentaphor.test"]) }
             testError = nil
         } catch { testError = "테스트 알림을 예약하지 못했습니다.\n" + error.localizedDescription }
     }
 
     func shouldPresent(identifier: String, rawQuestID: String?, fireDate: Date?) -> Bool {
+        guard remindersEnabled else { return false }
         if identifier == "pentaphor.test" { return true }
         guard let id = ReminderNotificationRouting.questID(identifier: identifier, rawQuestID: rawQuestID),
               let lastState, let fireDate else { return false }
