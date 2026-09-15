@@ -33,5 +33,8 @@ Files: Pentaphor/App/WeeklyRecapCoordinator.swift; Pentaphor/{App/PentaphorApp.s
 
 ## Task 4: Review, verification and delivery
 - [x] Independent scoped core/UI/coordinator review; address concrete bugs with regressions.
-- [ ] Generate Xcode project, focused native/UI GREEN and screenshot QA, then default `python3 scripts/testflight.py deploy` full verification/archive/upload and exact Personal READY.
-- [ ] Update development log/testflight docs and commit intended files only. Leave unrelated untracked art files untouched.
+- [x] Generate Xcode project, focused native/UI GREEN and screenshot QA, then default `python3 scripts/testflight.py deploy` full verification/archive/upload and exact Personal READY.
+- [x] Update development log/testflight docs and commit intended files only. Leave unrelated untracked art files untouched.
+
+## Final evidence
+Core RED→GREEN: 11 new cases, full core 91. Coordinator RED→GREEN: 5 cases including failed save and a newer foreground request while another report is open. UI cold/relaunch/replay, foreground editor and History dialog deferral passed; screenshot QA covered hero/radar and gain/bonus/quest arts. Independent review approved the final fixes. Full default delivery passed 150 tests and signed archive, uploaded 1.0 (7) at 07:35:19 UTC, then returned READY / exit 0 for exact Personal internal build. Artifacts: `~/Library/Developer/PentaphorDeliveries/20260915-072448-raedwkkh/`; app commit `b32ea63`.
