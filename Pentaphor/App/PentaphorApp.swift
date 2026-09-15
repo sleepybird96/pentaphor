@@ -18,6 +18,7 @@ private struct AppEntryView: View {
     @State private var loadError: String?
     @State private var gate = LaunchGate()
     @State private var loadAttempt = 0
+    @State private var recapDateOverride: Date?
 
     var body: some View {
         Group {
@@ -27,7 +28,7 @@ private struct AppEntryView: View {
                     return gate.isFinished
                 }.transition(.opacity)
             } else if let store {
-                QuestHome(store: store)
+                QuestHome(store: store, recapNow: { recapDateOverride ?? Date() })
             } else if let loadError {
                 ContentUnavailableView {
                     Label("기록을 열지 못했어", systemImage: "externaldrive.badge.exclamationmark")
@@ -47,6 +48,13 @@ private struct AppEntryView: View {
         .task { if loadAttempt == 0 { await load() } }
         .task(id: store?.engine.state) { await synchronizeReminders() }
         .task(id: scenePhase) { if scenePhase == .active { await synchronizeReminders() } }
+        .onChange(of: scenePhase) { _, phase in
+            #if DEBUG
+            if phase == .background, WeeklyRecapUITestScenario.enabled, WeeklyRecapUITestScenario.foregroundScenario {
+                recapDateOverride = WeeklyRecapUITestScenario.cutoff
+            }
+            #endif
+        }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
             Task { await synchronizeReminders() }
         }
@@ -75,8 +83,18 @@ private struct AppEntryView: View {
             #else
             repository = try SwiftDataStateRepository()
             #endif
-            store = try QuestStore(repository: repository)
             #if DEBUG
+            store = try QuestStore(repository: repository, timeZoneID: WeeklyRecapUITestScenario.enabled ? "Asia/Seoul" : TimeZone.current.identifier)
+            #else
+            store = try QuestStore(repository: repository)
+            #endif
+            #if DEBUG
+            if WeeklyRecapUITestScenario.enabled, let store {
+                recapDateOverride = WeeklyRecapUITestScenario.initialDate
+                if ProcessInfo.processInfo.arguments.contains("--reset-test-store") {
+                    try WeeklyRecapUITestScenario.seed(store)
+                }
+            }
             if ProcessInfo.processInfo.arguments.contains("--ui-testing"),
                ProcessInfo.processInfo.arguments.contains("--ui-test-slow-load") {
                 try await Task.sleep(for: .seconds(6))

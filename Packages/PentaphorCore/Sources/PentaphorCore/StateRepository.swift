@@ -56,6 +56,11 @@ import SwiftData
     }
     private func validate(_ state: AppState) throws {
         guard state.version == 1, TimeZone(identifier: state.timeZoneID) != nil else { throw QuestError.invalidState }
+        if let marker = state.weeklyRecapAcknowledgedThrough {
+            guard marker.timeIntervalSinceReferenceDate.isFinite,
+                  PeriodCalculator(timeZoneID: state.timeZoneID).period(containing: marker, cadence: .week).start == marker
+            else { throw QuestError.invalidState }
+        }
         if let preferences = state.preferences {
             guard preferences.nickname.count <= 20,
                   preferences.nickname.rangeOfCharacter(from: .newlines) == nil else { throw QuestError.invalidState }

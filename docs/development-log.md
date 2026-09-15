@@ -269,3 +269,18 @@ Full build 6 verification passed **131 tests**: automation 19 (0.031s), Release 
 Build 6 export/upload succeeded at **06:25:39 UTC** without another keychain prompt after the user previously chose Always Allow. Apple processing and Personal availability are pending the original automatic status check.
 
 The original deployment finished with **READY / exit 0**, verifying exact **1.0 (6)** as valid, internal-only, in beta testing and included in **Personal**. The toggle update is ready to install. No app changes occurred after the verified 131-test run. Code commit: `a812371`.
+
+
+## 2026-09-15 — weekly game-style recap
+
+User selected Monday 09:00 in the saved record timezone for automatic recap on loaded launch or foreground return. Added a pure historical builder, optional legacy-compatible acknowledgement marker, main-actor presentation coordinator, reward-style SwiftUI screen and latest-report replay from History. Weekly grace remains attributed to its stored week; monthly/one-time actions use their recorded calendar week. Snapshot points and attributed streak bonuses determine before/after growth without granting any new points. Only the latest closed nonempty unseen week opens automatically. Explicit confirmation persists before dismissal; save failure retains the report.
+
+The dark ink/teal/gold screen presents completion counts and an animated parameter radar in the first viewport, followed by gain cards, perseverance bonus and performed quest art/counts. Simplified effects and Reduce Motion show settled results. Cold entry respects the launch animation and onboarding; existing editors/settings/achievement/dialogs defer recap.
+
+TDD: core interface RED produced 16 expected issues across 11 new tests; focused and full core GREEN reached 91 tests. Native coordinator stubs and missing recap UI failed before integration. Initial focused GREEN passed 4 native tests plus cold acknowledgement/relaunch/replay and foreground editor deferral. The foreground test fixture was corrected to acknowledge its older already-closed week before testing the next Monday cutoff. Tests use a separate DEBUG-only seeded store and injected recap clock, without changing device time or personal data.
+
+Independent review found two lifecycle gaps. Regression tests reproduced an automatic recap interrupting History's undo confirmation and a foreground check being discarded while an older report remained open. History now forwards its dialog/error busy state, and successful report closure preserves a pending foreground request. Final focused verification, screenshot review and default full TestFlight delivery are in progress.
+
+Focused final checks passed: coordinator 5 tests (0.015s), cold acknowledgement/relaunch/replay UI (17.413s), foreground editor deferral UI (16.933s), and History undo-dialog deferral UI (12.466s). The History test uses a coordinate tap on the visible system popover background because iOS 26 provides no default cancel button and blocks underlying accessibility taps. Hero/radar and scrolled gain/bonus/quest-art screenshots were visually reviewed. Independent follow-up review approved both lifecycle fixes. The default deployment pipeline is now running the complete suite before archive/upload.
+
+Full default verification for **1.0 (7)** passed **150 tests**: automation 19 (0.028s), Release core 91 (0.134s), app-hosted 23 (0.083s), UI 17 (448.354s). Artifacts are under `~/Library/Developer/PentaphorDeliveries/20260915-072448-raedwkkh/`. Archive/upload and exact Apple/Personal readiness verification continue in the original deployment process.

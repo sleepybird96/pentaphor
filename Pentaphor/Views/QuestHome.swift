@@ -14,8 +14,12 @@ private struct QuestEditorPresentation: Identifiable {
 
 struct QuestHome: View {
     let store: QuestStore
+    let recapNow: () -> Date
     @Environment(QuestReminderService.self) private var reminders
     @State private var tab = 0
+    @State private var recap = WeeklyRecapCoordinator()
+    @State private var recapError: String?
+    @State private var historyDialogIsPresented = false
     @State private var editor: QuestEditorPresentation?
     @State private var showArchive = false
     @State private var showSettings = false
@@ -23,8 +27,9 @@ struct QuestHome: View {
     @State private var createAfterIntroduction = false
     @State private var completionAction = QuestCompletionAction()
 
-    init(store: QuestStore) {
+    init(store: QuestStore, recapNow: @escaping () -> Date = Date.init) {
         self.store = store
+        self.recapNow = recapNow
         _showIntroduction = State(initialValue: !store.engine.preferences.hasCompletedOnboarding)
     }
     @State private var achievement: AchievementPresentation?
@@ -41,7 +46,10 @@ struct QuestHome: View {
                 Group {
                     switch tab {
                     case 1: StatsView(store: store)
-                    case 2: HistoryView(store: store)
+                    case 2: HistoryView(store: store, recapNow: recapNow, onWeeklyRecap: { recap.show($0) }, onDialogChange: { busy in
+                        historyDialogIsPresented = busy
+                        if !busy { drainAfterDialog() }
+                    })
                     default: questList(now: now)
                     }
                 }
@@ -49,23 +57,33 @@ struct QuestHome: View {
         }
         .foregroundStyle(Palette.ink).background(Palette.paper)
         .safeAreaInset(edge: .bottom, spacing: 0) { tabBar }
-        .sheet(item: $editor, onDismiss: openReminderQuest) { presentation in QuestEditor(store: store, quest: presentation.quest) }
-        .sheet(isPresented: $showSettings, onDismiss: openReminderQuest) { SettingsView(store: store) }
+        .sheet(item: $editor, onDismiss: drainPresentations) { presentation in QuestEditor(store: store, quest: presentation.quest) }
+        .sheet(isPresented: $showSettings, onDismiss: drainPresentations) { SettingsView(store: store) }
         .fullScreenCover(isPresented: $showIntroduction, onDismiss: {
             if reminders.pendingQuestID != nil { openReminderQuest() }
             else if createAfterIntroduction {
                 createAfterIntroduction = false
                 editor = QuestEditorPresentation(quest: nil)
             }
+            drainPresentations()
         }) {
             IntroductionView(store: store) { createQuest in
                 createAfterIntroduction = createQuest
                 showIntroduction = false
             }
         }
-        .sheet(isPresented: $showArchive, onDismiss: openReminderQuest) { ArchiveView(store: store) }
-        .fullScreenCover(item: $achievement, onDismiss: openReminderQuest) { presentation in
+        .sheet(isPresented: $showArchive, onDismiss: drainPresentations) { ArchiveView(store: store) }
+        .fullScreenCover(item: $achievement, onDismiss: drainPresentations) { presentation in
             AchievementView(store: store, quest: presentation.quest, result: presentation.result)
+        }
+        .fullScreenCover(item: Binding(get: { recap.presentation }, set: { _ in }), onDismiss: drainPresentations) { report in
+            WeeklyRecapView(recap: report, timeZoneID: store.engine.state.timeZoneID,
+                            simplifiedEffects: store.engine.preferences.simplifiedEffects) {
+                do { try recap.finish(store: store, at: recapNow()) }
+                catch { recapError = error.localizedDescription }
+            }
+            .interactiveDismissDisabled()
+            .modifier(ErrorNotice(error: $recapError))
         }
         .confirmationDialog("어느 주에 기록할까?", isPresented: Binding(get: { graceQuest != nil }, set: { if !$0 { graceQuest = nil } }), titleVisibility: .visible) {
             if let quest = graceQuest {
@@ -75,11 +93,47 @@ struct QuestHome: View {
             Button("취소", role: .cancel) { graceQuest = nil }
         } message: { Text("월요일 오전 9시 전까지 지난주 기록을 선택할 수 있어.") }
         .modifier(ErrorNotice(error: $error))
-        .onChange(of: reminders.pendingQuestID, initial: true) { _, _ in openReminderQuest() }
-        .onChange(of: scenePhase) { _, phase in if phase == .active { foregroundDate = Date() } }
+        .task {
+            recap.requestCheck()
+            drainPresentations()
+        }
+        .onChange(of: reminders.pendingQuestID, initial: true) { _, _ in drainPresentations() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                foregroundDate = Date()
+                recap.requestCheck()
+                drainPresentations()
+            }
+        }
+        .onChange(of: graceQuest?.id) { _, id in
+            if id == nil { drainAfterDialog() }
+        }
+        .onChange(of: error) { _, value in
+            if value == nil { drainAfterDialog() }
+        }
+    }
+
+    private func drainPresentations() {
+        guard recap.presentation == nil else { return }
+        if reminders.pendingQuestID != nil {
+            openReminderQuest()
+            return
+        }
+        let busy = editor != nil || showSettings || showArchive || showIntroduction
+            || achievement != nil || graceQuest != nil || error != nil || historyDialogIsPresented
+        recap.presentIfPossible(engine: store.engine, now: recapNow(), isBusy: busy)
+    }
+
+    private func drainAfterDialog() {
+        Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            guard !Task.isCancelled else { return }
+            drainPresentations()
+        }
     }
 
     private func openReminderQuest() {
+        guard recap.presentation == nil else { return }
         guard let id = reminders.pendingQuestID else { return }
         tab = 0
         // Wait for the actual dismissal callback before presenting another sheet.
@@ -104,7 +158,7 @@ struct QuestHome: View {
         reminders.pendingQuestID = nil
         if let quest = store.engine.activeQuests.first(where: { $0.id == id }) {
             editor = QuestEditorPresentation(quest: quest)
-        }
+        } else { drainPresentations() }
     }
 
     private var tabBar: some View {

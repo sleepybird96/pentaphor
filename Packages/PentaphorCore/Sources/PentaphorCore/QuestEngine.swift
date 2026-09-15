@@ -11,6 +11,17 @@ public struct QuestEngine: Sendable {
               candidate.nickname.rangeOfCharacter(from: .newlines) == nil else { throw PreferencesError.invalidNickname }
         state.preferences = candidate
     }
+    public mutating func acknowledgeWeeklyRecap(periodStart: Date, at date: Date) throws {
+        guard periodStart.timeIntervalSinceReferenceDate.isFinite,
+              date.timeIntervalSinceReferenceDate.isFinite else { throw QuestError.invalidState }
+        let period = calculator.period(containing: periodStart, cadence: .week)
+        let latest = WeeklyRecapBuilder.latestClosedWeek(now: date, timeZoneID: state.timeZoneID)
+        guard period.start == periodStart, period.start <= latest.start,
+              WeeklyRecapBuilder.build(engine: self, period: period) != nil else { throw QuestError.invalidState }
+        if state.weeklyRecapAcknowledgedThrough.map({ periodStart > $0 }) ?? true {
+            state.weeklyRecapAcknowledgedThrough = periodStart
+        }
+    }
     public var calculator: PeriodCalculator { PeriodCalculator(timeZoneID: state.timeZoneID) }
     public var activeQuests: [Quest] {
         let completedIDs = Set(state.completions.filter { !$0.isVoided }.map(\.questID))

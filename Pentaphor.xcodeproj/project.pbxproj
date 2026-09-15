@@ -12,6 +12,7 @@
 		11E3C3A51166CBCDE764CABD /* badminton.png in Resources */ = {isa = PBXBuildFile; fileRef = C3D45FCDA547D3381A7E4BFB /* badminton.png */; };
 		158E20FCC6EF40A81EADFCDB /* coding.png in Resources */ = {isa = PBXBuildFile; fileRef = 281C34C5F43E5FFC44849622 /* coding.png */; };
 		161C97AFCAB7059AD69BF06E /* recycling.png in Resources */ = {isa = PBXBuildFile; fileRef = BF80E971EB404A61EC0B3DAA /* recycling.png */; };
+		17DD074E52CD5D1A44415072 /* WeeklyRecapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE37080B8CC04C1AE5D3E379 /* WeeklyRecapCoordinator.swift */; };
 		181B6719B9A8F22D69535491 /* walking.png in Resources */ = {isa = PBXBuildFile; fileRef = E96D8839697AD366C843EE7E /* walking.png */; };
 		19D2B57FFFDCA082EDBB3CF6 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = 892FCED0C13569F307855B3B /* basketball.png */; };
 		1CF0FBBC8EFD6C901EDC0401 /* BrandCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639A746121DDEE0D15E4CE9 /* BrandCopy.swift */; };
@@ -28,6 +29,8 @@
 		4A0EF2778DDCEA61DB34267E /* piano.png in Resources */ = {isa = PBXBuildFile; fileRef = 1911389AA7192F4E9A5C9819 /* piano.png */; };
 		4D5B2F71DEF5EDE12AA0EC02 /* pottery.png in Resources */ = {isa = PBXBuildFile; fileRef = BF8ECA4198D4EC27FD4EAD11 /* pottery.png */; };
 		4F18981D9312BAABD0D79201 /* skincare.png in Resources */ = {isa = PBXBuildFile; fileRef = CA552D2D60BD2C9B5D952B42 /* skincare.png */; };
+		4F75EE778D14DA665B7DA22A /* WeeklyRecapCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6415F23AC2899F278BDF8 /* WeeklyRecapCoordinatorTests.swift */; };
+		4FDBC92F6A5C2077B8001E64 /* WeeklyRecapUITestScenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309964C88934052181FC143 /* WeeklyRecapUITestScenario.swift */; };
 		5175BD7DE4B8AB977D3BA88D /* laundry.png in Resources */ = {isa = PBXBuildFile; fileRef = 755B6E972D89B2F81FFE585D /* laundry.png */; };
 		54E90EC70CAE0C5F81F13CFD /* QuestReminderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */; };
 		5836737AB3280EEB4BD30619 /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = CB04B7769CBAEDFBD39C028E /* running.png */; };
@@ -66,6 +69,7 @@
 		BF7EEEBE7BE36117D17FC98B /* drawing.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E5DC13D901393D17159B38 /* drawing.png */; };
 		C1E6D4F64F8EF00312E5729D /* QuestCompletionActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */; };
 		C4AA72F63D81CE449D7AC054 /* travel.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC32561057987A4AAC34FE8 /* travel.png */; };
+		C7CF7AA7C736144F832D55B7 /* WeeklyRecapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382207F0F12AA5446D642F3E /* WeeklyRecapView.swift */; };
 		C9D8D6766977706558CDFA27 /* tennis.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB91945B705A440BF0258EF /* tennis.png */; };
 		CD2B7812AFB3D9E1E1A6FC2F /* outfit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9468199CAB7D650CF4BDB1B0 /* outfit.png */; };
 		CF9F6B174918D9A5538072E0 /* childcare.png in Resources */ = {isa = PBXBuildFile; fileRef = E6BA9E35A72594658398C110 /* childcare.png */; };
@@ -124,6 +128,7 @@
 		309A72A331BD344113C51AC2 /* camping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camping.png; sourceTree = "<group>"; };
 		31EB91E25F5E2A50F916D46C /* JournalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViews.swift; sourceTree = "<group>"; };
 		3665AB2DBCB0D3007CE0E7E1 /* boxing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boxing.png; sourceTree = "<group>"; };
+		382207F0F12AA5446D642F3E /* WeeklyRecapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecapView.swift; sourceTree = "<group>"; };
 		3DA3BCA5836226340640C172 /* bathing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bathing.png; sourceTree = "<group>"; };
 		3DB91945B705A440BF0258EF /* tennis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tennis.png; sourceTree = "<group>"; };
 		3E0D0748F4E014D5173B6BCF /* music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = music.png; sourceTree = "<group>"; };
@@ -139,6 +144,7 @@
 		5EFF677647CA1596C481637B /* stretching.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stretching.png; sourceTree = "<group>"; };
 		5FA71ECDC2D6054067052BAD /* hiking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hiking.png; sourceTree = "<group>"; };
 		627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCompletionAction.swift; sourceTree = "<group>"; };
+		6309964C88934052181FC143 /* WeeklyRecapUITestScenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecapUITestScenario.swift; sourceTree = "<group>"; };
 		675C0882B29C922EAD2A5070 /* jump-rope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jump-rope.png"; sourceTree = "<group>"; };
 		68B68F4F5EEBC8714CBCE5C3 /* baking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baking.png; sourceTree = "<group>"; };
 		6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestReminderFields.swift; sourceTree = "<group>"; };
@@ -167,6 +173,7 @@
 		B639A746121DDEE0D15E4CE9 /* BrandCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandCopy.swift; sourceTree = "<group>"; };
 		B693C6D8F90AAC3E99852430 /* plant-care.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plant-care.png"; sourceTree = "<group>"; };
 		B97552AF1D5D0C89E3AF9F21 /* photography.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photography.png; sourceTree = "<group>"; };
+		BDD6415F23AC2899F278BDF8 /* WeeklyRecapCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecapCoordinatorTests.swift; sourceTree = "<group>"; };
 		BF7A1DAC13FD3B343F8A954C /* knitting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knitting.png; sourceTree = "<group>"; };
 		BF80E971EB404A61EC0B3DAA /* recycling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recycling.png; sourceTree = "<group>"; };
 		BF8ECA4198D4EC27FD4EAD11 /* pottery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pottery.png; sourceTree = "<group>"; };
@@ -193,6 +200,7 @@
 		F751F8216B05B210AF9EC13E /* meeting-friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meeting-friends.png"; sourceTree = "<group>"; };
 		F780C2FE61C49A761DE10280 /* AchievementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementView.swift; sourceTree = "<group>"; };
 		F9DCE2C860936708891B5FF5 /* ironing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ironing.png; sourceTree = "<group>"; };
+		FE37080B8CC04C1AE5D3E379 /* WeeklyRecapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecapCoordinator.swift; sourceTree = "<group>"; };
 		FE73A3BA6956344063DAF010 /* chess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chess.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -241,6 +249,7 @@
 			children = (
 				5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */,
 				F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */,
+				BDD6415F23AC2899F278BDF8 /* WeeklyRecapCoordinatorTests.swift */,
 			);
 			path = PentaphorTests;
 			sourceTree = "<group>";
@@ -269,6 +278,7 @@
 				890E2B89FA2A749C9B7623D3 /* QuestHome.swift */,
 				6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */,
 				2266A50777F1E74FBC7AF966 /* SettingsView.swift */,
+				382207F0F12AA5446D642F3E /* WeeklyRecapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -376,6 +386,8 @@
 				627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */,
 				715912424B1C74D0F3D6F31B /* QuestReminderService.swift */,
 				48CB25303E6A01D813854D63 /* ReminderNotificationCenter.swift */,
+				FE37080B8CC04C1AE5D3E379 /* WeeklyRecapCoordinator.swift */,
+				6309964C88934052181FC143 /* WeeklyRecapUITestScenario.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -575,6 +587,9 @@
 				CFBD2D7435FB8BB72D0D4279 /* QuestReminderService.swift in Sources */,
 				5F6D0AF354D4F9FD1F2FB701 /* ReminderNotificationCenter.swift in Sources */,
 				240B27693C2120ECF8A8925B /* SettingsView.swift in Sources */,
+				17DD074E52CD5D1A44415072 /* WeeklyRecapCoordinator.swift in Sources */,
+				4FDBC92F6A5C2077B8001E64 /* WeeklyRecapUITestScenario.swift in Sources */,
+				C7CF7AA7C736144F832D55B7 /* WeeklyRecapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +599,7 @@
 			files = (
 				C1E6D4F64F8EF00312E5729D /* QuestCompletionActionTests.swift in Sources */,
 				54E90EC70CAE0C5F81F13CFD /* QuestReminderServiceTests.swift in Sources */,
+				4F75EE778D14DA665B7DA22A /* WeeklyRecapCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,7 +16,7 @@ User approved Monday 09:00 in the saved record timezone, on cold launch or retur
 - Show total action count, unique quest count, number of weekly goals achieved (snapshot targets), each performed quest's art/name/count and all positive parameter gains. Do not present missed goals as failures.
 
 ## UI
-`WEEK COMPLETE`, Korean date range, `지난주에 이만큼 쌓았어`. Counts enter first, quest art activity rows follow, then parameter gains and radar animate from before to after with existing vertex pops. Perseverance streak bonus appears separately. Final action `좋아, 다음 한 주로`. Allow scrolling/early final action; no mandatory long wait. Simplified effects and iOS Reduce Motion show settled state; normal animation roughly 2 seconds. No new haptic at recap or points mutation. Accessibility labels expose period/counts/gains and test IDs.
+`WEEK COMPLETE`, Korean date range, `지난주에 이만큼 쌓았어`. Counts enter first, then parameter gains and radar animate from before to after with existing vertex pops. Keep the radar in the first viewport so its animation is visible; quest art activity rows follow below. Perseverance streak bonus appears separately. Final action `좋아, 다음 한 주로`. Allow scrolling/early final action; no mandatory long wait. Simplified effects and iOS Reduce Motion show settled state; normal animation roughly 2 seconds. No new haptic at recap or points mutation. Accessibility labels expose period/counts/gains and test IDs.
 
 ## Interfaces
 Core:

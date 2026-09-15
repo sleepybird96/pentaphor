@@ -26,6 +26,9 @@ struct StatsView: View {
 
 struct HistoryView: View {
     let store: QuestStore
+    let recapNow: () -> Date
+    let onWeeklyRecap: (WeeklyRecap) -> Void
+    let onDialogChange: (Bool) -> Void
     @State private var error: String?
     @State private var undoID: UUID?
     private var records: [Completion] { store.engine.state.completions.sorted { $0.recordedAt > $1.recordedAt } }
@@ -33,6 +36,20 @@ struct HistoryView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 VStack(alignment: .leading, spacing: 8) { Eyebrow(title: "EVERY STEP STAYS"); Text("쌓아온 기록").font(.system(size: 32, weight: .black)) }
+                if let report = WeeklyRecapBuilder.latest(engine: store.engine, now: recapNow()) {
+                    Button { onWeeklyRecap(report) } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "sparkles").foregroundStyle(Palette.teal)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("주간 정산 다시 보기").font(.subheadline.bold())
+                                Text("\(periodDate(report.period.start)) 시작 · \(report.completionCount)번의 행동")
+                                    .font(.caption).foregroundStyle(Palette.muted)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right").font(.caption.bold())
+                        }.padding(16).frame(minHeight: 44).background(Palette.teal.opacity(0.07), in: CutCorner())
+                    }.buttonStyle(.plain).accessibilityIdentifier("history.weekly-recap")
+                }
                 if records.isEmpty { ContentUnavailableView("첫걸음을 기다리는 중", systemImage: "clock", description: Text("퀘스트를 완료하면 여기에 차곡차곡 쌓여.")) }
                 ForEach(records) { record in
                     let quest = store.engine.state.quests.first { $0.id == record.questID }
@@ -65,6 +82,8 @@ struct HistoryView: View {
                     self.undoID = nil
                 }
             } message: { Text("횟수와 포인트를 다시 계산해. 이 기록과 이어진 연속 달성 보너스도 달라질 수 있어.") }
+            .onChange(of: undoID != nil || error != nil, initial: true) { _, busy in onDialogChange(busy) }
+            .onDisappear { onDialogChange(false) }
     }
     private func periodDate(_ date: Date) -> String {
         let format = DateFormatter(); format.locale = Locale(identifier: "ko_KR"); format.timeZone = TimeZone(identifier: store.engine.state.timeZoneID); format.dateFormat = "M월 d일"

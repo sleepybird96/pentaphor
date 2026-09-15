@@ -1,6 +1,83 @@
 import XCTest
 
 final class PentaphorUITests: XCTestCase {
+    @MainActor func testWeeklyRecapColdLaunchAcknowledgementAndHistoryReplayPreservePoints() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["recap.title"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.descendants(matching: .any)["recap.actions"].label.contains("5"))
+        capture(app, "28-weekly-recap-hero")
+        reveal(app.buttons["recap.done"], in: app)
+        capture(app, "29-weekly-recap-growth")
+        let gains = app.descendants(matching: .any)["recap.gains"]
+        reveal(gains, in: app)
+        XCTAssertTrue(gains.label.contains("지식 +4"))
+        XCTAssertTrue(gains.label.contains("끈기 +1"))
+        app.swipeUp()
+        capture(app, "30-weekly-recap-activities")
+        app.buttons["recap.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["15 P"].exists)
+        app.terminate()
+        app.launchArguments = ["--ui-testing", "--ui-test-weekly-recap"]
+        app.launch()
+        XCTAssertTrue(app.buttons["tab.history"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.staticTexts["recap.title"].exists)
+        app.buttons["tab.history"].tap()
+        app.buttons["history.weekly-recap"].tap()
+        XCTAssertTrue(app.staticTexts["recap.title"].waitForExistence(timeout: 5))
+        reveal(app.buttons["recap.done"], in: app)
+        app.buttons["recap.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["15 P"].exists)
+    }
+
+    @MainActor func testWeeklyRecapForegroundAfterCutoffWaitsForEditorDismissal() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap", "--ui-test-recap-on-foreground"]
+        app.launch()
+        XCTAssertTrue(app.buttons["quest.edit.달리기"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.staticTexts["recap.title"].exists)
+        app.buttons["quest.edit.달리기"].tap()
+        XCTAssertTrue(app.textFields["quest.name"].waitForExistence(timeout: 5))
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.textFields["quest.name"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["recap.title"].exists)
+        app.buttons["취소"].tap()
+        XCTAssertTrue(app.staticTexts["recap.title"].waitForExistence(timeout: 5))
+        reveal(app.buttons["recap.done"], in: app)
+        app.buttons["recap.done"].tap()
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.buttons["tab.stats"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["recap.title"].exists)
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["15 P"].exists)
+    }
+
+    @MainActor func testWeeklyRecapForegroundWaitsForHistoryUndoDialog() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap", "--ui-test-recap-on-foreground"]
+        app.launch()
+        XCTAssertTrue(app.buttons["tab.history"].waitForExistence(timeout: 10))
+        app.buttons["tab.history"].tap()
+        app.buttons["화장실 청소 기록 되돌리기"].tap()
+        XCTAssertTrue(app.buttons["기록 되돌리기"].waitForExistence(timeout: 5))
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.buttons["기록 되돌리기"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts["recap.title"].exists)
+        // Tap the popover's dimming background; underlying accessibility elements are not hittable.
+        let header = app.staticTexts["쌓아온 기록"].frame
+        app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: header.midX, dy: header.midY)).tap()
+        XCTAssertTrue(app.staticTexts["recap.title"].waitForExistence(timeout: 5))
+        app.buttons["recap.done"].tap()
+        app.buttons["tab.stats"].tap()
+        XCTAssertTrue(app.staticTexts["15 P"].exists)
+    }
+
     @MainActor func testNotificationMasterTogglePersistsAcrossRelaunch() throws {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--reset-test-store"]
