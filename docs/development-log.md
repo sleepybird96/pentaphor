@@ -249,3 +249,5 @@ Review: core, UI and platform received independent read-only spec/quality review
 Full default delivery started for **1.0 (5)** at `~/Library/Developer/PentaphorDeliveries/20260915-052804-ft6kixbh/`. Final all-suite and Apple readiness evidence will be recorded below after completion.
 
 Full verification for build 5 passed **128 tests**: automation 19 (0.025s), Release core 79 (0.165s), app-hosted 17 (0.085s), UI 13 (382.373s). Signed archive succeeded; upload and Apple readiness verification are in progress.
+
+Export currently waits in codesign (with a matching macOS SecurityAgent process) before Apple upload. Asked the user to approve the Apple Distribution keychain prompt locally; no credential was requested in chat and no security UI bypass was attempted. Original deployment process remains running so approval can resume the same build/archive. Build 5 is **not yet verified uploaded or ready**.
