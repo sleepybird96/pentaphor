@@ -84,8 +84,8 @@
 - [x] Inspect App Store Connect's existing app-localization fields and save English app/IAP localization where required factual fields are available. Preserve Korean entries, pricing and availability. Record any concrete missing fields/session blockers; do not submit for public review.
 - [x] Request one independent final review covering spec, diff, tests, locale fallback, resource packaging, user data preservation, notifications, StoreKit and UI layout. Verify each finding and fix with a failing regression test when applicable; rerun affected checks.
 - [x] Run `git diff --check` and the localization checker, then `python3 scripts/testflight.py deploy` using the existing credential-aware Python environment. This runs the required regression tests and creates a fresh archive/build. Do not bypass test failures or re-upload on a processing timeout.
-- [ ] Verify Apple processing and Personal READY. On timeout, use `python3 scripts/testflight.py status --version VERSION --build BUILD --wait`. Record exact build and logs, distinguish upload from availability, and report any external blocker accurately.
-- [ ] Commit verified results, integrate the feature branch into canonical main without discarding user changes, and push. Verify clean status and matching remote/local commit. Report supported languages, preservation guarantees, verified tests, TestFlight build and outstanding store-only work.
+- [x] Verify Apple processing and Personal READY. On timeout, use `python3 scripts/testflight.py status --version VERSION --build BUILD --wait`. Record exact build and logs, distinguish upload from availability, and report any external blocker accurately.
+- [x] Commit verified results, integrate the feature branch into canonical main without discarding user changes, and push. Verify clean status and matching remote/local commit. Report supported languages, preservation guarantees, verified tests, TestFlight build and outstanding store-only work.
 
 ## Plan self-review
 
@@ -99,6 +99,16 @@ All design sections map to Tasks 1–5. All five review risks have explicit test
 
 ## Execution notes (2026-09-30)
 
-Implemented in canonical checkout on `codex/korean-english-localization`. Core119, native52, localization checker3, StoreKit2 and initial bilingualUI3 verified. Resource migration used stable screen-scoped keys and combined app resource/UI commit to avoid missing-resource intermediate builds. Independent reviewer found one mixed-language plural issue; regression reproduced it and the resolved language now controls plural rules while preserving locale region/extensions. No other actionable findings. Full delivery regression passed: Core119 + native52 + UI26 + script22 =219; separate StoreKit2 also passed (221 total). English backup controls were added to the bilingual flow and that flow passed again. Release archive contains both en/ko app and Core bundles, all60 art resources, and no local StoreKit config. Build1.0(11) uploaded at06:41:53 UTC; Apple processing is pending.
+Implemented in canonical checkout on `codex/korean-english-localization`. Core119, native52, localization checker3, StoreKit2 and initial bilingualUI3 verified. Resource migration used stable screen-scoped keys and combined app resource/UI commit to avoid missing-resource intermediate builds. Independent reviewer found one mixed-language plural issue; regression reproduced it and the resolved language now controls plural rules while preserving locale region/extensions. No other actionable findings. Full delivery regression passed: Core119 + native52 + UI26 + script22 =219; separate StoreKit2 also passed (221 total). English backup controls were added to the bilingual flow and that flow passed again. Release archive contains both en/ko app and Core bundles, all60 art resources, and no local StoreKit config. Build1.0(11) uploaded at06:41:53 UTC; Apple processing completed and Personal READY verified; deploy exit0. Canonical main merged/pushed and remote commit verified.
 
 English app name/subtitle, promotional text, description, keywords and IAP name/description were saved and confirmed in App Store Connect. Support URL is empty; launch preparation still needs a real support URL, privacy declarations and store screenshots. Public review was not submitted.
+
+### Execution decisions and limits
+
+- Used the explicitly requested canonical checkout with a feature branch, not an extra worktree. This preserved the user's path; concurrent edits would require care (none were present).
+- Screen-scoped stable numbered translation keys avoid renaming existing copy during this migration. Translators should use source/context alongside resources; careless key reuse could mislabel copy.
+- App resource migration and UI call sites were committed together to avoid intermediate missing resources. The larger diff was covered by the independent review.
+- The reviewer left live store/delivery status to the executor. Saved metadata was independently confirmed in the browser and Personal READY by the delivery process; neither was inferred from code.
+- No deferred reviewer findings. App Store support URL, privacy declarations, store screenshots and paid-account setup remain launch work; real TestFlight sandbox purchasing remains separately unverified.
+
+Screenshots: `~/Library/Developer/PentaphorDemos/i18n-20260930/` (normal/large text UI and saved App Store Connect English metadata).
