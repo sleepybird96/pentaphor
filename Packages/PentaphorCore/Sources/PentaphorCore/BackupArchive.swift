@@ -11,11 +11,11 @@ public enum BackupError: Error, LocalizedError {
     case oversized, invalidFile, unsupportedApp, unsupportedVersion, checksumMismatch
     public var errorDescription: String? {
         switch self {
-        case .oversized: "백업 파일은 20MB 이하여야 합니다."
-        case .invalidFile: "백업 파일의 내용이 올바르지 않습니다."
-        case .unsupportedApp: "PENTAPHOR에서 만든 백업 파일을 선택해 주세요."
-        case .unsupportedVersion: "이 버전의 백업은 아직 읽을 수 없습니다. 앱을 업데이트해 주세요."
-        case .checksumMismatch: "백업 파일이 손상되었거나 변경되었습니다. 다른 백업을 선택해 주세요."
+        case .oversized: CoreLocalization.current.string("error.19")
+        case .invalidFile: CoreLocalization.current.string("error.20")
+        case .unsupportedApp: CoreLocalization.current.string("error.21")
+        case .unsupportedVersion: CoreLocalization.current.string("error.22")
+        case .checksumMismatch: CoreLocalization.current.string("error.23")
         }
     }
 }

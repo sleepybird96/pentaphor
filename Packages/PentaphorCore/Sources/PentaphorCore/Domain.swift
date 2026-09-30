@@ -5,11 +5,11 @@ public enum Stat: String, Codable, CaseIterable, Identifiable, Sendable {
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .stamina: "체력"
-        case .knowledge: "지식"
-        case .perseverance: "끈기"
-        case .charm: "매력"
-        case .courage: "용기"
+        case .stamina: CoreLocalization.current.string("stat.stamina")
+        case .knowledge: CoreLocalization.current.string("stat.knowledge")
+        case .perseverance: CoreLocalization.current.string("stat.perseverance")
+        case .charm: CoreLocalization.current.string("stat.charm")
+        case .courage: CoreLocalization.current.string("stat.courage")
         }
     }
 }
@@ -119,19 +119,19 @@ public enum QuestError: Error, LocalizedError, Equatable {
     case graceExpired, predatesQuest, cadenceLocked, duplicateRequest, alreadyCompleted, invalidState
     public var errorDescription: String? {
         switch self {
-        case .invalidName: "퀘스트 이름을 1~40자로 적어줘."
-        case .invalidArt: "퀘스트 아트를 골라줘."
-        case .invalidTarget: "목표는 1~99회로 정해줘."
-        case .invalidRewards: "포인트는 음수 없이 최대 2까지 나눠줘."
-        case .invalidReminder: "알림 요일과 시간을 확인해줘."
-        case .notFound: "이 기록을 찾지 못했어."
-        case .archived: "보관한 퀘스트야. 먼저 복원해줘."
-        case .graceExpired: "지난주 기록은 월요일 오전 9시 전까지만 가능해."
-        case .predatesQuest: "퀘스트를 만들기 전 기간에는 기록할 수 없어."
-        case .alreadyCompleted: "이미 완료한 퀘스트야. 기록을 되돌리면 다시 완료할 수 있어."
-        case .cadenceLocked: "기록이 있는 퀘스트는 주기를 바꿀 수 없어. 새 퀘스트로 만들어줘."
-        case .duplicateRequest: "이미 처리한 기록 요청이야."
-        case .invalidState: "저장된 기록을 읽을 수 없어. 원본은 그대로 보관했어."
+        case .invalidName: CoreLocalization.current.string("error.5")
+        case .invalidArt: CoreLocalization.current.string("error.6")
+        case .invalidTarget: CoreLocalization.current.string("error.7")
+        case .invalidRewards: CoreLocalization.current.string("error.8")
+        case .invalidReminder: CoreLocalization.current.string("error.9")
+        case .notFound: CoreLocalization.current.string("error.10")
+        case .archived: CoreLocalization.current.string("error.11")
+        case .graceExpired: CoreLocalization.current.string("error.12")
+        case .predatesQuest: CoreLocalization.current.string("error.13")
+        case .alreadyCompleted: CoreLocalization.current.string("error.14")
+        case .cadenceLocked: CoreLocalization.current.string("error.15")
+        case .duplicateRequest: CoreLocalization.current.string("error.16")
+        case .invalidState: CoreLocalization.current.string("error.17")
         }
     }
 }

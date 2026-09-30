@@ -35,7 +35,7 @@ public struct PlannedQuestReminder: Equatable, Sendable, Identifiable {
 }
 
 public enum QuestReminderPlanner {
-    public static func plan(engine: QuestEngine, now: Date, horizonDays: Int = 42, limit: Int = 60) -> [PlannedQuestReminder] {
+    public static func plan(engine: QuestEngine, now: Date, horizonDays: Int = 42, limit: Int = 60, localeText: LocalizedText = CoreLocalization.current) -> [PlannedQuestReminder] {
         guard engine.preferences.remindersEnabled, horizonDays > 0, limit > 0, let timeZone = TimeZone(identifier: engine.state.timeZoneID) else { return [] }
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = timeZone
@@ -62,9 +62,9 @@ public enum QuestReminderPlanner {
                 let remaining = progress.target - progress.count
                 let body: String
                 switch quest.cadence {
-                case .week: body = "이번 주 목표까지 \(remaining)회 남았어."
-                case .month: body = "이번 달 목표까지 \(remaining)회 남았어."
-                case .once: body = "작은 한 걸음, 지금 시작해볼까?"
+                case .week: body = localeText.format("reminder.week", remaining)
+                case .month: body = localeText.format("reminder.month", remaining)
+                case .once: body = localeText.string("reminder.once")
                 }
                 planned.append(PlannedQuestReminder(
                     id: "pentaphor.quest.\(quest.id.uuidString).\(Int(fireDate.timeIntervalSince1970))",

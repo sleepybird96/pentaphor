@@ -31,5 +31,5 @@ public struct ExperiencePreferences: Codable, Equatable, Sendable {
 
 public enum PreferencesError: Error, LocalizedError, Equatable {
     case invalidNickname
-    public var errorDescription: String? { "닉네임은 줄바꿈 없이 20자 이내로 적어줘. 비워둬도 괜찮아." }
+    public var errorDescription: String? { CoreLocalization.current.string("error.18") }
 }
