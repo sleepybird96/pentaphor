@@ -37,3 +37,15 @@ Review purchase access from Settings → CHALLENGE; reaching 99 points is not re
 ## 검증 기록
 
 배포 전 검증: Core 115개(기존 Swift Testing108 + XCTest7), 앱 단위47개, 배포 자동화19개 통과. 전체 UI/배포 결과는 아래에 별도로 기록한다. 초기 정책 Core4, 구매 서비스 Native7, 제한 액션 Native2, coordinator Native1, 해금 pure geometry Core2, 구매 UI2의 통과를 확인했다. 이 숫자는 전체 최종 회귀 결과가 아니다. StoreKit 통합 2개는 04:02 UTC 통과했다. 시뮬레이터 Debug에만 get-task-allow를 추가했으며 실제 iPhone/Release 서명은 유지한다. 승인·환불의 비동기 반영은 제한 시간 내 최종 권한으로 검증한다.
+
+
+### 독립 리뷰와 시각 검증
+
+직접 구현 후 독립 리뷰에서 복원 응답 경쟁, 알림과 구매 화면 충돌, 권한 확인 전 구매 노출을 발견해 수정했다. 재현 테스트의 실패를 확인한 뒤 앱 단위47개가 통과했고 리뷰어도 수정 내용을 확인했다. 해금 화면의 버튼 활성화와 실제로 누를 수 있는 복귀 화면까지 확인하도록 UI 테스트를 강화했다.
+
+시뮬레이터 영상(실제 과금이 없는 DEBUG 구매 클라이언트):
+- `~/Library/Developer/PentaphorDemos/challenge-20260930/challenge-99-to-140.mp4`
+- `~/Library/Developer/PentaphorDemos/challenge-20260930/challenge-50-unchanged.mp4`
+- 심사용 구매 화면 초안: 같은 폴더의 `challenge-purchase-review.png`.
+
+실제 StoreKit API 통합 테스트와 위 시각 테스트는 별개다. 실제 TestFlight sandbox 상품 조회·구매는 아직 확인하지 않았다. 큰 글자/VoiceOver 실기기 수동 점검도 공개 출시 전에 남아 있다.
