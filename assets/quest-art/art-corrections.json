@@ -1,0 +1,21 @@
+{
+  "tool": "built-in image_gen",
+  "fixes": [
+    {
+      "id": "pet-feeding",
+      "prompt": "Use case: precise-object-edit. Edit the supplied PENTAPHOR cat-feeding pictogram. Fix ONLY the human's extra-arm anatomy. The human must have exactly TWO arms, each with an unambiguous shoulder-to-elbow-to-hand connection: one arm bends forward to hold the teal food scoop, the other reaches downward to the food bowl. Remove the redundant arm-like ivory segment descending vertically from the left shoulder toward the bent thigh, and the confusing extra elbow/arm silhouette at the left of the torso. Resolve that left contour into a simple torso and TWO clearly readable crouching legs. No third arm, no detached or floating scoop hand, no extra hand. Keep the same featureless circular head, crouching feeding action, cat silhouette, cat tail, food bowl, scoop with food, all existing colors, internal print texture, gold accents, opaque dark background and square framing. Minimal targeted anatomical correction, not a new scene. Final human has exactly two arms, two hands and two legs. Output same-size square PNG.",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-165475d2-90fc-45d3-9dee-d075dbfd0ed1.png",
+      "file": "pet-feeding.png",
+      "previousFile": "../quest-art-revisions/pet-feeding-before-anatomy-cabinet-fix.png",
+      "verified": "Exactly two connected human arms."
+    },
+    {
+      "id": "dishwashing",
+      "prompt": "Use case: precise-object-edit. Edit the supplied PENTAPHOR dishwashing pictogram. Change ONLY the sink base below the countertop: replace the two exposed thin legs and the entire dark empty space between them with one solid fully enclosed teal kitchen base cabinet reaching down to the floor. The cabinet has a continuous flat front with two simple doors separated by a thin dark seam, tiny understated handles, a solid side panel matching the existing perspective, and a shallow closed toe-kick. There must be NO visible empty open area underneath the basin, NO freestanding legs, NO exposed plumbing, NO table-like open base. Preserve the existing sink rim, basin, faucet, water, plate, sponge, drying rack and dishes, person with exactly two arms, all poses and proportions, ivory/teal/gold palette, print texture, opaque dark background and original square framing. The new cabinet stops beside the person's legs without obscuring or altering them. Output same-size square PNG.",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-ce8c3654-5a0c-4ec0-ac92-b98838bb018b.png",
+      "file": "dishwashing.png",
+      "previousFile": "../quest-art-revisions/dishwashing-before-anatomy-cabinet-fix.png",
+      "verified": "Closed base cabinet without exposed legs or open under-sink space."
+    }
+  ]
+}

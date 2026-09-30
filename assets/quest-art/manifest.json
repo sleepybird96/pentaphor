@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "tool": "built-in image_gen",
+  "background": "opaque dark ink (generated; slight texture/color variation may remain)",
+  "assets": [
+    {
+      "id": "reading",
+      "label": "독서",
+      "subject": "One person seated sideways on a simple angular low chair, leaning into a large open book held in both hands; distinctly visible layered ivory/teal pages and central book spine, legs relaxed, two small concentration marks. Book and reading gesture are the focus. No desk.",
+      "file": "reading.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-99c4df00-fbc4-43fd-b880-1aebe7d52948.png",
+      "finalPrompt": "Edit this action illustration for PENTAPHOR. Change ONLY the background to a perfectly uniform opaque dark ink #121916. Remove all gray checkerboard squares, all background paper wrinkles and all background texture. Fill every gap between limbs/props and the complete outside canvas with this SAME flat dark ink color. Preserve exactly the existing person, pose, props, ivory/teal/gold palette, internal print texture, scale and composition. No text, no border, no added objects. Output square PNG. This is an opaque dark-background production asset, NOT a transparency simulation.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1365020,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "studying",
+      "label": "공부",
+      "subject": "One person sitting on a stool at a compact desk, head bent in concentration, one hand writing with a pencil in an open notebook, other hand supporting the book; a small articulated desk lamp and two stacked reference books. Clear pencil-to-page gesture. No laptop.",
+      "file": "studying.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-d451b3cb-3b62-4ea7-8d08-9bdd7d4a3217.png",
+      "finalPrompt": "Edit this action illustration for PENTAPHOR. Change ONLY the background to a perfectly uniform opaque dark ink #121916. Remove all gray checkerboard squares, all background paper wrinkles and all background texture. Fill every gap between limbs/props and the complete outside canvas with this SAME flat dark ink color. Preserve exactly the existing person, pose, props, ivory/teal/gold palette, internal print texture, scale and composition. No text, no border, no added objects. Output square PNG. This is an opaque dark-background production asset, NOT a transparency simulation.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1407167,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "running",
+      "label": "달리기",
+      "subject": "One person sprinting in a powerful side-view stride, forward tilted torso, one bent arm forward and other back, rear leg kicked high and front knee reaching ahead. Teal angular sneaker sole accents and three short tapered speed marks. No equipment or scenery.",
+      "file": "running.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-1797232f-3c4d-4f52-98d2-293936e1066a.png",
+      "finalPrompt": "Edit this action illustration for PENTAPHOR. Change ONLY the background to a perfectly uniform opaque dark ink #121916. Remove all gray checkerboard squares, all background paper wrinkles and all background texture. Fill every gap between limbs/props and the complete outside canvas with this SAME flat dark ink color. Preserve exactly the existing person, pose, props, ivory/teal/gold palette, internal print texture, scale and composition. No text, no border, no added objects. Output square PNG. This is an opaque dark-background production asset, NOT a transparency simulation.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1218787,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "walking",
+      "label": "걷기",
+      "subject": "One person taking an easy upright side-view walk, relaxed swinging arms, modest stride distinct from sprinting, a simple small teal backpack with one visible strap. Two small ground-step marks. Calm easy pace, no hiking pole.",
+      "file": "walking.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-33f8226e-9d44-4cae-8e40-540b05b97040.png",
+      "finalPrompt": "Edit this action illustration for PENTAPHOR. Change ONLY the background to a perfectly uniform opaque dark ink #121916. Remove all gray checkerboard squares, all background paper wrinkles and all background texture. Fill every gap between limbs/props and the complete outside canvas with this SAME flat dark ink color. Preserve exactly the existing person, pose, props, ivory/teal/gold palette, internal print texture, scale and composition. No text, no border, no added objects. Output square PNG. This is an opaque dark-background production asset, NOT a transparency simulation.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1183653,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "swimming",
+      "label": "수영",
+      "subject": "One person doing freestyle/front crawl in side three-quarter view, circular featureless head above water, one bent arm recovering above the head and other arm extending forward at waterline. Two broad teal wave ribbons, 3 clean splash droplets, body stretches horizontally through water. No pool rectangle or scenery.",
+      "file": "swimming.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-1916f619-a4cb-428a-877c-089f6f0220eb.png",
+      "finalPrompt": "Edit this action illustration for PENTAPHOR. Change ONLY the background to a perfectly uniform opaque dark ink #121916. Remove all gray checkerboard squares, all background paper wrinkles and all background texture. Fill every gap between limbs/props and the complete outside canvas with this SAME flat dark ink color. Preserve exactly the existing person, pose, props, ivory/teal/gold palette, internal print texture, scale and composition. No text, no border, no added objects. Output square PNG. This is an opaque dark-background production asset, NOT a transparency simulation.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1222778,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "strength",
+      "label": "근력운동",
+      "subject": "One person in a stable wide stance holding a single dumbbell in each hand, one bent elbow raising a dumbbell toward shoulder and the other lowering. Weights have clearly drawn stacked teal plate ends and ivory short handles. Simple powerful signage body, no visible muscles. Two restrained lift motion marks.",
+      "file": "strength.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-ff706959-8043-4b80-89f6-34d60f6e4e34.png",
+      "finalPrompt": "Use case: stylized-concept.\nAsset type: production preset quest action illustration for PENTAPHOR, a personal routine app. One standalone reusable square illustration, not a presentation board or contact sheet.\nArt direction: an expressive action pictogram enlarged into a miniature editorial illustration. The PERSON MUST BE EXTREMELY SIMPLE, like universal public signage: circular featureless head, solid geometric torso and thick limbs, no eyes, face, hair, fingers, clothing folds, muscles, or character design. The ACTION must be richly legible through carefully drawn props, silhouette, posture, and 2-3 restrained motion marks. Sophisticated angular cut-paper screenprint look, bold silhouette, crisp vector-like edges, striking diagonal composition, subtle ink texture only within shapes. No cute cartoon, no realistic anatomy, no 3D, no gradients, no manga character.\nPalette strictly warm ivory #F3EEDC for the main person's silhouette, vibrant teal #35D6BE and deep ink #121916 for props and contrasting internal cuts, optional tiny muted gold #D8B765 accent under 3%. Main silhouette must be readable on the app's dark ink background. Do not put dark strokes around all the ivory shapes. Maintain a consistent visual language of geometric signage heads/limbs with more detailed equipment.\nBackground: uniform solid dark ink #121916 background across entire square, absolutely no checkerboard, no transparency pattern, no paper texture on background, no frame or badge, no background scenery, no text or letters, no logo, no labels or watermark. Compact complete scene centered with all parts within 12% safe margins; illustration fills roughly 76% of square, suitable for display at 96-200px and larger achievement screen. Request 1024x1024 square PNG.\n\nInput image role: STYLE REFERENCE ONLY for person and props, NOT its background. Generate a new scene with solid dark ink background. Match featureless signage figure and ivory/teal screenprint shapes.\nSubject: One person in a stable wide stance holding a single dumbbell in each hand, one bent elbow raising a dumbbell toward shoulder and the other lowering. Weights have clearly drawn stacked teal plate ends and ivory short handles. Simple powerful signage body, no visible muscles. Two restrained lift motion marks.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1276095,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "stretching",
+      "label": "스트레칭",
+      "subject": "One person in a clear deep side lunge on a thin teal exercise mat, one knee bent and opposite leg extended straight sideways, torso leaning toward bent knee, one arm arcing overhead into a side stretch. Clear asymmetrical pose, circular featureless head. One graceful short stretch arc.",
+      "file": "stretching.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-feaaa5b2-c71b-4d4a-ba1e-9ea745ebc9b7.png",
+      "finalPrompt": "Use case: stylized-concept.\nAsset type: production preset quest action illustration for PENTAPHOR, a personal routine app. One standalone reusable square illustration, not a presentation board or contact sheet.\nArt direction: an expressive action pictogram enlarged into a miniature editorial illustration. The PERSON MUST BE EXTREMELY SIMPLE, like universal public signage: circular featureless head, solid geometric torso and thick limbs, no eyes, face, hair, fingers, clothing folds, muscles, or character design. The ACTION must be richly legible through carefully drawn props, silhouette, posture, and 2-3 restrained motion marks. Sophisticated angular cut-paper screenprint look, bold silhouette, crisp vector-like edges, striking diagonal composition, subtle ink texture only within shapes. No cute cartoon, no realistic anatomy, no 3D, no gradients, no manga character.\nPalette strictly warm ivory #F3EEDC for the main person's silhouette, vibrant teal #35D6BE and deep ink #121916 for props and contrasting internal cuts, optional tiny muted gold #D8B765 accent under 3%. Main silhouette must be readable on the app's dark ink background. Do not put dark strokes around all the ivory shapes. Maintain a consistent visual language of geometric signage heads/limbs with more detailed equipment.\nBackground: uniform solid dark ink #121916 background across entire square, absolutely no checkerboard, no transparency pattern, no paper texture on background, no frame or badge, no background scenery, no text or letters, no logo, no labels or watermark. Compact complete scene centered with all parts within 12% safe margins; illustration fills roughly 76% of square, suitable for display at 96-200px and larger achievement screen. Request 1024x1024 square PNG.\n\nInput image role: STYLE REFERENCE ONLY for person and props, NOT its background. Generate a new scene with solid dark ink background. Match featureless signage figure and ivory/teal screenprint shapes.\nSubject: One person in a clear deep side lunge on a thin teal exercise mat, one knee bent and opposite leg extended straight sideways, torso leaning toward bent knee, one arm arcing overhead into a side stretch. Clear asymmetrical pose, circular featureless head. One graceful short stretch arc.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1245245,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "cycling",
+      "label": "자전거",
+      "subject": "One simple signage person riding a compact side-view bicycle, torso inclined and hands holding handlebars, bent legs on visible pedals. Bicycle has two clean teal circular wheel rims, visible triangular frame, saddle, crank and chain line. Accurate recognizable bicycle structure, 2 short speed marks.",
+      "file": "cycling.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-3164282d-b7ed-42cf-9a95-b4946a94e034.png",
+      "finalPrompt": "Use case: stylized-concept.\nAsset type: production preset quest action illustration for PENTAPHOR, a personal routine app. One standalone reusable square illustration, not a presentation board or contact sheet.\nArt direction: an expressive action pictogram enlarged into a miniature editorial illustration. The PERSON MUST BE EXTREMELY SIMPLE, like universal public signage: circular featureless head, solid geometric torso and thick limbs, no eyes, face, hair, fingers, clothing folds, muscles, or character design. The ACTION must be richly legible through carefully drawn props, silhouette, posture, and 2-3 restrained motion marks. Sophisticated angular cut-paper screenprint look, bold silhouette, crisp vector-like edges, striking diagonal composition, subtle ink texture only within shapes. No cute cartoon, no realistic anatomy, no 3D, no gradients, no manga character.\nPalette strictly warm ivory #F3EEDC for the main person's silhouette, vibrant teal #35D6BE and deep ink #121916 for props and contrasting internal cuts, optional tiny muted gold #D8B765 accent under 3%. Main silhouette must be readable on the app's dark ink background. Do not put dark strokes around all the ivory shapes. Maintain a consistent visual language of geometric signage heads/limbs with more detailed equipment.\nBackground: uniform solid dark ink #121916 background across entire square, absolutely no checkerboard, no transparency pattern, no paper texture on background, no frame or badge, no background scenery, no text or letters, no logo, no labels or watermark. Compact complete scene centered with all parts within 12% safe margins; illustration fills roughly 76% of square, suitable for display at 96-200px and larger achievement screen. Request 1024x1024 square PNG.\n\nInput image role: STYLE REFERENCE ONLY for person and props, NOT its background. Generate a new scene with solid dark ink background. Match featureless signage figure and ivory/teal screenprint shapes.\nSubject: One simple signage person riding a compact side-view bicycle, torso inclined and hands holding handlebars, bent legs on visible pedals. Bicycle has two clean teal circular wheel rims, visible triangular frame, saddle, crank and chain line. Accurate recognizable bicycle structure, 2 short speed marks.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1235216,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "cooking",
+      "label": "요리",
+      "subject": "One person standing in a three-quarter side view, one hand holding handle of a tilted frying pan and other using a spatula; three small vegetable pieces mid toss over the pan with two steam curls. A minimal small counter edge with cutting board and half-cut vegetable. Clear cooking action, no kitchen backdrop, no chef costume.",
+      "file": "cooking.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-be564c0d-1f40-439a-b4a9-6843691b185a.png",
+      "finalPrompt": "Use case: stylized-concept.\nAsset type: production preset quest action illustration for PENTAPHOR, a personal routine app. One standalone reusable square illustration, not a presentation board or contact sheet.\nArt direction: an expressive action pictogram enlarged into a miniature editorial illustration. The PERSON MUST BE EXTREMELY SIMPLE, like universal public signage: circular featureless head, solid geometric torso and thick limbs, no eyes, face, hair, fingers, clothing folds, muscles, or character design. The ACTION must be richly legible through carefully drawn props, silhouette, posture, and 2-3 restrained motion marks. Sophisticated angular cut-paper screenprint look, bold silhouette, crisp vector-like edges, striking diagonal composition, subtle ink texture only within shapes. No cute cartoon, no realistic anatomy, no 3D, no gradients, no manga character.\nPalette strictly warm ivory #F3EEDC for the main person's silhouette, vibrant teal #35D6BE and deep ink #121916 for props and contrasting internal cuts, optional tiny muted gold #D8B765 accent under 3%. Main silhouette must be readable on the app's dark ink background. Do not put dark strokes around all the ivory shapes. Maintain a consistent visual language of geometric signage heads/limbs with more detailed equipment.\nBackground: uniform solid dark ink #121916 background across entire square, absolutely no checkerboard, no transparency pattern, no paper texture on background, no frame or badge, no background scenery, no text or letters, no logo, no labels or watermark. Compact complete scene centered with all parts within 12% safe margins; illustration fills roughly 76% of square, suitable for display at 96-200px and larger achievement screen. Request 1024x1024 square PNG.\n\nInput image role: STYLE REFERENCE ONLY for person and props, NOT its background. Generate a new scene with solid dark ink background. Match featureless signage figure and ivory/teal screenprint shapes.\nSubject: One person standing in a three-quarter side view, one hand holding handle of a tilted frying pan and other using a spatula; three small vegetable pieces mid toss over the pan with two steam curls. A minimal small counter edge with cutting board and half-cut vegetable. Clear cooking action, no kitchen backdrop, no chef costume.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1403142,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "cleaning",
+      "label": "청소",
+      "subject": "One person leaning forward pushing a long handled flat mop diagonally across a small implied floor, hands gripping shaft apart, a small teal cleaning bucket nearby with simple handle. Mop head broad and flat, a clean teal swoosh and two tiny ivory sparkle marks show cleaning action. No room backdrop.",
+      "file": "cleaning.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-26ffc5af-299d-4d41-a06d-02cb20c18b22.png",
+      "finalPrompt": "Use case: stylized-concept.\nAsset type: production preset quest action illustration for PENTAPHOR, a personal routine app. One standalone reusable square illustration, not a presentation board or contact sheet.\nArt direction: an expressive action pictogram enlarged into a miniature editorial illustration. The PERSON MUST BE EXTREMELY SIMPLE, like universal public signage: circular featureless head, solid geometric torso and thick limbs, no eyes, face, hair, fingers, clothing folds, muscles, or character design. The ACTION must be richly legible through carefully drawn props, silhouette, posture, and 2-3 restrained motion marks. Sophisticated angular cut-paper screenprint look, bold silhouette, crisp vector-like edges, striking diagonal composition, subtle ink texture only within shapes. No cute cartoon, no realistic anatomy, no 3D, no gradients, no manga character.\nPalette strictly warm ivory #F3EEDC for the main person's silhouette, vibrant teal #35D6BE and deep ink #121916 for props and contrasting internal cuts, optional tiny muted gold #D8B765 accent under 3%. Main silhouette must be readable on the app's dark ink background. Do not put dark strokes around all the ivory shapes. Maintain a consistent visual language of geometric signage heads/limbs with more detailed equipment.\nBackground: uniform solid dark ink #121916 background across entire square, absolutely no checkerboard, no transparency pattern, no paper texture on background, no frame or badge, no background scenery, no text or letters, no logo, no labels or watermark. Compact complete scene centered with all parts within 12% safe margins; illustration fills roughly 76% of square, suitable for display at 96-200px and larger achievement screen. Request 1024x1024 square PNG.\n\nInput image role: STYLE REFERENCE ONLY for person and props, NOT its background. Generate a new scene with solid dark ink background. Match featureless signage figure and ivory/teal screenprint shapes.\nSubject: One person leaning forward pushing a long handled flat mop diagonally across a small implied floor, hands gripping shaft apart, a small teal cleaning bucket nearby with simple handle. Mop head broad and flat, a clean teal swoosh and two tiny ivory sparkle marks show cleaning action. No room backdrop.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1274157,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "meditation",
+      "label": "명상",
+      "subject": "One person seated cross-legged on a small flat teal cushion, back upright, circular featureless head, hands resting simply on knees; one thin open teal breath arc on each side gives a gentle breathing rhythm. Quiet balanced silhouette, no spiritual symbols, no face or finger detail.",
+      "file": "meditation.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-f462323a-edbb-4a07-a3ec-c65b90906ec2.png",
+      "finalPrompt": "Use case: stylized-concept.\nAsset type: production preset quest action illustration for PENTAPHOR, a personal routine app. One standalone reusable square illustration, not a presentation board or contact sheet.\nArt direction: an expressive action pictogram enlarged into a miniature editorial illustration. The PERSON MUST BE EXTREMELY SIMPLE, like universal public signage: circular featureless head, solid geometric torso and thick limbs, no eyes, face, hair, fingers, clothing folds, muscles, or character design. The ACTION must be richly legible through carefully drawn props, silhouette, posture, and 2-3 restrained motion marks. Sophisticated angular cut-paper screenprint look, bold silhouette, crisp vector-like edges, striking diagonal composition, subtle ink texture only within shapes. No cute cartoon, no realistic anatomy, no 3D, no gradients, no manga character.\nPalette strictly warm ivory #F3EEDC for the main person's silhouette, vibrant teal #35D6BE and deep ink #121916 for props and contrasting internal cuts, optional tiny muted gold #D8B765 accent under 3%. Main silhouette must be readable on the app's dark ink background. Do not put dark strokes around all the ivory shapes. Maintain a consistent visual language of geometric signage heads/limbs with more detailed equipment.\nBackground: uniform solid dark ink #121916 background across entire square, absolutely no checkerboard, no transparency pattern, no paper texture on background, no frame or badge, no background scenery, no text or letters, no logo, no labels or watermark. Compact complete scene centered with all parts within 12% safe margins; illustration fills roughly 76% of square, suitable for display at 96-200px and larger achievement screen. Request 1024x1024 square PNG.\n\nInput image role: STYLE REFERENCE ONLY for person and props, NOT its background. Generate a new scene with solid dark ink background. Match featureless signage figure and ivory/teal screenprint shapes.\nSubject: One person seated cross-legged on a small flat teal cushion, back upright, circular featureless head, hands resting simply on knees; one thin open teal breath arc on each side gives a gentle breathing rhythm. Quiet balanced silhouette, no spiritual symbols, no face or finger detail.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1331314,
+      "hasAlphaChannel": false
+    },
+    {
+      "id": "music",
+      "label": "악기 연습",
+      "subject": "One person seated on a simple stool playing an acoustic guitar, one hand at the fretboard and other strumming over sound hole. Guitar body teal with ivory sound-hole rim, simplified but visible six-string hints, neck and tuning head. Two short angular strum marks, no written music notes, no face.",
+      "file": "music.png",
+      "source": "/Users/gsang2/.codex/generated_images/01a085ad-7c14-75e3-ad68-0050dbd67306/exec-cfe82fd8-590a-4ae5-a8de-7edc205b5c03.png",
+      "finalPrompt": "Use case: precise-object-edit. Edit the supplied PENTAPHOR guitar-playing pictogram. Change ONLY the guitar's string system from the current FIVE strings to exactly SIX strings. Preserve person, pose, hands, chair, guitar body outline, sound hole, all colors, texture, background, framing and overall composition.\nPrecisely draw SIX separate thin ivory strings, evenly spaced and clearly countable especially across the exposed sound hole below/right of the strumming hand and at bridge: 1,2,3,4,5,6, but DO NOT write any numerals. Each string begins at one of exactly SIX ivory bridge pins, continues parallel along fretboard across existing transverse frets, passes over nut and attaches to one of the existing SIX tuners (three each side). No doubled or branching strings, no extra seventh string. Where a hand overlaps, strings are correctly occluded but the exposed portion shows all SIX. Keep neck edges visually distinct from strings so edges aren't mistaken for extra strings. Count SIX bridge pins and SIX continuous strings before finishing. All other image elements unchanged. Output square PNG with same opaque dark ink background.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1543540,
+      "hasAlphaChannel": false,
+      "revision": 2
+    }
+  ]
+}

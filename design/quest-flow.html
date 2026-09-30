@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PENTAPHOR — 퀘스트를 고르고, 나를 키우고</title>
+  <link rel="stylesheet" href="quest-flow.css">
+  <script src="quest-art-data.js" defer></script>
+  <script src="quest-flow.js" defer></script>
+</head>
+<body>
+<main id="pentaphor">
+  <header class="studio-head"><div><p class="eyebrow">PENTAPHOR / DESIGN STUDY 03</p><h1>내가 고른 일이, 내가 되는 순간.</h1></div><span class="studio-note">60 ACTIONS · QUEST FLOW<br>직접 골라보고, 달성해봐.</span></header>
+  <div class="screens">
+    <section class="screen-column" aria-label="퀘스트 생성 시안">
+      <div class="screen-label"><span>01 / MAKE IT YOURS</span><span>퀘스트 만들기</span></div>
+      <div class="phone" id="creation-phone">
+        <div class="status"><span>9:41</span><span aria-label="배터리 충분">▂▄▆ ▰</span></div>
+        <header class="brandbar"><b class="wordmark"><span class="brand-mark" aria-hidden="true">↗</span> PENTAPHOR</b><span class="edition">YOUR OWN PACE.</span></header>
+        <section data-left="create">
+          <div class="page-heading"><button class="text-button" type="button" data-action="list">← 내 퀘스트</button><span class="eyebrow">NEW QUEST</span><h2>무엇을 해볼까?</h2></div>
+          <form id="quest-form">
+            <button type="button" class="art-card" data-action="library" aria-label="퀘스트 아트 선택, 현재 클라이밍">
+              <div class="art-caption"><span class="eyebrow">MY NEXT CHAPTER</span><strong data-art-category>운동</strong><span class="art-change">아트 바꾸기 <b>↗</b></span></div>
+              <img data-draft-art src="../assets/quest-art/climbing.png" alt="클라이밍 활동 아트" width="1254" height="1254">
+            </button>
+            <div class="form-body">
+              <label class="field-label" for="quest-name">퀘스트 이름 <span>이름은 자유롭게</span></label>
+              <input id="quest-name" class="name-input" value="클라이밍 하기" placeholder="나를 위한 작은 행동" maxlength="40" required>
+              <div class="section-title"><h3>나만의 페이스</h3><span>매일 하지 않아도 돼.</span></div>
+              <div class="frequency"><div class="period-switch" aria-label="목표 주기"><button type="button" data-period="week" aria-pressed="true">매주</button><button type="button" data-period="month" aria-pressed="false">매월</button></div><div class="target"><input id="quest-target" type="number" min="1" max="99" value="3" aria-label="목표 횟수" required><span>회</span></div></div>
+              <p class="period-note" data-period-note>한 주의 마무리는 월요일 오전 9시까지.</p>
+              <div class="section-title growth-title"><h3>어떤 나로 자랄까?</h3><span class="point-budget" data-budget>2 / 2 P</span></div>
+              <div class="allocations" data-allocations></div>
+              <p class="helper">한 번 완료할 때마다 최대 2포인트.<br>2주 연속부터는 끈기 +1이 따로 쌓여.</p>
+              <button class="primary" type="submit"><span>나의 퀘스트로 등록</span><b>↗</b></button>
+              <p class="error" id="form-error" role="alert"></p>
+            </div>
+          </form>
+        </section>
+        <section data-left="library" hidden>
+          <div class="page-heading"><button class="text-button" data-action="create">← 돌아가기</button><span class="eyebrow">ACTION ARCHIVE / 60</span><h2>마음이 가는 장면.</h2><p class="helper">그림은 고르고, 퀘스트는 네 마음대로.</p></div>
+          <div class="library-body"><label class="search"><span aria-hidden="true">⌕</span><input id="art-search" type="search" placeholder="달리기, 기타, 청소…" aria-label="활동 아트 검색"></label><div class="categories" data-categories aria-label="아트 분류"></div><div class="library-count" aria-live="polite" data-library-count></div><div class="art-grid" data-art-grid></div><button class="more" data-action="more" hidden>더 보기 ↓</button></div>
+        </section>
+        <section data-left="list" hidden>
+          <div class="page-heading"><span class="eyebrow">YOUR OWN PACE</span><h2>내가 고른 퀘스트.</h2><p class="helper">오늘 쉬어도 괜찮아. 다시 이어가면 돼.</p></div>
+          <div class="list-body"><div class="list-tabs"><button data-filter="week" aria-pressed="true">이번 주</button><button data-filter="month" aria-pressed="false">이번 달</button></div><div data-quest-list></div><button class="primary" data-action="create"><span>새 퀘스트 만들기</span><b>＋</b></button><p class="list-toast" data-list-toast role="status"></p></div>
+        </section>
+        <div class="home-indicator" aria-hidden="true"></div>
+      </div>
+    </section>
+    <section class="screen-column" aria-label="퀘스트 달성 시안">
+      <div class="screen-label"><span>02 / MAKE IT COUNT</span><button class="preview-replay" data-action="replay">연출 다시 보기 ↻</button></div>
+      <div class="phone reward-phone" id="reward-phone">
+        <div class="status"><span>9:41</span><span aria-label="배터리 충분">▂▄▆ ▰</span></div>
+        <header class="brandbar"><b class="wordmark"><span class="brand-mark" aria-hidden="true">↗</span> PENTAPHOR</b><span class="edition">ONE MORE STEP.</span></header>
+        <section class="reward-content">
+          <div class="reward-art-stage"><span class="eyebrow">THIS MOMENT BECOMES YOU.</span><img data-result-art src="../assets/quest-art/climbing.png" alt="클라이밍 활동 아트" width="1254" height="1254"><div class="done" aria-hidden="true">WELL<br><span>DONE!</span></div><span class="complete-stamp" data-stamp>1회 완료 ✓</span></div>
+          <div class="result-heading"><p class="eyebrow" data-result-category>운동</p><h2 data-result-name>클라이밍 하기</h2><p data-result-note>한 번의 도전이, 네 안에 남았어.</p></div>
+          <div class="reward-chips" data-rewards></div>
+          <div class="pa-growth-stage"><div data-growth-radar></div><div class="pa-growth-key"><span>┄ 조금 전의 나</span><strong data-growth-caption></strong></div></div>
+          <div class="result-bottom"><div class="goal-line"><span data-goal-label>이번 주의 발걸음</span><strong data-goal-count>1 <small>/ 3회</small></strong></div><div class="goal-track" role="progressbar" aria-label="기간 목표 진행도" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1"><span data-goal-fill></span></div><p class="goal-note" data-goal-note>네 페이스로 이어가면 돼.</p><div class="streak" data-streak hidden><span>KEEP GOING BONUS</span><strong data-streak-title>2주 연속 달성 <b>끈기 +1</b></strong><p>네가 이어온 시간도 성장으로 남았어.</p></div><button class="primary" data-action="continue"><span>좋아, 이만큼 자랐어</span><b>↗</b></button><button class="undo" data-action="undo" hidden>앗, 잘못 눌렀어 · 되돌리기</button></div>
+        </section>
+        <div class="home-indicator" aria-hidden="true"></div>
+      </div>
+      <p class="preview-note" data-preview-note>선택한 아트와 성장 배분이 달성 화면에도 이어져.</p>
+    </section>
+  </div>
+  <footer class="studio-footer"><span>PENTAPHOR — PERSONAL PARAMETERS, YOUR OWN STORY.</span><span>디자인 프로토타입 · 기록은 새로고침하면 초기화돼.</span></footer>
+  <div class="sr-only" role="status" aria-live="polite" data-live></div>
+</main>
+</body>
+</html>
