@@ -4,7 +4,7 @@ import PentaphorCore
 
 final class LocalizationTests: XCTestCase {
     func testRecapCountsUseSingularAndPlural() {
-        let en = AppLocalization.text(preferredLanguages: ["en"], locale: Locale(identifier: "en_US"))
+        let en = AppLocalization.text(preferredLanguages: ["en"], locale: Locale(identifier: "ko_KR"))
         XCTAssertEqual(en.format("recap.times", 1), "1 time")
         XCTAssertEqual(en.format("recap.times", 2), "2 times")
         XCTAssertEqual(en.format("recap.actions", 1), "1 action")

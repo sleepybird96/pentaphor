@@ -1,6 +1,6 @@
 # App Store English (U.S.) metadata
 
-Status: draft pending App Store Connect field verification; public submission is not authorized by this localization task.
+Status: 2026-09-30 saved English (U.S.) app name/subtitle, promotional text, description and keywords, plus CHALLENGE display name/description in App Store Connect. Verified saved UI state. No public review submitted. Support URL is still empty and requires a real support destination; screenshots and privacy declarations remain part of launch preparation.
 
 ## Name
 PENTAPHOR

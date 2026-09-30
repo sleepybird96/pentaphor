@@ -15,7 +15,11 @@ public struct LocalizedText: Sendable {
         bundle.localizedString(forKey: key, value: nil, table: "Localizable")
     }
     public func format(_ key: String, _ arguments: CVarArg...) -> String {
-        String(format: string(key), locale: locale, arguments: arguments)
+        // Foundation uses this locale for plural rules too. Match the text's
+        // language while retaining the user's region and locale extensions.
+        var components = Locale.Components(locale: locale)
+        components.languageComponents.languageCode = Locale.LanguageCode(language)
+        return String(format: string(key), locale: Locale(components: components), arguments: arguments)
     }
 }
 

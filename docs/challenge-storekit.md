@@ -59,3 +59,7 @@ Review purchase access from Settings → CHALLENGE; reaching 99 points is not re
 ### 저장소 이전
 
 2026-09-30 사용자 요청에 따라 기존 커밋 이력과 디자인·아트 원본을 `~/dev/pentaphor`에 보존하고 `https://github.com/sleepybird96/pentaphor.git`의 `main`에 push했다. 앞으로 이 경로에서 개발한다. 배포 키는 기존 `~/.config/deploy-credentials/`에 유지한다. 새 경로에서 Core115개와 배포 자동화19개 테스트 통과. 앱 코드 변경이 없는 저장소 이전·문서 작업이므로 새 바이너리는 배포하지 않았다.
+
+### English localization (2026-09-30)
+
+Saved en-US display name `CHALLENGE Lifetime Unlock` and description `Unlock unlimited quests and parameter growth forever.` (53/55 characters). Korean metadata and price/availability retained. Public review not submitted.

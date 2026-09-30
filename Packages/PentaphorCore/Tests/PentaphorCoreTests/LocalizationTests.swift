@@ -37,6 +37,13 @@ import Testing
         #expect(ko.string("stat.stamina") == "체력")
         #expect(CoreLocalization.text(preferredLanguages: ["fr"], locale: .current).string("stat.courage") == "Courage")
     }
+    @Test func englishPluralRulesDoNotFollowKoreanRegionLanguage() {
+        let en = CoreLocalization.text(preferredLanguages: ["en"], locale: Locale(identifier: "ko_KR"))
+        #expect(en.format("reminder.week", 1) == "1 more time to reach this week's goal.")
+        for count in [0, 2, 99] {
+            #expect(en.format("reminder.week", count) == "\(count) more times to reach this week's goal.")
+        }
+    }
     @Test func reminderPluralCounts() {
         let en = CoreLocalization.text(preferredLanguages: ["en"], locale: Locale(identifier: "en_US"))
         #expect(en.format("reminder.week", 1) == "1 more time to reach this week's goal.")
