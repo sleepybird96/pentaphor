@@ -49,3 +49,9 @@ Review purchase access from Settings → CHALLENGE; reaching 99 points is not re
 - 심사용 구매 화면 초안: 같은 폴더의 `challenge-purchase-review.png`.
 
 실제 StoreKit API 통합 테스트와 위 시각 테스트는 별개다. 실제 TestFlight sandbox 상품 조회·구매는 아직 확인하지 않았다. 큰 글자/VoiceOver 실기기 수동 점검도 공개 출시 전에 남아 있다.
+
+### TestFlight 납품
+
+2026-09-30: **1.0(10), Personal READY** 확인, 배포 명령 종료0. 전체 회귀 Core115 + Native47 + UI23 + 자동화19, 별도 StoreKit2 =206개 통과. Release 서명 아카이브와 업로드 성공, 테스트용 코드/로컬 StoreKit 파일의 배포 제외 및60개 아트 패키징 확인. 테스트·아카이브·API 결과는 `~/Library/Developer/PentaphorDeliveries/20260930-041428-u0ucyzq7/`에 보존한다.
+
+남은 작업: 잠금 해제된 Mac에서 App Store Connect 관리자 로그인, 5,900원 가격·한국어 메타데이터/심사 화면 저장, 유료 앱 계약·세금·은행 상태 확인, 실제 TestFlight sandbox 구매/복원. 공개 심사 제출은 하지 않았다. Xcode GUI는 로컬 StoreKit 테스트 스킴이 선택된 상태이며, Mac 잠금으로 일반 스킴 복구를 못 했으므로 일반 개발 실행에는 `Pentaphor`를 선택한다. CLI 배포는 정상 `Pentaphor` 스킴을 사용했다.

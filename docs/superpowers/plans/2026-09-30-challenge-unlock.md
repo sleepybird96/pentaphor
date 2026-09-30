@@ -14,7 +14,7 @@
 
 - Task 1–5: 구현 완료. Core115, Native47, Challenge UI3, StoreKit 통합2 통과. 독립 리뷰 지적 수정/재확인 완료.
 - Task 6: 실제 상품 생성 및 메타데이터 초안 완료. 가격/한국어 설명 저장은 API403으로 관리자 로그인 대기. 실제 TestFlight sandbox 구매와 실기기 접근성 점검은 미검증.
-- Task 7: 시각 시뮬레이션 영상과 구매 화면 캡처 준비. 1.0(10) 전체 회귀/내부 배포 진행 중. 최종 결과는 `docs/challenge-storekit.md`와 `docs/testflight-internal.md`에 기록한다.
+- Task 7: 시각 시뮬레이션 영상과 구매 화면 캡처 준비. 1.0(10) 전체 회귀 통과 및 Personal READY 확인. 최종 결과는 `docs/challenge-storekit.md`와 `docs/testflight-internal.md`에 기록한다.
 - 실행 중 인터페이스 조정: finish는 실제 StoreKit과 동일하게 async nonthrowing; StoreKit 테스트는 별도 target; 구매 화면은 부모 presentation binding으로 닫힘을 제어한다.
 
 ## Global Constraints
