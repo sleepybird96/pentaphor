@@ -9,7 +9,7 @@ struct StatsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 23) {
-                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: BrandCopy.slogan); Text(store.engine.preferences.nickname.isEmpty ? "나의 파라미터" : "\(store.engine.preferences.nickname)의 파라미터").font(.system(size: 32, weight: .black)) }
+                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: BrandCopy.slogan); Text(store.engine.preferences.nickname.isEmpty ? AppLocalization.string("JournalViews.1") : AppLocalization.format("JournalViews.2", AppLocalization.argument(store.engine.preferences.nickname))).font(.system(size: 32, weight: .black)) }
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .firstTextBaseline) { Text("TOTAL GROWTH").font(.caption.monospaced().bold()); Spacer(); Text(purchases.entitlement.access == nil ? "—" : "\(displayed.total) P").font(.system(size: 34, weight: .black, design: .rounded)).foregroundStyle(Palette.bright) }.padding(22)
                     ParameterRadar(before: store.engine.totals, after: store.engine.totals).padding(.horizontal, 10)
@@ -17,15 +17,15 @@ struct StatsView: View {
                 ForEach(Stat.allCases) { stat in
                     HStack { Label(stat.title, systemImage: "diamond.fill").font(.body.bold()); Spacer(); Text(purchases.entitlement.access == nil ? "—" : "\(displayed[stat])").font(.system(size: 25, weight: .heavy, design: .rounded)).foregroundStyle(Palette.teal) }.padding(.vertical, 3)
                 }
-                Text("완료한 행동의 포인트와 연속 달성 보너스가 모인 지금의 나. 되돌린 기록은 파라미터에서도 빠져.").font(.caption).lineSpacing(5).foregroundStyle(Palette.muted)
+                Text(AppLocalization.string("JournalViews.3")).font(.caption).lineSpacing(5).foregroundStyle(Palette.muted)
                 if purchases.entitlement.access == .free && Stat.allCases.contains(where: { store.engine.totals[$0] > 99 }) {
-                    Text(existingNotice ? "기존 성장은 그대로 보관했어. 무료 화면에는 각 파라미터가 99까지 보여." : "99 이후의 성장도 쌓이고 있어. CHALLENGE 해금 시 모두 반영돼.")
+                    Text(existingNotice ? AppLocalization.string("JournalViews.4") : AppLocalization.string("JournalViews.5"))
                         .font(.caption).foregroundStyle(Palette.teal)
                 }
                 Divider()
                 Eyebrow(title: "MY TIME, MY RHYTHM")
                 Label(store.engine.state.timeZoneID, systemImage: "globe.asia.australia").font(.subheadline.bold())
-                Text("처음 시작한 시간대로 주·월을 집계해. 여행 중에도 기록의 기준은 같아. 주는 월요일 0시, 월은 1일 0시에 시작해.").font(.caption).foregroundStyle(Palette.muted).lineSpacing(5)
+                Text(AppLocalization.string("JournalViews.6")).font(.caption).foregroundStyle(Palette.muted).lineSpacing(5)
             }.padding(24)
         }.task { existingNotice = ChallengeNoticeStore().claimExistingGrowthNotice(raw: store.engine.totals) }
     }
@@ -42,14 +42,14 @@ struct HistoryView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
-                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: "EVERY STEP STAYS"); Text("쌓아온 기록").font(.system(size: 32, weight: .black)) }
+                VStack(alignment: .leading, spacing: 8) { Eyebrow(title: "EVERY STEP STAYS"); Text(AppLocalization.string("JournalViews.7")).font(.system(size: 32, weight: .black)) }
                 if let report = WeeklyRecapBuilder.latest(engine: store.engine, now: recapNow()) {
                     Button { onWeeklyRecap(report) } label: {
                         HStack(spacing: 12) {
                             Image(systemName: "sparkles").foregroundStyle(Palette.teal)
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("주간 정산 다시 보기").font(.subheadline.bold())
-                                Text("\(periodDate(report.period.start)) 시작 · \(report.completionCount)번의 행동")
+                                Text(AppLocalization.string("JournalViews.8")).font(.subheadline.bold())
+                                Text(AppLocalization.format("JournalViews.9", AppLocalization.argument(periodDate(report.period.start)), AppLocalization.argument(report.completionCount)))
                                     .font(.caption).foregroundStyle(Palette.muted)
                             }
                             Spacer()
@@ -57,22 +57,22 @@ struct HistoryView: View {
                         }.padding(16).frame(minHeight: 44).background(Palette.teal.opacity(0.07), in: CutCorner())
                     }.buttonStyle(.plain).accessibilityIdentifier("history.weekly-recap")
                 }
-                if records.isEmpty { ContentUnavailableView("첫걸음을 기다리는 중", systemImage: "clock", description: Text("퀘스트를 완료하면 여기에 차곡차곡 쌓여.")) }
+                if records.isEmpty { ContentUnavailableView(AppLocalization.string("JournalViews.10"), systemImage: "clock", description: Text(AppLocalization.string("JournalViews.11"))) }
                 ForEach(records) { record in
                     let quest = store.engine.state.quests.first { $0.id == record.questID }
                     VStack(alignment: .leading, spacing: 10) {
                         HStack(spacing: 13) {
                             if let quest { QuestArt(id: quest.artID, pixelSize: 240).frame(width: 58, height: 58).background(Palette.art) }
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(quest?.name ?? "퀘스트").font(.body.bold())
+                                Text(quest?.name ?? AppLocalization.string("JournalViews.12")).font(.body.bold())
                                 Text(record.recordedAt.formatted(date: .abbreviated, time: .shortened)).font(.caption2).foregroundStyle(Palette.muted)
                             }
                             Spacer()
-                            if record.isVoided { Text("되돌린 기록").font(.caption2).foregroundStyle(Palette.muted) }
-                            else { Button("되돌리기") { undoID = record.id }.font(.caption.bold()).frame(minHeight: 44).accessibilityLabel("\(quest?.name ?? "퀘스트") 기록 되돌리기") }
+                            if record.isVoided { Text(AppLocalization.string("JournalViews.13")).font(.caption2).foregroundStyle(Palette.muted) }
+                            else { Button(AppLocalization.string("JournalViews.14")) { undoID = record.id }.font(.caption.bold()).frame(minHeight: 44).accessibilityLabel(AppLocalization.format("JournalViews.15", quest?.name ?? AppLocalization.string("JournalViews.12"))) }
                         }.opacity(record.isVoided ? 0.55 : 1)
                         HStack {
-                            Text(record.period.cadence == .once ? "한 번 · 완료" : "\(periodDate(record.period.start)) 시작 · 목표 \(record.target)회")
+                            Text(record.period.cadence == .once ? AppLocalization.string("JournalViews.16") : AppLocalization.format("JournalViews.17", AppLocalization.argument(periodDate(record.period.start)), AppLocalization.argument(record.target)))
                             Spacer()
                             Text(Stat.allCases.filter { record.rewards[$0] > 0 }.map { "\($0.title) +\(record.rewards[$0])" }.joined(separator: " · "))
                         }.font(.caption2).foregroundStyle(Palette.muted)
@@ -81,20 +81,19 @@ struct HistoryView: View {
                 }
             }.padding(24)
         }.modifier(ErrorNotice(error: $error))
-            .confirmationDialog("이 기록을 되돌릴까?", isPresented: Binding(get: { undoID != nil }, set: { if !$0 { undoID = nil } }), titleVisibility: .visible) {
-                Button("기록 되돌리기", role: .destructive) {
+            .confirmationDialog(AppLocalization.string("JournalViews.18"), isPresented: Binding(get: { undoID != nil }, set: { if !$0 { undoID = nil } }), titleVisibility: .visible) {
+                Button(AppLocalization.string("JournalViews.19"), role: .destructive) {
                     guard let undoID else { return }
                     do { try store.transact { try $0.undo(completionID: undoID) } }
                     catch { self.error = error.localizedDescription }
                     self.undoID = nil
                 }
-            } message: { Text("횟수와 포인트를 다시 계산해. 이 기록과 이어진 연속 달성 보너스도 달라질 수 있어.") }
+            } message: { Text(AppLocalization.string("JournalViews.20")) }
             .onChange(of: undoID != nil || error != nil, initial: true) { _, busy in onDialogChange(busy) }
             .onDisappear { onDialogChange(false) }
     }
     private func periodDate(_ date: Date) -> String {
-        let format = DateFormatter(); format.locale = Locale(identifier: "ko_KR"); format.timeZone = TimeZone(identifier: store.engine.state.timeZoneID); format.dateFormat = "M월 d일"
-        return format.string(from: date)
+        LocalizedDisplayFormat.day(date, locale: .current, timeZone: TimeZone(identifier: store.engine.state.timeZoneID) ?? .current, includeYear: false)
     }
 }
 
@@ -109,15 +108,15 @@ struct ArchiveView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 23) {
                     Eyebrow(title: "A CHAPTER TO RETURN TO")
-                    Text("잠시 쉬어가는 퀘스트").font(.title2.bold())
-                    Text("지금까지의 기록은 그대로.\n다시 이어가고 싶을 때 꺼내면 돼.").font(.subheadline).foregroundStyle(Palette.muted).lineSpacing(5)
+                    Text(AppLocalization.string("JournalViews.22")).font(.title2.bold())
+                    Text(AppLocalization.string("JournalViews.23")).font(.subheadline).foregroundStyle(Palette.muted).lineSpacing(5)
                     let archived = store.engine.archivedQuests
-                    if archived.isEmpty { ContentUnavailableView("보관한 퀘스트가 없어", systemImage: "archivebox") }
+                    if archived.isEmpty { ContentUnavailableView(AppLocalization.string("JournalViews.24"), systemImage: "archivebox") }
                     ForEach(archived) { quest in
                         HStack(spacing: 12) {
                             QuestArt(id: quest.artID, pixelSize: 240).frame(width: 64, height: 64).background(Palette.art)
                             Text(quest.name).font(.body.bold()); Spacer()
-                            Button("복원") {
+                            Button(AppLocalization.string("JournalViews.25")) {
                                 do { try ChallengeQuestActions(store: store, purchases: purchases).unarchive(questID: quest.id) }
                                 catch ChallengeActionError.activeQuestLimit { showChallenge = true }
                                 catch { self.error = error.localizedDescription }
@@ -127,8 +126,8 @@ struct ArchiveView: View {
                     }
                 }.padding(24)
             }.background(Palette.paper).foregroundStyle(Palette.ink)
-                .navigationTitle("보관함").navigationBarTitleDisplayMode(.inline)
-                .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("완료") { dismiss() }.accessibilityIdentifier("archive.done") } }
+                .navigationTitle(AppLocalization.string("JournalViews.26")).navigationBarTitleDisplayMode(.inline)
+                .toolbar { ToolbarItem(placement: .topBarTrailing) { Button(AppLocalization.string("JournalViews.27")) { dismiss() }.accessibilityIdentifier("archive.done") } }
                 .modifier(ErrorNotice(error: $error))
                 .sheet(isPresented: $showChallenge) { ChallengePaywall(store: store, isPresented: $showChallenge) }
         }

@@ -46,7 +46,7 @@ struct ChallengeUnlockEvent: Identifiable, Equatable { let transactionID: UInt64
     }
     func loadProduct() async {
         do { product = try await client.loadProduct(); lastError = nil }
-        catch { lastError = "상품을 불러오지 못했어. 잠시 후 다시 시도해줘." }
+        catch { lastError = AppLocalization.string("ChallengePurchaseService.1") }
     }
     func refresh() async {
         let version = revision
@@ -56,7 +56,7 @@ struct ChallengeUnlockEvent: Identifiable, Equatable { let transactionID: UInt64
             entitlement = .resolved(access)
         } catch {
             if entitlement.access == nil { entitlement = .unavailable }
-            lastError = "구매 내역을 확인하지 못했어. 연결을 확인하고 다시 시도해줘."
+            lastError = AppLocalization.string("ChallengePurchaseService.2")
         }
     }
     func purchase() async {
@@ -68,7 +68,7 @@ struct ChallengeUnlockEvent: Identifiable, Equatable { let transactionID: UInt64
             case .pending: purchaseState = .pending
             case .cancelled: purchaseState = .idle
             }
-        } catch { purchaseState = .idle; lastError = "구매를 완료하지 못했어. 다시 시도할 수 있어." }
+        } catch { purchaseState = .idle; lastError = AppLocalization.string("ChallengePurchaseService.3") }
     }
     func restore() async {
         guard purchaseState != .purchasing && purchaseState != .restoring else { return }
@@ -79,8 +79,8 @@ struct ChallengeUnlockEvent: Identifiable, Equatable { let transactionID: UInt64
             let version = revision
             let access = try await client.currentEntitlement()
             if revision == version { revision += 1; entitlement = .resolved(access) }
-            restoreMessage = entitlement.access == .unlocked ? "CHALLENGE 구매를 복원했어." : "이 Apple 계정에서 복원할 구매를 찾지 못했어."
-        } catch { lastError = "구매를 복원하지 못했어. 잠시 후 다시 시도해줘." }
+            restoreMessage = entitlement.access == .unlocked ? AppLocalization.string("ChallengePurchaseService.4") : AppLocalization.string("ChallengePurchaseService.5")
+        } catch { lastError = AppLocalization.string("ChallengePurchaseService.6") }
     }
     func receive(_ transaction: ChallengeTransaction) async {
         guard transaction.productID == Self.productID else { return }

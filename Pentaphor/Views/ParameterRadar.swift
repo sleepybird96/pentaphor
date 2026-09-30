@@ -103,13 +103,13 @@ struct ParameterRadar: View {
         .overlay {
             if appliesChallengeLimit && purchases.entitlement.access == nil {
                 VStack {
-                    Text(purchases.entitlement == .checking ? "구매 내역 확인 중" : "구매 내역을 확인하지 못했어").font(.caption)
-                    if purchases.entitlement == .unavailable { Button("다시 확인") { Task { await purchases.refresh() } } }
+                    Text(purchases.entitlement == .checking ? AppLocalization.string("ParameterRadar.1") : AppLocalization.string("ParameterRadar.2")).font(.caption)
+                    if purchases.entitlement == .unavailable { Button(AppLocalization.string("ParameterRadar.3")) { Task { await purchases.refresh() } } }
                 }
             }
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(appliesChallengeLimit && purchases.entitlement.access == nil ? "구매 내역 확인 필요" : "파라미터: " + Stat.allCases.map { "\($0.title) \(shownAfter[$0])" }.joined(separator: ", "))
+        .accessibilityLabel(appliesChallengeLimit && purchases.entitlement.access == nil ? AppLocalization.string("ParameterRadar.4") : AppLocalization.string("ParameterRadar.5") + Stat.allCases.map { "\($0.title) \(shownAfter[$0])" }.joined(separator: ", "))
     }
 }
 

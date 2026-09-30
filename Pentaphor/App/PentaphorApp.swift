@@ -38,11 +38,11 @@ private struct AppEntryView: View {
                 QuestHome(store: store, recapNow: { recapDateOverride ?? Date() })
             } else if let loadError {
                 ContentUnavailableView {
-                    Label("기록을 열지 못했어", systemImage: "externaldrive.badge.exclamationmark")
+                    Label(AppLocalization.string("PentaphorApp.1"), systemImage: "externaldrive.badge.exclamationmark")
                 } description: {
-                    Text(loadError + "\n기존 기록은 그대로 보관했어.")
+                    Text(loadError + AppLocalization.string("PentaphorApp.2"))
                 } actions: {
-                    Button("다시 시도") {
+                    Button(AppLocalization.string("PentaphorApp.3")) {
                         gate = LaunchGate()
                         self.loadError = nil
                         Task { await load() }
@@ -61,6 +61,9 @@ private struct AppEntryView: View {
                 recapDateOverride = WeeklyRecapUITestScenario.cutoff
             }
             #endif
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSLocale.currentLocaleDidChangeNotification)) { _ in
+            Task { await synchronizeReminders() }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
             Task { await synchronizeReminders() }

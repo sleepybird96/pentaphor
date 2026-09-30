@@ -12,7 +12,7 @@ enum CloudBackupUploadState: Equatable, Sendable {
 enum CloudBackupError: LocalizedError {
     case unavailable
     var errorDescription: String? {
-        "iCloud Drive를 사용할 수 없습니다. 아이폰 설정에서 Apple 계정에 로그인하고 iCloud Drive와 PENTAPHOR의 iCloud 사용을 허용해 주세요."
+        AppLocalization.string("CloudBackupWriter.1")
     }
 }
 

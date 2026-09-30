@@ -39,8 +39,8 @@ struct LaunchLoadingView: View {
                 }
                 .frame(width: min(proxy.size.width - 48, 340), height: min(proxy.size.width - 48, 340))
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("기록을 불러오는 중")
-                .accessibilityValue(reduceMotion ? "간소한 연출" : "성장 연출")
+                .accessibilityLabel(AppLocalization.string("LaunchLoadingView.1"))
+                .accessibilityValue(reduceMotion ? AppLocalization.string("LaunchLoadingView.2") : AppLocalization.string("LaunchLoadingView.3"))
                 .accessibilityIdentifier("launch.animation")
                 Spacer(minLength: 30)
                 Text(BrandCopy.tagline).font(.subheadline).foregroundStyle(Palette.paper.opacity(0.65))

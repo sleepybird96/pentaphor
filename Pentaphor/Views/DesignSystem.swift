@@ -12,27 +12,6 @@ enum Palette {
     static let art = Color(red: 14/255, green: 23/255, blue: 19/255)
 }
 
-struct Art: Decodable, Identifiable, Sendable {
-    let id: String
-    let label: String
-    let file: String
-    let category: String
-    let keywords: String
-}
-
-enum ArtCatalog {
-    static let all: [Art] = {
-        guard let url = Bundle.main.url(forResource: "art-catalog", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let entries = try? JSONDecoder().decode([Art].self, from: data) else {
-            preconditionFailure("The bundled art catalog is missing or invalid.")
-        }
-        return entries
-    }()
-    static func art(_ id: String) -> Art { all.first { $0.id == id } ?? all[0] }
-    static var categories: [String] { all.reduce(into: []) { if !$0.contains($1.category) { $0.append($1.category) } } }
-}
-
 @MainActor
 private enum ArtImageCache {
     static let images: NSCache<NSString, UIImage> = {
@@ -83,7 +62,7 @@ struct BrandBar: View {
             if let onSettings {
                 Button(action: onSettings) {
                     Image(systemName: "gearshape").font(.system(size: 20, weight: .semibold)).frame(width: 44, height: 44)
-                }.buttonStyle(.plain).accessibilityLabel("설정").accessibilityIdentifier("settings.open")
+                }.buttonStyle(.plain).accessibilityLabel(AppLocalization.string("DesignSystem.1")).accessibilityIdentifier("settings.open")
             } else {
                 Text("STACK YOUR\nPROGRESS.").font(.system(size: 8, weight: .heavy, design: .monospaced)).tracking(1)
                     .multilineTextAlignment(.trailing).accessibilityLabel(BrandCopy.slogan)
@@ -125,13 +104,13 @@ struct PrimaryButton: View {
 
 extension Cadence {
     var korean: String {
-        switch self { case .once: "한 번"; case .week: "매주"; case .month: "매월" }
+        switch self { case .once: AppLocalization.string("DesignSystem.2"); case .week: AppLocalization.string("DesignSystem.3"); case .month: AppLocalization.string("DesignSystem.4") }
     }
     var scheduleDescription: String {
         switch self {
-        case .once: "기한 없이 두고, 한 번 완료하면 기록으로 남아."
-        case .week: "새 주는 월요일 0시에 시작해. 지난주 기록은 월요일 오전 9시 전까지 선택할 수 있어."
-        case .month: "매월 1일, 새로운 달의 첫걸음이 시작돼."
+        case .once: AppLocalization.string("DesignSystem.5")
+        case .week: AppLocalization.string("DesignSystem.6")
+        case .month: AppLocalization.string("DesignSystem.7")
         }
     }
 }
@@ -139,8 +118,8 @@ extension Cadence {
 struct ErrorNotice: ViewModifier {
     @Binding var error: String?
     func body(content: Content) -> some View {
-        content.alert("저장하지 못했어", isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
-            Button("확인") { error = nil }
+        content.alert(AppLocalization.string("DesignSystem.8"), isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
+            Button(AppLocalization.string("DesignSystem.9")) { error = nil }
         } message: { Text(error ?? "") }
     }
 }

@@ -33,45 +33,45 @@ struct AchievementView: View {
                         VStack {
                             Eyebrow(title: "THIS MOMENT BECOMES YOU.", color: Palette.paper.opacity(0.75)).frame(maxWidth: .infinity, alignment: .leading)
                             Spacer()
-                            Text("1회 완료 ✓").font(.caption.bold()).padding(.horizontal, 15).padding(.vertical, 7)
+                            Text(AppLocalization.string("AchievementView.1")).font(.caption.bold()).padding(.horizontal, 15).padding(.vertical, 7)
                                 .foregroundStyle(Palette.ink).background(Palette.paper).rotationEffect(.degrees(-5)).frame(maxWidth: .infinity, alignment: .trailing)
                         }.padding(21)
                     }.frame(height: 275).clipped()
                     VStack(alignment: .leading, spacing: 12) {
                         Text(quest.name).font(.system(size: 29, weight: .heavy)).accessibilityIdentifier("achievement.title")
-                        Text("작은 행동 하나, 성장으로 쌓였어.").font(.caption).foregroundStyle(Palette.paper.opacity(0.75))
+                        Text(AppLocalization.string("AchievementView.2")).font(.caption).foregroundStyle(Palette.paper.opacity(0.75))
                         rewardsRow.opacity(rewardsVisible ? 1 : 0).offset(y: rewardsVisible ? 0 : 10)
                         ParameterRadar(before: result.before, after: result.after, progress: growth, simplifiedEffects: store.engine.preferences.simplifiedEffects)
                         if purchases.entitlement.access == .free && Stat.allCases.contains(where: { result.after[$0] > 99 }) {
-                            Text("상한 이후의 성장도 저장됐어.").font(.caption).foregroundStyle(Palette.gold)
+                            Text(AppLocalization.string("AchievementView.3")).font(.caption).foregroundStyle(Palette.gold)
                         }
                         if reachedCap && purchases.entitlement.access == .free {
-                            Button("99 너머의 성장 · CHALLENGE") { showChallenge = true }.font(.subheadline.bold()).foregroundStyle(Palette.bright)
+                            Button(AppLocalization.string("AchievementView.4")) { showChallenge = true }.font(.subheadline.bold()).foregroundStyle(Palette.bright)
                         }
-                        HStack { Text("┄ 조금 전의 나"); Spacer(); Text("한 걸음 더 자랐어").foregroundStyle(Palette.gold) }.font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
+                        HStack { Text(AppLocalization.string("AchievementView.5")); Spacer(); Text(AppLocalization.string("AchievementView.6")).foregroundStyle(Palette.gold) }.font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
                         Rectangle().fill(Palette.paper.opacity(0.16)).frame(height: 1).padding(.top, 5)
                         if quest.cadence == .once {
-                            Label("퀘스트 완료", systemImage: "checkmark.circle.fill")
+                            Label(AppLocalization.string("AchievementView.7"), systemImage: "checkmark.circle.fill")
                                 .font(.headline).foregroundStyle(Palette.bright)
-                            Text("완료한 퀘스트는 기록에 남겨뒀어.")
+                            Text(AppLocalization.string("AchievementView.8"))
                                 .font(.caption).foregroundStyle(Palette.paper.opacity(0.65))
                         } else {
                             HStack {
-                                Text("목표까지 남긴 발걸음").font(.subheadline.bold()); Spacer()
-                                Text("\(progress.count)").font(.system(size: 29, weight: .black, design: .rounded)) + Text(" / \(progress.target)회").font(.caption)
+                                Text(AppLocalization.string("AchievementView.9")).font(.subheadline.bold()); Spacer()
+                                Text("\(progress.count)").font(.system(size: 29, weight: .black, design: .rounded)) + Text(AppLocalization.format("AchievementView.10", AppLocalization.argument(progress.target))).font(.caption)
                             }
                             ProgressView(value: min(Double(progress.count) / Double(progress.target), 1)).tint(Palette.bright)
-                            Text(progress.achieved ? "목표 달성! 네 페이스를 찾았어." : "네 페이스로 이어가면 돼.").font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
+                            Text(progress.achieved ? AppLocalization.string("AchievementView.11") : AppLocalization.string("AchievementView.12")).font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
                         }
                         if result.bonus > 0 {
                             VStack(alignment: .leading, spacing: 6) {
                                 Eyebrow(title: "KEEP YOUR OWN RHYTHM", color: Palette.gold)
-                                Text("\(result.streak)\(result.completion.period.cadence == .week ? "주" : "개월") 연속 달성 · 끈기 +\(result.bonus)").font(.subheadline.bold()).foregroundStyle(Palette.gold)
-                                Text("2\(result.completion.period.cadence == .week ? "주" : "개월")째부터, 연속으로 목표를 달성할 때마다 끈기 +1이 쌓여.").font(.caption2)
+                                Text(AppLocalization.format("AchievementView.13", AppLocalization.argument(result.streak), AppLocalization.argument(result.completion.period.cadence == .week ? AppLocalization.string("period.weeks") : AppLocalization.string("period.months")), AppLocalization.argument(result.bonus))).font(.subheadline.bold()).foregroundStyle(Palette.gold)
+                                Text(AppLocalization.format("AchievementView.14", AppLocalization.argument(result.completion.period.cadence == .week ? AppLocalization.string("period.weeks") : AppLocalization.string("period.months")))).font(.caption2)
                             }.padding(15).frame(maxWidth: .infinity, alignment: .leading).background(Palette.gold.opacity(0.09))
                         }
-                        PrimaryButton(title: "좋아, 이만큼 자랐어", dark: true) { dismiss() }.accessibilityIdentifier("achievement.done").padding(.top, 8)
-                        Button("방금 기록 되돌리기") {
+                        PrimaryButton(title: AppLocalization.string("AchievementView.15"), dark: true) { dismiss() }.accessibilityIdentifier("achievement.done").padding(.top, 8)
+                        Button(AppLocalization.string("AchievementView.16")) {
                             do { try store.transact { try $0.undo(completionID: result.completion.id) }; dismiss() }
                             catch { self.error = error.localizedDescription }
                         }.font(.caption).underline().foregroundStyle(Palette.paper.opacity(0.7)).frame(maxWidth: .infinity, minHeight: 44).accessibilityIdentifier("achievement.undo")
@@ -104,7 +104,7 @@ struct AchievementView: View {
                 }.padding(.horizontal, 14).padding(.vertical, 8).foregroundStyle(Palette.ink)
                     .background(stat == .courage ? Palette.bright : Palette.paper, in: CutCorner())
             }
-            if result.completion.rewards.total == 0 { Text("오늘의 행동이 기록되었어 ✓").font(.subheadline.bold()).padding(14).frame(maxWidth: .infinity, alignment: .leading).background(Palette.teal) }
+            if result.completion.rewards.total == 0 { Text(AppLocalization.string("AchievementView.17")).font(.subheadline.bold()).padding(14).frame(maxWidth: .infinity, alignment: .leading).background(Palette.teal) }
         }.padding(.top, 4)
     }
 }

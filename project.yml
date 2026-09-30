@@ -1,5 +1,7 @@
 name: Pentaphor
 options:
+  developmentLanguage: en
+  knownRegions: [en, ko]
   bundleIdPrefix: app.pentaphor
   deploymentTarget:
     iOS: "17.0"

@@ -204,6 +204,29 @@ import PentaphorCore
         XCTAssertTrue(service.shouldPresent(identifier: "pentaphor.test", rawQuestID: nil, fireDate: nil))
     }
 
+    func testLanguageChangeReplacesContentAndRespectsQuota() async throws {
+        let center = TestReminderCenter()
+        var language = "ko"
+        var (engine, quest) = try configuredEngine()
+        let service = QuestReminderService(center: center, now: { self.now }, localization: {
+            CoreLocalization.text(preferredLanguages: [language], locale: Locale(identifier: "en_US"))
+        })
+        await service.synchronize(state: engine.state)
+        let original = center.requests
+        language = "en"
+        await service.synchronize(state: engine.state)
+        XCTAssertEqual(Set(original.keys), Set(center.requests.keys))
+        for (id, value) in center.requests {
+            XCTAssertEqual(value.fireDate, original[id]?.fireDate)
+            XCTAssertEqual(value.title, quest.name)
+            XCTAssertNotEqual(value.body, original[id]?.body)
+        }
+        _ = try engine.complete(questID: quest.id, at: now)
+        await service.synchronize(state: engine.state)
+        let period = engine.progress(for: quest, at: now).period
+        XCTAssertFalse(center.requests.values.contains { $0.fireDate < period.end })
+    }
+
     private func configuredEngine() throws -> (QuestEngine, Quest) {
         var engine = QuestEngine(state: AppState(timeZoneID: "Asia/Seoul"))
         let quest = try engine.create(name: "달리기", artID: "running", cadence: .week, target: 1, rewards: .zero, at: now.addingTimeInterval(-86400))

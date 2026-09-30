@@ -13,17 +13,17 @@ struct ChallengeUnlockView: View {
         VStack(spacing: 28) {
             Spacer()
             Eyebrow(title: "CHALLENGE UNLOCKED", color: Palette.bright)
-            Text("성장의 한계를\n해금했어.").font(.system(size: 36, weight: .black)).multilineTextAlignment(.center)
+            Text(AppLocalization.string("ChallengeUnlockView.1")).font(.system(size: 36, weight: .black)).multilineTextAlignment(.center)
             HStack(spacing: 25) {
-                Text(released ? "∞" : "8").accessibilityLabel(released ? "퀘스트 무제한" : "퀘스트 8개")
+                Text(released ? "∞" : "8").accessibilityLabel(released ? AppLocalization.string("ChallengeUnlockView.2") : AppLocalization.string("ChallengeUnlockView.3"))
                 Text("/").opacity(0.3)
-                Text(released ? "∞" : "99").accessibilityLabel(released ? "파라미터 무제한" : "파라미터 99")
+                Text(released ? "∞" : "99").accessibilityLabel(released ? AppLocalization.string("ChallengeUnlockView.4") : AppLocalization.string("ChallengeUnlockView.5"))
             }.font(.system(size: 60, weight: .black, design: .rounded)).foregroundStyle(Palette.bright).contentTransition(.numericText())
             ParameterRadar(before: ChallengePolicy.displayed(raw, access: .free), after: raw, progress: progress,
                            simplifiedEffects: simplified, appliesChallengeLimit: false, unlockPulse: true)
-            Text("지금까지 쌓인 성장, 앞으로 쌓아갈 성장까지.").font(.caption).foregroundStyle(Palette.paper.opacity(0.7))
+            Text(AppLocalization.string("ChallengeUnlockView.6")).font(.caption).foregroundStyle(Palette.paper.opacity(0.7))
             Spacer()
-            PrimaryButton(title: "계속 쌓아가자", dark: true, action: onDone).disabled(!finished).accessibilityIdentifier("challenge.unlocked.done")
+            PrimaryButton(title: AppLocalization.string("ChallengeUnlockView.7"), dark: true, action: onDone).disabled(!finished).accessibilityIdentifier("challenge.unlocked.done")
         }.padding(24).background(Palette.ink).foregroundStyle(Palette.paper).preferredColorScheme(.dark).interactiveDismissDisabled()
             .task {
                 raw = store.engine.totals

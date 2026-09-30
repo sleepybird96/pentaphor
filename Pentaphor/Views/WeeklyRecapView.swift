@@ -24,9 +24,9 @@ struct WeeklyRecapView: View {
 
     private var dateRange: String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.locale = .current
         formatter.timeZone = TimeZone(identifier: timeZoneID) ?? TimeZone(secondsFromGMT: 0)!
-        formatter.dateFormat = "yyyy년 M월 d일"
+        formatter.setLocalizedDateFormatFromTemplate("yMMMd")
         let start = formatter.string(from: recap.period.start)
         // The period end is exclusive; its final second is always in the closing day,
         // including weeks that cross a daylight-saving transition.
@@ -54,7 +54,7 @@ struct WeeklyRecapView: View {
                 }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
-                PrimaryButton(title: "좋아, 다음 한 주로", dark: true, action: onDone)
+                PrimaryButton(title: AppLocalization.string("WeeklyRecapView.2"), dark: true, action: onDone)
                     .accessibilityIdentifier("recap.done")
                     .padding(.horizontal, 24).padding(.top, 12).padding(.bottom, 10)
                     .background(Palette.ink)
@@ -84,7 +84,7 @@ struct WeeklyRecapView: View {
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Palette.paper.opacity(0.75))
                 .accessibilityIdentifier("recap.period")
-            Text("지난주에 이만큼 쌓았어")
+            Text(AppLocalization.string("WeeklyRecapView.3"))
                 .font(.subheadline.weight(.heavy))
         }
         .padding(.horizontal, 24).padding(.vertical, 18)
@@ -115,27 +115,23 @@ struct WeeklyRecapView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(recap.completionCount)번의 행동, \(recap.questCount)개의 퀘스트, 주간 목표 \(recap.weeklyGoalsAchieved)개 달성")
+        .accessibilityLabel(AppLocalization.format("WeeklyRecapView.4", AppLocalization.argument(recap.completionCount), AppLocalization.argument(recap.questCount), AppLocalization.argument(recap.weeklyGoalsAchieved)))
         .accessibilityIdentifier("recap.actions")
     }
 
     private var actionCount: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 7) {
-            Text("\(recap.completionCount)")
-                .font(.custom("AvenirNextCondensed-HeavyItalic", size: 54, relativeTo: .largeTitle))
-                .foregroundStyle(Palette.paper)
-            Text("번의 행동")
-                .font(.subheadline.weight(.heavy))
-                .foregroundStyle(Palette.paper.opacity(0.8))
-        }.fixedSize(horizontal: true, vertical: false)
+        Text(AppLocalization.current.format("recap.actions", recap.completionCount))
+            .font(.custom("AvenirNextCondensed-HeavyItalic", size: 42, relativeTo: .largeTitle))
+            .foregroundStyle(Palette.paper)
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     @ViewBuilder
     private var summaryDetails: some View {
-        Text("\(recap.questCount)개의 퀘스트")
+        Text(AppLocalization.format("WeeklyRecapView.6", AppLocalization.argument(recap.questCount)))
             .font(.subheadline.bold()).foregroundStyle(Palette.bright)
         if recap.weeklyGoalsAchieved > 0 {
-            Label("주간 목표 \(recap.weeklyGoalsAchieved)개 달성", systemImage: "checkmark.seal.fill")
+            Label(AppLocalization.format("WeeklyRecapView.7", AppLocalization.argument(recap.weeklyGoalsAchieved)), systemImage: "checkmark.seal.fill")
                 .font(.caption.bold()).foregroundStyle(Palette.gold)
         }
     }
@@ -154,14 +150,14 @@ struct WeeklyRecapView: View {
                             .font(.caption2.bold()).foregroundStyle(Palette.paper.opacity(0.6))
                     }
                     Spacer(minLength: 4)
-                    Text("\(activity.count)회")
+                    Text(AppLocalization.current.format("recap.times", activity.count))
                         .font(.system(.title3, design: .rounded, weight: .heavy))
                         .foregroundStyle(Palette.bright)
                         .fixedSize()
                 }
                 .padding(.vertical, 6)
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("\(activity.name), \(activity.count)회 완료")
+                .accessibilityLabel(AppLocalization.format("WeeklyRecapView.9", AppLocalization.argument(activity.name), AppLocalization.argument(activity.count)))
             }
         }
     }
@@ -170,22 +166,22 @@ struct WeeklyRecapView: View {
         VStack(alignment: .leading, spacing: 12) {
             Rectangle().fill(Palette.paper.opacity(0.16)).frame(height: 1)
             Eyebrow(title: "YOUR GROWTH", color: Palette.gold)
-                .accessibilityLabel("행동이 남긴 성장")
+                .accessibilityLabel(AppLocalization.string("WeeklyRecapView.10"))
                 .accessibilityAddTraits(.isHeader)
             ParameterRadar(before: recap.before, after: recap.after,
                            progress: settledEffects ? 1 : growth, simplifiedEffects: settledEffects)
             if purchases.entitlement.access == .free && Stat.allCases.contains(where: { recap.after[$0] > 99 }) {
-                Text("상한 이후의 성장도 저장됐어. 획득 보상은 모두 기록돼.").font(.caption).foregroundStyle(Palette.gold)
+                Text(AppLocalization.string("WeeklyRecapView.11")).font(.caption).foregroundStyle(Palette.gold)
             }
             HStack {
-                Text("┄ 한 주를 시작한 나")
+                Text(AppLocalization.string("WeeklyRecapView.12"))
                 Spacer()
-                Text("한 주만큼 자란 나").foregroundStyle(Palette.gold)
+                Text(AppLocalization.string("WeeklyRecapView.13")).foregroundStyle(Palette.gold)
             }.font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
 
             VStack(alignment: .leading, spacing: 0) {
                 if positiveStats.isEmpty {
-                    Text("지난주의 행동이 기록에 쌓였어 ✓")
+                    Text(AppLocalization.string("WeeklyRecapView.14"))
                         .font(.subheadline.bold())
                         .padding(16).frame(maxWidth: .infinity, alignment: .leading)
                         .background(Palette.teal, in: CutCorner())
@@ -207,15 +203,15 @@ struct WeeklyRecapView: View {
                 }
             }
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(positiveStats.isEmpty ? "지난주의 행동이 기록에 쌓였어" : positiveStats.map { "\($0.title) +\(recap.gains[$0])" }.joined(separator: ", "))
+            .accessibilityLabel(positiveStats.isEmpty ? AppLocalization.string("WeeklyRecapView.15") : positiveStats.map { "\($0.title) +\(recap.gains[$0])" }.joined(separator: ", "))
             .accessibilityIdentifier("recap.gains")
 
             if recap.streakBonus > 0 {
                 VStack(alignment: .leading, spacing: 8) {
                     Eyebrow(title: "KEEP YOUR OWN RHYTHM", color: Palette.gold)
-                    Text("연속 달성 보너스 · 끈기 +\(recap.streakBonus)")
+                    Text(AppLocalization.format("WeeklyRecapView.16", AppLocalization.argument(recap.streakBonus)))
                         .font(.subheadline.bold()).foregroundStyle(Palette.gold)
-                    Text("꾸준히 이어간 힘도 위의 성장에 포함됐어.")
+                    Text(AppLocalization.string("WeeklyRecapView.17"))
                         .font(.caption).foregroundStyle(Palette.paper.opacity(0.75))
                 }
                 .padding(16).frame(maxWidth: .infinity, alignment: .leading)

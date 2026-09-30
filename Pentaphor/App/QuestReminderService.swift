@@ -41,6 +41,7 @@ enum ReminderNotificationRouting {
     var pendingQuestID: UUID?
     private let center: any ReminderNotificationCenter
     private let now: () -> Date
+    private let localization: () -> LocalizedText
     private var lastState: AppState?
     private var queuedState: AppState?
     private var generation = 0
@@ -54,9 +55,10 @@ enum ReminderNotificationRouting {
         system.service = self
     }
 
-    init(center: any ReminderNotificationCenter, now: @escaping () -> Date = Date.init) {
+    init(center: any ReminderNotificationCenter, now: @escaping () -> Date = Date.init, localization: @escaping () -> LocalizedText = { CoreLocalization.current }) {
         self.center = center
         self.now = now
+        self.localization = localization
     }
 
     func synchronize(state: AppState) async {
@@ -88,7 +90,7 @@ enum ReminderNotificationRouting {
             schedulingError = nil
             return
         }
-        let desired = QuestReminderPlanner.plan(engine: QuestEngine(state: state), now: now()).map {
+        let desired = QuestReminderPlanner.plan(engine: QuestEngine(state: state), now: now(), localeText: localization()).map {
             ScheduledReminderNotification(id: $0.id, questID: $0.questID, fireDate: $0.fireDate, title: $0.title, body: $0.body)
         }
         let wanted = Set(desired.map(\.id))
@@ -99,7 +101,7 @@ enum ReminderNotificationRouting {
             guard revision == generation else { return }
             guard request.fireDate > now(), previous[request.id] != request else { continue }
             do { try await center.add(request) }
-            catch { failure = "알림을 예약하지 못했습니다. 다시 시도해 주세요.\n" + error.localizedDescription }
+            catch { failure = AppLocalization.string("QuestReminderService.1") + error.localizedDescription }
         }
         let actual = await center.pending()
         guard revision == generation else { return }
@@ -115,7 +117,7 @@ enum ReminderNotificationRouting {
                 _ = try await center.requestAuthorization()
                 authorization = await center.authorization()
             } catch {
-                permissionError = "알림 권한을 확인하지 못했습니다.\n" + error.localizedDescription
+                permissionError = AppLocalization.string("QuestReminderService.2") + error.localizedDescription
                 return
             }
         }
@@ -129,11 +131,11 @@ enum ReminderNotificationRouting {
         do {
             try await center.add(ScheduledReminderNotification(
                 id: "pentaphor.test", questID: nil, fireDate: now().addingTimeInterval(5),
-                title: "PENTAPHOR", body: "알림이 잘 도착했습니다. 작은 행동을 쌓아 나를 키우다."
+                title: "PENTAPHOR", body: AppLocalization.string("QuestReminderService.3")
             ))
             if !remindersEnabled { center.remove(ids: ["pentaphor.test"]) }
             testError = nil
-        } catch { testError = "테스트 알림을 예약하지 못했습니다.\n" + error.localizedDescription }
+        } catch { testError = AppLocalization.string("QuestReminderService.4") + error.localizedDescription }
     }
 
     func shouldPresent(identifier: String, rawQuestID: String?, fireDate: Date?) -> Bool {

@@ -93,13 +93,13 @@ struct QuestHome: View {
             .interactiveDismissDisabled()
             .modifier(ErrorNotice(error: $recapError))
         }
-        .confirmationDialog("어느 주에 기록할까?", isPresented: Binding(get: { graceQuest != nil }, set: { if !$0 { graceQuest = nil } }), titleVisibility: .visible) {
+        .confirmationDialog(AppLocalization.string("QuestHome.1"), isPresented: Binding(get: { graceQuest != nil }, set: { if !$0 { graceQuest = nil } }), titleVisibility: .visible) {
             if let quest = graceQuest {
-                Button("이번 주에 기록 (기본)") { complete(quest, previousWeek: false) }
-                Button("지난주에 기록") { complete(quest, previousWeek: true) }
+                Button(AppLocalization.string("QuestHome.2")) { complete(quest, previousWeek: false) }
+                Button(AppLocalization.string("QuestHome.3")) { complete(quest, previousWeek: true) }
             }
-            Button("취소", role: .cancel) { graceQuest = nil }
-        } message: { Text("월요일 오전 9시 전까지 지난주 기록을 선택할 수 있어.") }
+            Button(AppLocalization.string("QuestHome.4"), role: .cancel) { graceQuest = nil }
+        } message: { Text(AppLocalization.string("QuestHome.5")) }
         .modifier(ErrorNotice(error: $error))
         .task {
             recap.requestCheck()
@@ -181,9 +181,9 @@ struct QuestHome: View {
 
     private var tabBar: some View {
         HStack(spacing: 0) {
-            tabButton("퀘스트", symbol: "square.stack", value: 0, id: "tab.quests")
-            tabButton("파라미터", symbol: "pentagon", value: 1, id: "tab.stats")
-            tabButton("기록", symbol: "clock.arrow.circlepath", value: 2, id: "tab.history")
+            tabButton(AppLocalization.string("QuestHome.6"), symbol: "square.stack", value: 0, id: "tab.quests")
+            tabButton(AppLocalization.string("QuestHome.7"), symbol: "pentagon", value: 1, id: "tab.stats")
+            tabButton(AppLocalization.string("QuestHome.8"), symbol: "clock.arrow.circlepath", value: 2, id: "tab.history")
         }
         .padding(.top, 12).padding(.bottom, 8).background(Palette.paper)
         .overlay(alignment: .top) { Rectangle().fill(Palette.ink.opacity(0.15)).frame(height: 1) }
@@ -200,15 +200,15 @@ struct QuestHome: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 23) {
                 HStack(alignment: .bottom) {
-                    VStack(alignment: .leading, spacing: 8) { Eyebrow(title: BrandCopy.slogan); Text("나의 퀘스트").font(.system(size: 32, weight: .black)) }
+                    VStack(alignment: .leading, spacing: 8) { Eyebrow(title: BrandCopy.slogan); Text(AppLocalization.string("QuestHome.9")).font(.system(size: 32, weight: .black)) }
                     Spacer()
                     Button { showArchive = true } label: { Image(systemName: "archivebox").font(.title3).frame(width: 44, height: 44) }
-                        .accessibilityLabel("보관한 퀘스트").accessibilityIdentifier("quest.archived")
+                        .accessibilityLabel(AppLocalization.string("QuestHome.10")).accessibilityIdentifier("quest.archived")
                 }
                 if store.engine.activeQuests.isEmpty {
                     VStack(alignment: .leading, spacing: 18) {
                         Image(systemName: "pentagon").font(.system(size: 70, weight: .ultraLight)).foregroundStyle(Palette.teal)
-                        Text(store.engine.state.completions.isEmpty ? "아직 비어 있는 첫 페이지" : "다음 걸음을 기다리는 중").font(.title2.bold())
+                        Text(store.engine.state.completions.isEmpty ? AppLocalization.string("QuestHome.11") : AppLocalization.string("QuestHome.12")).font(.title2.bold())
                         Text(BrandCopy.tagline).font(.body).lineSpacing(6).foregroundStyle(Palette.muted)
                         Eyebrow(title: "ONE QUEST AT A TIME.")
                     }.padding(.vertical, 42).frame(maxWidth: .infinity, alignment: .leading)
@@ -217,12 +217,12 @@ struct QuestHome: View {
                         ForEach(store.engine.activeQuests) { quest in questRow(quest, now: now) }
                     }
                 }
-                PrimaryButton(title: "새 퀘스트 만들기") {
+                PrimaryButton(title: AppLocalization.string("QuestHome.13")) {
                     do { try ChallengeQuestActions(store: store, purchases: purchases).requireCapacity(); editor = QuestEditorPresentation(quest: nil) }
                     catch ChallengeActionError.activeQuestLimit { showChallenge = true }
                     catch { self.error = error.localizedDescription }
                 }.accessibilityIdentifier("quest.create")
-                Text("행동 하나씩, 나의 성장으로.")
+                Text(AppLocalization.string("QuestHome.14"))
                     .font(.caption).foregroundStyle(Palette.muted).frame(maxWidth: .infinity)
             }.padding(24)
         }
@@ -241,11 +241,11 @@ struct QuestHome: View {
                                 .multilineTextAlignment(.leading).lineLimit(2)
                                 .accessibilityIdentifier("quest.notes.preview.\(quest.name)")
                         }
-                        Text(quest.cadence == .once ? "한 번" : "\(progress.count) / \(progress.target)회 · \(quest.cadence.korean)")
+                        Text(quest.cadence == .once ? AppLocalization.string("QuestHome.15") : AppLocalization.format("QuestHome.16", AppLocalization.argument(progress.count), AppLocalization.argument(progress.target), AppLocalization.argument(quest.cadence.korean)))
                             .font(.system(.subheadline, design: .rounded, weight: .bold)).foregroundStyle(Palette.teal)
                             .accessibilityIdentifier("quest.progress.\(quest.name)")
-                        if progress.achieved { Text("목표 달성 ✓").font(.caption2).foregroundStyle(Palette.muted) }
-                        Label("수정", systemImage: "pencil")
+                        if progress.achieved { Text(AppLocalization.string("QuestHome.17")).font(.caption2).foregroundStyle(Palette.muted) }
+                        Label(AppLocalization.string("QuestHome.18"), systemImage: "pencil")
                             .font(.caption.bold()).foregroundStyle(Palette.teal)
                             .padding(.horizontal, 8).padding(.vertical, 4)
                             .background(Palette.teal.opacity(0.08), in: RoundedRectangle(cornerRadius: 5))
@@ -254,7 +254,7 @@ struct QuestHome: View {
                 }
                 .contentShape(Rectangle())
             }.buttonStyle(.plain).accessibilityIdentifier("quest.edit.\(quest.name)")
-                .accessibilityHint("퀘스트 이름과 목표, 포인트를 수정해.")
+                .accessibilityHint(AppLocalization.string("QuestHome.19"))
             Button {
                 let now = Date()
                 if store.engine.canRecordPreviousWeek(for: quest, at: now) {
@@ -262,7 +262,7 @@ struct QuestHome: View {
                 } else { complete(quest, previousWeek: false) }
             } label: {
                 Image(systemName: "checkmark").font(.title3.bold()).frame(width: 44, height: 48).background(Palette.ink).foregroundStyle(Palette.bright)
-            }.buttonStyle(.plain).accessibilityLabel("\(quest.name) 1회 완료").accessibilityIdentifier("quest.complete.\(quest.name)")
+            }.buttonStyle(.plain).accessibilityLabel(AppLocalization.format("QuestHome.20", AppLocalization.argument(quest.name))).accessibilityIdentifier("quest.complete.\(quest.name)")
         }.padding(.vertical, 15).overlay(alignment: .bottom) { Rectangle().fill(Palette.ink.opacity(0.15)).frame(height: 1) }
     }
 

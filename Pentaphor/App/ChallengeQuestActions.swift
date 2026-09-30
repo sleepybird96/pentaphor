@@ -5,9 +5,9 @@ enum ChallengeActionError: LocalizedError {
     case checkingAccess, accessUnavailable, activeQuestLimit
     var errorDescription: String? {
         switch self {
-        case .checkingAccess: "구매 내역을 확인하고 있어. 잠시 후 다시 시도해줘."
-        case .accessUnavailable: "구매 내역을 확인하지 못했어. 설정에서 다시 확인해줘."
-        case .activeQuestLimit: "무료로는 퀘스트 8개를 진행할 수 있어. 보관하거나 CHALLENGE를 해금해줘."
+        case .checkingAccess: AppLocalization.string("ChallengeQuestActions.1")
+        case .accessUnavailable: AppLocalization.string("ChallengeQuestActions.2")
+        case .activeQuestLimit: AppLocalization.string("ChallengeQuestActions.3")
         }
     }
 }

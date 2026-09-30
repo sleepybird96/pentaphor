@@ -2,7 +2,7 @@ import SwiftUI
 
 enum BrandCopy {
     static let slogan = "STACK YOUR PROGRESS."
-    static let tagline = "작은 행동을 쌓아, 나를 키우다."
+    static var tagline: String { AppLocalization.string("BrandCopy.1") }
 }
 
 struct ProgressHeadline: View {
