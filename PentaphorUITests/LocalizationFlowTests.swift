@@ -38,6 +38,12 @@ final class LocalizationFlowTests: XCTestCase {
         XCTAssertEqual(app.buttons["challenge.restore"].label, "Restore purchases")
         capture(app, "i18n-en-paywall")
         app.buttons["challenge.close"].tap()
+        reveal(app.buttons["settings.backup"], in: app)
+        app.buttons["settings.backup"].tap()
+        XCTAssertTrue(app.buttons["backup.import"].waitForExistence(timeout: 5))
+        XCTAssertEqual(app.buttons["backup.import"].label, "Import a backup")
+        capture(app, "i18n-en-backup")
+        app.navigationBars.buttons["Settings"].tap()
         app.buttons["settings.done"].tap()
         app.terminate()
         app.launchArguments = ["--ui-testing", "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
