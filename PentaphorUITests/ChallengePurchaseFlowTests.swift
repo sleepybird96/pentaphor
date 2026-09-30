@@ -3,7 +3,7 @@ import XCTest
 final class ChallengePurchaseFlowTests: XCTestCase {
     @MainActor func testPurchaseUnlocksStoredGrowth() {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-challenge"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-challenge"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["tab.stats"].waitForExistence(timeout: 10))
         app.buttons["tab.stats"].tap()
@@ -23,7 +23,7 @@ final class ChallengePurchaseFlowTests: XCTestCase {
     }
     @MainActor func testBelowCapUnlockKeepsActualPoints() {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-challenge", "--ui-test-challenge-small"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-challenge", "--ui-test-challenge-small"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["settings.open"].waitForExistence(timeout: 10))
         app.buttons["settings.open"].tap()
@@ -42,7 +42,7 @@ final class ChallengePurchaseFlowTests: XCTestCase {
     }
     @MainActor func testFreeLimitShowsPaywallAndCancelKeepsQuests() {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-challenge"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-challenge"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["tab.quests"].waitForExistence(timeout: 10))
         for _ in 0..<5 { if app.buttons["quest.create"].isHittable { break }; app.swipeUp() }

@@ -3,7 +3,7 @@ import XCTest
 final class PentaphorUITests: XCTestCase {
     @MainActor func testEditedTargetFourteenAppliesImmediatelyAfterCompletionAndRelaunch() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["quest.create"].tap()
@@ -20,7 +20,7 @@ final class PentaphorUITests: XCTestCase {
         app.buttons["quest.save"].tap()
         XCTAssertTrue(app.staticTexts["quest.progress.Fourteen"].label.contains("1 / 14"))
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.staticTexts["quest.progress.Fourteen"].waitForExistence(timeout: 8))
         XCTAssertTrue(app.staticTexts["quest.progress.Fourteen"].label.contains("1 / 14"))
@@ -28,7 +28,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testBackupPageProvidesFileExportAndImport() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-cloud-backup"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-cloud-backup"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["settings.open"].tap()
@@ -82,7 +82,7 @@ final class PentaphorUITests: XCTestCase {
         app.buttons["tab.stats"].tap()
         XCTAssertTrue(app.staticTexts["2 P"].exists)
         app.terminate()
-        app.launchArguments = ["--ui-testing", "--ui-test-cloud-backup"]
+        app.launchArguments = ["--ui-testing", "--ui-test-cloud-backup"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["quest.edit.After Backup"].waitForExistence(timeout: 8))
         app.buttons["tab.stats"].tap()
@@ -91,7 +91,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testUnavailableCloudExplainsFailureWithoutOpeningLocalExporter() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-cloud-unavailable"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-cloud-unavailable"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["settings.open"].tap()
@@ -108,7 +108,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testWeeklyRecapColdLaunchAcknowledgementAndHistoryReplayPreservePoints() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.staticTexts["recap.title"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["recap.actions"].label.contains("5"))
@@ -125,7 +125,7 @@ final class PentaphorUITests: XCTestCase {
         app.buttons["tab.stats"].tap()
         XCTAssertTrue(app.staticTexts["15 P"].exists)
         app.terminate()
-        app.launchArguments = ["--ui-testing", "--ui-test-weekly-recap"]
+        app.launchArguments = ["--ui-testing", "--ui-test-weekly-recap"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["tab.history"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.staticTexts["recap.title"].exists)
@@ -140,7 +140,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testWeeklyRecapForegroundAfterCutoffWaitsForEditorDismissal() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap", "--ui-test-recap-on-foreground"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap", "--ui-test-recap-on-foreground"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["quest.edit.달리기"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.staticTexts["recap.title"].exists)
@@ -164,7 +164,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testWeeklyRecapForegroundWaitsForHistoryUndoDialog() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap", "--ui-test-recap-on-foreground"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-weekly-recap", "--ui-test-recap-on-foreground"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["tab.history"].waitForExistence(timeout: 10))
         app.buttons["tab.history"].tap()
@@ -185,7 +185,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testNotificationMasterTogglePersistsAcrossRelaunch() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["settings.open"].tap()
@@ -209,7 +209,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertEqual(toggle.value as? String, "0")
         XCTAssertFalse(app.buttons["settings.reminder.test"].exists)
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         app.buttons["settings.open"].tap()
         reveal(toggle, in: app)
@@ -225,7 +225,7 @@ final class PentaphorUITests: XCTestCase {
     @MainActor func testSettingsDeliversRealTestNotificationWithoutAwardingPoints() throws {
         // A missing OS adapter or foreground presentation delegate breaks this test.
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["settings.open"].tap()
@@ -269,7 +269,7 @@ final class PentaphorUITests: XCTestCase {
     @MainActor func testReminderSelectionPersistsAndCancelledChangesStayUnsaved() throws {
         // Missing reminder persistence or saving a cancelled draft breaks this flow.
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["quest.create"].tap()
@@ -299,7 +299,7 @@ final class PentaphorUITests: XCTestCase {
         app.buttons["quest.save"].tap()
         XCTAssertTrue(app.buttons["quest.edit.Evening Practice"].waitForExistence(timeout: 5))
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         app.buttons["quest.edit.Evening Practice"].tap()
         reveal(enabled, in: app)
@@ -321,7 +321,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testUnifiedListAndOneTimeCompletionUndoAcrossRelaunch() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         for (name, cadence) in [("Monthly", "매월"), ("Weekly", "매주"), ("One Time", "한 번")] {
@@ -355,7 +355,7 @@ final class PentaphorUITests: XCTestCase {
         app.buttons["achievement.done"].tap()
         XCTAssertFalse(app.buttons["quest.complete.One Time"].exists)
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["quest.complete.Weekly"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.buttons["quest.complete.One Time"].exists)
@@ -380,7 +380,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testLaunchPresentationWaitsForLoadingThenShowsIntroduction() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-slow-load"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-slow-load"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.otherElements["launch.presentation"].waitForExistence(timeout: 3))
         XCTAssertFalse(app.buttons["onboarding.start"].exists)
@@ -398,7 +398,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testFailedLaunchReachesRecoverableErrorAndRetryLoadsNormally() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-load-failure"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store", "--ui-test-load-failure"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["launch.retry"].waitForExistence(timeout: 8))
         XCTAssertTrue(app.staticTexts["기록을 열지 못했어"].exists)
@@ -410,7 +410,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testIntroductionCreatesFirstQuestWithoutAwardingPreviewPoints() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 8))
         XCTAssertLessThan(app.buttons["onboarding.start"].frame.maxY, app.frame.maxY - 20, "The first action must be fully visible without scrolling.")
@@ -444,7 +444,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Mina의 파라미터"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["0 P"].exists, "Introduction and reward previews must never award actual growth.")
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["quest.edit.First Step"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["onboarding.start"].exists)
@@ -457,7 +457,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testOptionalNameSettingsAndReplayPreserveRecordedGrowth() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["onboarding.start"].waitForExistence(timeout: 8))
         reveal(app.buttons["onboarding.start"], in: app)
@@ -498,7 +498,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Nova의 파라미터"].exists)
         XCTAssertTrue(app.staticTexts["2 P"].exists)
         app.terminate()
-        app.launchArguments = ["--ui-testing", "--ui-test-slow-load"]
+        app.launchArguments = ["--ui-testing", "--ui-test-slow-load"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         let launchAnimation = app.descendants(matching: .any).matching(identifier: "launch.animation").firstMatch
         XCTAssertTrue(launchAnimation.waitForExistence(timeout: 3))
@@ -520,14 +520,14 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testSkippedIntroductionStaysDismissedAndCancelledQuestKeepsGuidance() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["quest.create"].tap()
         XCTAssertTrue(app.staticTexts["quest.first-help"].exists)
         app.buttons["취소"].tap()
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["quest.create"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["onboarding.start"].exists)
@@ -548,7 +548,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testDeleteCanBeCancelledAndPreservesRecordedGrowthAfterRelaunch() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["quest.create"].tap()
@@ -575,7 +575,7 @@ final class PentaphorUITests: XCTestCase {
         alert.buttons["삭제하기"].tap()
         XCTAssertTrue(app.staticTexts["다음 걸음을 기다리는 중"].waitForExistence(timeout: 5))
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertFalse(app.buttons["quest.edit.Keep my growth"].exists)
         app.buttons["quest.archived"].tap()
@@ -589,7 +589,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testNotesPersistAsMultilineTextAndCancelPreservesSavedNotes() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["quest.create"].tap()
@@ -609,7 +609,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertEqual(preview.label, original)
         capture(app, "09-quest-notes-preview")
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         app.buttons["quest.edit.Swimming"].tap()
         XCTAssertEqual(notes.value as? String, original)
@@ -640,7 +640,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testVisibleEditEntryUpdatesExistingQuestAndSurvivesRelaunch() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["quest.create"].tap()
@@ -666,7 +666,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["quest.progress.Evening Reading"].label.contains("0 / 3"), "Editing must not complete the quest.")
 
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         app.buttons["quest.edit.Evening Reading"].tap()
         XCTAssertEqual(name.value as? String, "Evening Reading")
@@ -676,7 +676,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testCreateCompleteUndoAndRelaunchPreservesQuest() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         XCTAssertTrue(app.buttons["quest.create"].waitForExistence(timeout: 10))
@@ -701,7 +701,7 @@ final class PentaphorUITests: XCTestCase {
         XCTAssertTrue(complete.waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["quest.progress.Acceptance Quest"].label.contains("0 / 3"))
         app.terminate()
-        app.launchArguments = ["--ui-testing"]
+        app.launchArguments = ["--ui-testing"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         XCTAssertTrue(app.buttons["quest.complete.Acceptance Quest"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["quest.progress.Acceptance Quest"].label.contains("0 / 3"))
@@ -714,7 +714,7 @@ final class PentaphorUITests: XCTestCase {
 
     @MainActor func testArtSelectionPreservesCustomNameAndCanArchiveRestore() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--reset-test-store"]
+        app.launchArguments = ["--ui-testing", "--reset-test-store"] + ["-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR"]
         app.launch()
         skipIntroduction(app)
         app.buttons["quest.create"].tap()
