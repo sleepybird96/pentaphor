@@ -7,7 +7,7 @@
 - 유형: 비소모성, 한 번 구매. 가족 공유는 활성화하지 않았다.
 - 실제 생성된 상품 ID: `6817609340` (2026-09-30).
 - 한국 5,900원 가격 포인트 존재 확인: `eyJzIjoiNjgxNzYwOTM0MCIsInQiOiJLT1IiLCJwIjoiMTAwNjQifQ`.
-- 가격 및 한국어 설명 적용은 배포용 API 권한 부족(403)으로 아직 완료하지 못했다. 관리자 UI 로그인 대기 중. 생성 상태 `MISSING_METADATA`; 실제 판매 가능한 상태가 아니다.
+- 2026-09-30 관리자 UI에서 한국 기준 가격 5,900원, 한국어 표시 이름·설명, 심사 이미지·메모 저장 완료. 사용자 요청으로 전체 175개 지원 국가·지역 판매 가능 여부를 설정했다. API 상태 `READY_TO_SUBMIT` 확인. 공개 심사는 제출하지 않았다.
 
 ## 제품 정책
 
@@ -22,13 +22,13 @@
 - `Configuration/Challenge.storekit`: 로컬 시뮬레이션 전용. App Store Connect 가격 설정을 대신하지 않는다.
 - `--ui-testing --ui-test-challenge --reset-test-store`: DEBUG 전용, 별도 UITestStore에 8개 퀘스트와 체력140을 생성하고 가짜 구매 경계로 시각 흐름을 검사한다. 실제 사용자 데이터와 실제 과금에 접근하지 않는다. 일반 UI 테스트도 네트워크 의존성 없는 DEBUG 구매 클라이언트를 사용한다.
 
-## 관리자 화면에 저장할 한국어 메타데이터
+## 관리자 화면에 저장된 한국어 메타데이터
 
 - 표시 이름: CHALLENGE 영구 해금
 - 설명: 퀘스트와 파라미터 상한을 한 번의 구매로 영구 해금합니다.
-- 기준 국가: 대한민국, 5,900원. 실제 적용은 아직 대기 중이다.
+- 기준 국가: 대한민국, 5,900원. 저장 완료. 다른 지역 가격은 Apple 자동 환산을 사용한다.
 
-## 심사 메모 초안
+## 저장된 심사 메모
 
 CHALLENGE is a non-consumable, one-time unlock. Free users can maintain 8 active quests and see up to 99 points per parameter. Completing activities beyond 99 continues to preserve earned progress locally; purchasing reveals that stored progress and removes the active quest limit. No subscription, app login or app server is required. Settings → CHALLENGE → Restore Purchases restores the verified Apple purchase. All art, reminders, recap and file backup/restore remain available free. Refunds never delete activity history.
 
@@ -54,4 +54,8 @@ Review purchase access from Settings → CHALLENGE; reaching 99 points is not re
 
 2026-09-30: **1.0(10), Personal READY** 확인, 배포 명령 종료0. 전체 회귀 Core115 + Native47 + UI23 + 자동화19, 별도 StoreKit2 =206개 통과. Release 서명 아카이브와 업로드 성공, 테스트용 코드/로컬 StoreKit 파일의 배포 제외 및60개 아트 패키징 확인. 테스트·아카이브·API 결과는 `~/Library/Developer/PentaphorDeliveries/20260930-041428-u0ucyzq7/`에 보존한다.
 
-남은 작업: 잠금 해제된 Mac에서 App Store Connect 관리자 로그인, 5,900원 가격·한국어 메타데이터/심사 화면 저장, 유료 앱 계약·세금·은행 상태 확인, 실제 TestFlight sandbox 구매/복원. 공개 심사 제출은 하지 않았다. Xcode GUI는 로컬 StoreKit 테스트 스킴이 선택된 상태이며, Mac 잠금으로 일반 스킴 복구를 못 했으므로 일반 개발 실행에는 `Pentaphor`를 선택한다. CLI 배포는 정상 `Pentaphor` 스킴을 사용했다.
+남은 작업: 비즈니스 화면에서 유료 앱 계약이 `신규` 상태임을 확인했다. Apple은 계약 전 계정 정보 업데이트 및 대한민국 규정 준수 확인, EU 판매를 위한 거래자 자격 확인을 요구한다. 계정 소유자가 해당 정보를 입력하고 유료 앱 계약·세금·은행 설정을 완료해야 한다. 실제 TestFlight sandbox 상품 조회·구매/복원도 아직 확인하지 않았다. 공개 심사 제출은 하지 않았다. 일반 개발 실행에는 `Pentaphor` 스킴을 선택한다. CLI 배포는 정상 `Pentaphor` 스킴을 사용했다.
+
+### 저장소 이전
+
+2026-09-30 사용자 요청에 따라 기존 커밋 이력과 디자인·아트 원본을 `~/dev/pentaphor`에 보존하고 `https://github.com/sleepybird96/pentaphor.git`의 `main`에 push했다. 앞으로 이 경로에서 개발한다. 배포 키는 기존 `~/.config/deploy-credentials/`에 유지한다. 새 경로에서 Core115개와 배포 자동화19개 테스트 통과. 앱 코드 변경이 없는 저장소 이전·문서 작업이므로 새 바이너리는 배포하지 않았다.

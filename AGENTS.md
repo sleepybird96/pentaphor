@@ -2,7 +2,7 @@
 
 ## Canonical repository
 
-As requested on 2026-09-30, use `~/dev/pentaphor` (`/Users/gsang2/dev/pentaphor`) for all future work. The remote is `git@github.com:sleepybird96/pentaphor.git`. Earlier Documents/ChatGPT and managed worktree copies are historical; do not continue development there. Preserve the existing commit history and keep credentials outside Git.
+As requested on 2026-09-30, use `~/dev/pentaphor` (`/Users/gsang2/dev/pentaphor`) for all future work. The remote is `https://github.com/sleepybird96/pentaphor.git`. Earlier Documents/ChatGPT and managed worktree copies are historical; do not continue development there. Preserve the existing commit history and keep credentials outside Git.
 
 ## Default delivery workflow
 
