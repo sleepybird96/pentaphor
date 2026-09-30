@@ -1,0 +1,39 @@
+# CHALLENGE 구매 및 검증
+
+## 상품
+
+- 앱: PENTAPHOR, `app.pentaphor.personal` / App Store Connect `6811887105`.
+- 상품: `app.pentaphor.personal.challenge.lifetime`.
+- 유형: 비소모성, 한 번 구매. 가족 공유는 활성화하지 않았다.
+- 실제 생성된 상품 ID: `6817609340` (2026-09-30).
+- 한국 5,900원 가격 포인트 존재 확인: `eyJzIjoiNjgxNzYwOTM0MCIsInQiOiJLT1IiLCJwIjoiMTAwNjQifQ`.
+- 가격 및 한국어 설명 적용은 배포용 API 권한 부족(403)으로 아직 완료하지 못했다. 관리자 UI 로그인 대기 중. 생성 상태 `MISSING_METADATA`; 실제 판매 가능한 상태가 아니다.
+
+## 제품 정책
+
+무료는 활성 퀘스트 8개, 각 파라미터 표시 99. CHALLENGE는 두 상한을 무제한으로 해제한다. 초과 성장도 원본 완료 기록에 보존한다. 보관·삭제·완료한 일회성은 활성 수에서 제외한다. 복원/업데이트/완료 취소로 8개를 초과해도 기존 항목은 사용 가능하고 생성·보관 해제만 제한한다.
+
+구매 권한은 백업과 분리된다. 백업 파일을 가져와도 구매 권한은 이동하지 않는다. 같은 Apple 계정의 구매 복원은 설정 → CHALLENGE → 구매 복원에서 가능하다. 환불 시 원본 데이터는 삭제하지 않는다.
+
+## 테스트 구분
+
+- `Pentaphor` scheme: 일반 Core/native/UI 회귀용. 로컬 StoreKit 설정을 붙이지 않는다.
+- `PentaphorStoreKitTests` scheme/target: 실제 StoreKit API와 SKTestSession 구매·복원·승인 대기·환불 통합 검증용.
+- `Configuration/Challenge.storekit`: 로컬 시뮬레이션 전용. App Store Connect 가격 설정을 대신하지 않는다.
+- `--ui-testing --ui-test-challenge --reset-test-store`: DEBUG 전용, 별도 UITestStore에 8개 퀘스트와 체력140을 생성하고 가짜 구매 경계로 시각 흐름을 검사한다. 실제 사용자 데이터와 실제 과금에 접근하지 않는다. 일반 UI 테스트도 네트워크 의존성 없는 DEBUG 구매 클라이언트를 사용한다.
+
+## 관리자 화면에 저장할 한국어 메타데이터
+
+- 표시 이름: CHALLENGE 영구 해금
+- 설명: 퀘스트와 파라미터 상한을 한 번의 구매로 영구 해금합니다.
+- 기준 국가: 대한민국, 5,900원. 실제 적용은 아직 대기 중이다.
+
+## 심사 메모 초안
+
+CHALLENGE is a non-consumable, one-time unlock. Free users can maintain 8 active quests and see up to 99 points per parameter. Completing activities beyond 99 continues to preserve earned progress locally; purchasing reveals that stored progress and removes the active quest limit. No subscription, app login or app server is required. Settings → CHALLENGE → Restore Purchases restores the verified Apple purchase. All art, reminders, recap and file backup/restore remain available free. Refunds never delete activity history.
+
+Review purchase access from Settings → CHALLENGE; reaching 99 points is not required to purchase. There are no production launch arguments or hidden switches that grant access.
+
+## 검증 기록
+
+배포 전 검증: Core 115개(기존 Swift Testing108 + XCTest7), 앱 단위47개, 배포 자동화19개 통과. 전체 UI/배포 결과는 아래에 별도로 기록한다. 초기 정책 Core4, 구매 서비스 Native7, 제한 액션 Native2, coordinator Native1, 해금 pure geometry Core2, 구매 UI2의 통과를 확인했다. 이 숫자는 전체 최종 회귀 결과가 아니다. StoreKit 통합 2개는 04:02 UTC 통과했다. 시뮬레이터 Debug에만 get-task-allow를 추가했으며 실제 iPhone/Release 서명은 유지한다. 승인·환불의 비동기 반영은 제한 시간 내 최종 권한으로 검증한다.

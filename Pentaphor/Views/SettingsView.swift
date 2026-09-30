@@ -3,6 +3,8 @@ import PentaphorCore
 
 struct SettingsView: View {
     let store: QuestStore
+    @Environment(ChallengePurchaseService.self) private var purchases
+    @State private var showChallenge = false
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(QuestReminderService.self) private var reminderService
@@ -29,6 +31,9 @@ struct SettingsView: View {
                         Text(BrandCopy.tagline).font(.title3.bold())
                     }.padding(21).frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(Palette.paper).background(Palette.ink)
+                    Button { showChallenge = true } label: {
+                        settingsRow(purchases.entitlement.access == .unlocked ? "CHALLENGE 해금됨" : "CHALLENGE · 한계 해금", symbol: "sparkles")
+                    }.accessibilityIdentifier("settings.challenge")
                     nicknameSection
                     VStack(alignment: .leading, spacing: 13) {
                         sectionTitle("화면과 반응")
@@ -71,6 +76,7 @@ struct SettingsView: View {
                 IntroductionView(store: store, isReplay: true) { _ in showIntroduction = false }
             }
             .modifier(ErrorNotice(error: $error))
+            .sheet(isPresented: $showChallenge) { ChallengePaywall(store: store, isPresented: $showChallenge) }
             .task { await reminderService.synchronize(state: store.engine.state) }
             .onChange(of: store.replacementGeneration) { _, _ in
                 nickname = store.engine.preferences.nickname
@@ -249,9 +255,9 @@ struct SettingsView: View {
     }
 }
 
-private enum GuidePage { case time, rules, about }
+enum GuidePage { case time, rules, about }
 
-private struct GuideDetailView: View {
+struct GuideDetailView: View {
     let page: GuidePage
     let timeZoneID: String
     private var title: String {

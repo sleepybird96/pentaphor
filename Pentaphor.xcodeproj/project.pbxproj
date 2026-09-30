@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0105F2DADC283A35697C9F69 /* PentaphorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B0985E1384ACEB384EC84 /* PentaphorApp.swift */; };
+		0731EB01319848F174AF9789 /* ChallengePaywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993B0206513A9B34E8A14C78 /* ChallengePaywall.swift */; };
+		09D3CA8C11D38D3A77884C21 /* ChallengeTransactionLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFFD4FA4FC0ED956FF2E795 /* ChallengeTransactionLedger.swift */; };
 		0AE200394280A29CCDF609D0 /* bathroom-cleaning.png in Resources */ = {isa = PBXBuildFile; fileRef = AD805FD3695414F65788E155 /* bathroom-cleaning.png */; };
+		0E9CB48C3FE13E4A8B9EC15B /* ChallengeNoticeStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754E2BC8E2FB6E4845EE1E76 /* ChallengeNoticeStoreTests.swift */; };
 		11E3C3A51166CBCDE764CABD /* badminton.png in Resources */ = {isa = PBXBuildFile; fileRef = C3D45FCDA547D3381A7E4BFB /* badminton.png */; };
 		158E20FCC6EF40A81EADFCDB /* coding.png in Resources */ = {isa = PBXBuildFile; fileRef = 281C34C5F43E5FFC44849622 /* coding.png */; };
 		161C97AFCAB7059AD69BF06E /* recycling.png in Resources */ = {isa = PBXBuildFile; fileRef = BF80E971EB404A61EC0B3DAA /* recycling.png */; };
@@ -25,23 +28,29 @@
 		344BC39A6A2955DAF7588227 /* BackupRestoreSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD735373704EA439F8CF133 /* BackupRestoreSession.swift */; };
 		3B1E67E091EEB709D6320EA0 /* CloudBackupWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C575C128E8FF6533D07A86DC /* CloudBackupWriter.swift */; };
 		3B42557F010D03CBF4C96180 /* knitting.png in Resources */ = {isa = PBXBuildFile; fileRef = BF7A1DAC13FD3B343F8A954C /* knitting.png */; };
+		3D025B486EA3CEC161070761 /* ChallengeStoreKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9767449399D384B6C92178E8 /* ChallengeStoreKitTests.swift */; };
 		3E3FDCBAD07D6F75D626D7BF /* QuestCompletionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */; };
 		4218EE3742324BBED4076C8D /* art-catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = DB0211DC55CB02E9FA736E6C /* art-catalog.json */; };
 		435B9178564F046F4B3313FD /* music.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E0D0748F4E014D5173B6BCF /* music.png */; };
+		4633E0354BAECD1414C81293 /* Challenge.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 06363122024A673B13F19448 /* Challenge.storekit */; };
+		493B4CE3251F238011D0D479 /* ChallengeQuestActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3693B7873482A07795A728F1 /* ChallengeQuestActions.swift */; };
 		4A0EF2778DDCEA61DB34267E /* piano.png in Resources */ = {isa = PBXBuildFile; fileRef = 1911389AA7192F4E9A5C9819 /* piano.png */; };
 		4D5B2F71DEF5EDE12AA0EC02 /* pottery.png in Resources */ = {isa = PBXBuildFile; fileRef = BF8ECA4198D4EC27FD4EAD11 /* pottery.png */; };
 		4F18981D9312BAABD0D79201 /* skincare.png in Resources */ = {isa = PBXBuildFile; fileRef = CA552D2D60BD2C9B5D952B42 /* skincare.png */; };
 		4F75EE778D14DA665B7DA22A /* WeeklyRecapCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6415F23AC2899F278BDF8 /* WeeklyRecapCoordinatorTests.swift */; };
 		4FDBC92F6A5C2077B8001E64 /* WeeklyRecapUITestScenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309964C88934052181FC143 /* WeeklyRecapUITestScenario.swift */; };
 		5175BD7DE4B8AB977D3BA88D /* laundry.png in Resources */ = {isa = PBXBuildFile; fileRef = 755B6E972D89B2F81FFE585D /* laundry.png */; };
+		53C20B2D07B70A14EBFFF75A /* ChallengeUnlockCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC6F4C0E05ECD4EEA973761 /* ChallengeUnlockCoordinatorTests.swift */; };
 		54E90EC70CAE0C5F81F13CFD /* QuestReminderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */; };
 		5836737AB3280EEB4BD30619 /* running.png in Resources */ = {isa = PBXBuildFile; fileRef = CB04B7769CBAEDFBD39C028E /* running.png */; };
+		58803C8D76B1CC73D3C7C51E /* ChallengePurchaseFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59DAAEB3829EF62C8A25761 /* ChallengePurchaseFlowTests.swift */; };
 		593ABACBF376559768FFE557 /* chess.png in Resources */ = {isa = PBXBuildFile; fileRef = FE73A3BA6956344063DAF010 /* chess.png */; };
 		5A5B81B04C6B89F112421214 /* QuestHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890E2B89FA2A749C9B7623D3 /* QuestHome.swift */; };
 		5B2B24F26FBBFA5805D049E5 /* AchievementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F780C2FE61C49A761DE10280 /* AchievementView.swift */; };
 		5F6D0AF354D4F9FD1F2FB701 /* ReminderNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CB25303E6A01D813854D63 /* ReminderNotificationCenter.swift */; };
 		5F7114D2105AB002EAB39196 /* ironing.png in Resources */ = {isa = PBXBuildFile; fileRef = F9DCE2C860936708891B5FF5 /* ironing.png */; };
 		617E985458248C54953C8EDA /* QuestReminderFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */; };
+		659E243F1D13F21CA329CB7D /* ChallengeUnlockCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8634BCFDCD7E25A67B18D4 /* ChallengeUnlockCoordinator.swift */; };
 		69D89E4AE6880F388E56936F /* push-ups.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2247B82D5551916C8C9597 /* push-ups.png */; };
 		6BCE52018B0603E157132037 /* CloudBackupEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C073159909C64EE4D1039B7 /* CloudBackupEnvironment.swift */; };
 		7046DEA2D7B1443F164F733F /* public-speaking.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B1B99DB68861F7708E1838C /* public-speaking.png */; };
@@ -49,11 +58,13 @@
 		74AA3877ED7A6C786ECB1244 /* plant-care.png in Resources */ = {isa = PBXBuildFile; fileRef = B693C6D8F90AAC3E99852430 /* plant-care.png */; };
 		7541B3809FC1FD84F1E018A5 /* calling.png in Resources */ = {isa = PBXBuildFile; fileRef = A1E32E40864FAB8351CABF3B /* calling.png */; };
 		76C1CC34584B410A0937E5E0 /* ParameterRadar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D94F224DD4FF2837662C4D6 /* ParameterRadar.swift */; };
+		77DB7B4F2C494E1C32DE7CF7 /* StoreKitChallengeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED0F8044BD0D57F1318E9D6 /* StoreKitChallengeClient.swift */; };
 		7BC19B95327C7993AB86BAA9 /* dishwashing.png in Resources */ = {isa = PBXBuildFile; fileRef = 484D02F55EC2779D17FB0A94 /* dishwashing.png */; };
 		7C863BA1F729F34217A528CC /* BackupFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0545A60D859751417B5FB5 /* BackupFileTests.swift */; };
 		7CE1EF1AC41B583114B0F81A /* BackupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3378206E44F92F6B30DEF5 /* BackupSettingsView.swift */; };
 		7F10873616894A42FB66C3F0 /* LaunchLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124FFFE5D893FE66CC4AFF91 /* LaunchLoadingView.swift */; };
 		827C6799C8CDCF65BF7FD166 /* meeting-friends.png in Resources */ = {isa = PBXBuildFile; fileRef = F751F8216B05B210AF9EC13E /* meeting-friends.png */; };
+		83B7150106AD5330E496A025 /* PentaphorCore in Frameworks */ = {isa = PBXBuildFile; productRef = 395867A716200244A99E875B /* PentaphorCore */; };
 		85AD454CD34FA7E385C93397 /* groceries.png in Resources */ = {isa = PBXBuildFile; fileRef = A9ED948BB9E9CD11F6969809 /* groceries.png */; };
 		87EFD68DD8DB92151464874C /* climbing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ED18A73008C3C41A99BD6C8 /* climbing.png */; };
 		8CC784698E562D025D9D4298 /* QuestEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88578211DC805EDC512DD955 /* QuestEditor.swift */; };
@@ -62,6 +73,7 @@
 		9A53076A32DFFCEEA8C2214C /* meditation.png in Resources */ = {isa = PBXBuildFile; fileRef = CECA7A9C3DED1136226B4EB5 /* meditation.png */; };
 		9AF6172BCDB7C44D1972AEBD /* cooking.png in Resources */ = {isa = PBXBuildFile; fileRef = E165E700E09D486A20D72ACE /* cooking.png */; };
 		9DB0CDBB783F0BCA43C13A6F /* bed-making.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D41AF37B3F6BCC19273A5A0 /* bed-making.png */; };
+		9E540DF26902AA60FCF88AFA /* ChallengePurchaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD42F964172E4EF438E144D6 /* ChallengePurchaseServiceTests.swift */; };
 		9F4927B38D22CD39ED90F6FC /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B43122BF1184605D8500DA /* DesignSystem.swift */; };
 		A43BFB260455C196F3DA7D62 /* BackupDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = E05F61449639513417C6AED6 /* BackupDocument.swift */; };
 		A4B97CD5699EA4E2516069DA /* jump-rope.png in Resources */ = {isa = PBXBuildFile; fileRef = 675C0882B29C922EAD2A5070 /* jump-rope.png */; };
@@ -70,7 +82,10 @@
 		AB806C916ED008823A8B229C /* fishing.png in Resources */ = {isa = PBXBuildFile; fileRef = 90A23C4A3FBEAD0D4FF81329 /* fishing.png */; };
 		AFEA5D3190D25A49C4A568FF /* organizing.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E634A1CEF7A4D8A23E9578 /* organizing.png */; };
 		B0302BF94F6AEEB0E801B27D /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2CAE39766665B7E168AAF3 /* IntroductionView.swift */; };
+		B32F7A227BE8EAA5F26765BF /* ChallengeQuestActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EF888EE0FB90D8E09933CF /* ChallengeQuestActionsTests.swift */; };
 		B4CFA13866BDF6CE55C21342 /* BackupRestoreSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3CC8C47935BA441A657D2D /* BackupRestoreSessionTests.swift */; };
+		B7B70CD4E80498A4927D9492 /* ChallengeUITestScenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9CC034720F2B7ACBB2CFF4 /* ChallengeUITestScenario.swift */; };
+		B8183B13C330141C32793974 /* ChallengePurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6AC1DF3F50F8F477BC9476 /* ChallengePurchaseService.swift */; };
 		BCD38391EA0058400C3F7C0A /* cycling.png in Resources */ = {isa = PBXBuildFile; fileRef = 01F3709D590C8C00FBDF13E3 /* cycling.png */; };
 		BD536DA8890BF2AC034C8B88 /* dog-walking.png in Resources */ = {isa = PBXBuildFile; fileRef = C06001EE005788AC70789E2D /* dog-walking.png */; };
 		BF7EEEBE7BE36117D17FC98B /* drawing.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E5DC13D901393D17159B38 /* drawing.png */; };
@@ -79,6 +94,7 @@
 		C7CF7AA7C736144F832D55B7 /* WeeklyRecapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382207F0F12AA5446D642F3E /* WeeklyRecapView.swift */; };
 		C9D8D6766977706558CDFA27 /* tennis.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB91945B705A440BF0258EF /* tennis.png */; };
 		CD2B7812AFB3D9E1E1A6FC2F /* outfit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9468199CAB7D650CF4BDB1B0 /* outfit.png */; };
+		CE27A551A6D10E7823BC71F4 /* ChallengeNoticeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9F73EDBCB48152EBB01AAF /* ChallengeNoticeStore.swift */; };
 		CF9F6B174918D9A5538072E0 /* childcare.png in Resources */ = {isa = PBXBuildFile; fileRef = E6BA9E35A72594658398C110 /* childcare.png */; };
 		CFBD2D7435FB8BB72D0D4279 /* QuestReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715912424B1C74D0F3D6F31B /* QuestReminderService.swift */; };
 		D6AAA377757C964A1906EAFE /* swimming.png in Resources */ = {isa = PBXBuildFile; fileRef = DB3AB215863DB33F456338D0 /* swimming.png */; };
@@ -91,6 +107,7 @@
 		DFBD3B6C5417EC494E5060A9 /* PentaphorCore in Frameworks */ = {isa = PBXBuildFile; productRef = 905F37A675A3DBB2F2B2103A /* PentaphorCore */; };
 		E03602418287949E100038B6 /* vacuuming.png in Resources */ = {isa = PBXBuildFile; fileRef = E029674BD2ED04F9037AE56E /* vacuuming.png */; };
 		E6BB7786EAB1DCBB65A3B944 /* journaling.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDDF35A6F445D793FE796DF /* journaling.png */; };
+		EA108C8590C31F69AA91D535 /* ChallengeUnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F498F3447FD9BB640EEB62 /* ChallengeUnlockView.swift */; };
 		EDFE8B3E0AB6815F5F4C0384 /* JournalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EB91E25F5E2A50F916D46C /* JournalViews.swift */; };
 		EE7B0F510466AEFEB631B72A /* boxing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3665AB2DBCB0D3007CE0E7E1 /* boxing.png */; };
 		F1268D4AC82EF25E58B839E1 /* stargazing.png in Resources */ = {isa = PBXBuildFile; fileRef = 29F0B3E3AB1186DECD35F78A /* stargazing.png */; };
@@ -104,6 +121,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C7186460EC61C9B453C71A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF6CFF5342321D43C97A096E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C981CBBEC49B3B7B01D8248;
+			remoteInfo = Pentaphor;
+		};
 		CC5A862754580005D61A3A4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AF6CFF5342321D43C97A096E /* Project object */;
@@ -123,11 +147,13 @@
 /* Begin PBXFileReference section */
 		01F3709D590C8C00FBDF13E3 /* cycling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cycling.png; sourceTree = "<group>"; };
 		040B0985E1384ACEB384EC84 /* PentaphorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PentaphorApp.swift; sourceTree = "<group>"; };
+		06363122024A673B13F19448 /* Challenge.storekit */ = {isa = PBXFileReference; path = Challenge.storekit; sourceTree = "<group>"; };
 		0CDDF35A6F445D793FE796DF /* journaling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journaling.png; sourceTree = "<group>"; };
 		0D022371DA7297386FA27FF5 /* yoga.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yoga.png; sourceTree = "<group>"; };
 		124FFFE5D893FE66CC4AFF91 /* LaunchLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchLoadingView.swift; sourceTree = "<group>"; };
 		1911389AA7192F4E9A5C9819 /* piano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piano.png; sourceTree = "<group>"; };
 		1D41AF37B3F6BCC19273A5A0 /* bed-making.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bed-making.png"; sourceTree = "<group>"; };
+		1ED0F8044BD0D57F1318E9D6 /* StoreKitChallengeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitChallengeClient.swift; sourceTree = "<group>"; };
 		2266A50777F1E74FBC7AF966 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		281C34C5F43E5FFC44849622 /* coding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coding.png; sourceTree = "<group>"; };
 		283EEFA4405A996C0D0EE00E /* sleeping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sleeping.png; sourceTree = "<group>"; };
@@ -136,6 +162,7 @@
 		309A72A331BD344113C51AC2 /* camping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camping.png; sourceTree = "<group>"; };
 		31EB91E25F5E2A50F916D46C /* JournalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViews.swift; sourceTree = "<group>"; };
 		3665AB2DBCB0D3007CE0E7E1 /* boxing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boxing.png; sourceTree = "<group>"; };
+		3693B7873482A07795A728F1 /* ChallengeQuestActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeQuestActions.swift; sourceTree = "<group>"; };
 		382207F0F12AA5446D642F3E /* WeeklyRecapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecapView.swift; sourceTree = "<group>"; };
 		3DA3BCA5836226340640C172 /* bathing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bathing.png; sourceTree = "<group>"; };
 		3DB91945B705A440BF0258EF /* tennis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tennis.png; sourceTree = "<group>"; };
@@ -145,6 +172,8 @@
 		43BD1281D04F2DC32C58C79C /* hydration.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hydration.png; sourceTree = "<group>"; };
 		484D02F55EC2779D17FB0A94 /* dishwashing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dishwashing.png; sourceTree = "<group>"; };
 		48CB25303E6A01D813854D63 /* ReminderNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderNotificationCenter.swift; sourceTree = "<group>"; };
+		4AFFD4FA4FC0ED956FF2E795 /* ChallengeTransactionLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTransactionLedger.swift; sourceTree = "<group>"; };
+		4B6AC1DF3F50F8F477BC9476 /* ChallengePurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePurchaseService.swift; sourceTree = "<group>"; };
 		543DBD62EDF5DF0EB93D194A /* language-practice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "language-practice.png"; sourceTree = "<group>"; };
 		5B1B99DB68861F7708E1838C /* public-speaking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "public-speaking.png"; sourceTree = "<group>"; };
 		5D3CC8C47935BA441A657D2D /* BackupRestoreSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupRestoreSessionTests.swift; sourceTree = "<group>"; };
@@ -155,6 +184,7 @@
 		5FA71ECDC2D6054067052BAD /* hiking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hiking.png; sourceTree = "<group>"; };
 		627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCompletionAction.swift; sourceTree = "<group>"; };
 		6309964C88934052181FC143 /* WeeklyRecapUITestScenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecapUITestScenario.swift; sourceTree = "<group>"; };
+		64EF888EE0FB90D8E09933CF /* ChallengeQuestActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeQuestActionsTests.swift; sourceTree = "<group>"; };
 		675C0882B29C922EAD2A5070 /* jump-rope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jump-rope.png"; sourceTree = "<group>"; };
 		68B68F4F5EEBC8714CBCE5C3 /* baking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baking.png; sourceTree = "<group>"; };
 		6CF072AED8255D12BBF2883C /* QuestReminderFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestReminderFields.swift; sourceTree = "<group>"; };
@@ -162,9 +192,12 @@
 		708CF17B9B6842749442625E /* pet-feeding.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pet-feeding.png"; sourceTree = "<group>"; };
 		70E634A1CEF7A4D8A23E9578 /* organizing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = organizing.png; sourceTree = "<group>"; };
 		715912424B1C74D0F3D6F31B /* QuestReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestReminderService.swift; sourceTree = "<group>"; };
+		754E2BC8E2FB6E4845EE1E76 /* ChallengeNoticeStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeNoticeStoreTests.swift; sourceTree = "<group>"; };
 		755B6E972D89B2F81FFE585D /* laundry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = laundry.png; sourceTree = "<group>"; };
+		7B9F73EDBCB48152EBB01AAF /* ChallengeNoticeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeNoticeStore.swift; sourceTree = "<group>"; };
 		7E5918AE8BCE44A2D56E6B02 /* PentaphorUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PentaphorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		869076CB7746008E3B8A6641 /* litter-picking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "litter-picking.png"; sourceTree = "<group>"; };
+		86CEF146635C4FC4B187F93A /* PentaphorStoreKitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PentaphorStoreKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88578211DC805EDC512DD955 /* QuestEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestEditor.swift; sourceTree = "<group>"; };
 		890E2B89FA2A749C9B7623D3 /* QuestHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestHome.swift; sourceTree = "<group>"; };
 		892FCED0C13569F307855B3B /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basketball.png; sourceTree = "<group>"; };
@@ -173,7 +206,9 @@
 		8F77B8529680D00558BF5B4A /* PentaphorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PentaphorUITests.swift; sourceTree = "<group>"; };
 		90A23C4A3FBEAD0D4FF81329 /* fishing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fishing.png; sourceTree = "<group>"; };
 		9468199CAB7D650CF4BDB1B0 /* outfit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = outfit.png; sourceTree = "<group>"; };
+		9767449399D384B6C92178E8 /* ChallengeStoreKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStoreKitTests.swift; sourceTree = "<group>"; };
 		98E5DC13D901393D17159B38 /* drawing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drawing.png; sourceTree = "<group>"; };
+		993B0206513A9B34E8A14C78 /* ChallengePaywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePaywall.swift; sourceTree = "<group>"; };
 		9A2CAE39766665B7E168AAF3 /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		9BC32561057987A4AAC34FE8 /* travel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = travel.png; sourceTree = "<group>"; };
 		9D4A89B7837B2039071982F2 /* PentaphorTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PentaphorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,7 +217,9 @@
 		A1E32E40864FAB8351CABF3B /* calling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calling.png; sourceTree = "<group>"; };
 		A9ED948BB9E9CD11F6969809 /* groceries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groceries.png; sourceTree = "<group>"; };
 		ACFA9047C8CA40F07576B41B /* Pentaphor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pentaphor.entitlements; sourceTree = "<group>"; };
+		AD42F964172E4EF438E144D6 /* ChallengePurchaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePurchaseServiceTests.swift; sourceTree = "<group>"; };
 		AD805FD3695414F65788E155 /* bathroom-cleaning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bathroom-cleaning.png"; sourceTree = "<group>"; };
+		B4F498F3447FD9BB640EEB62 /* ChallengeUnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeUnlockView.swift; sourceTree = "<group>"; };
 		B639A746121DDEE0D15E4CE9 /* BrandCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandCopy.swift; sourceTree = "<group>"; };
 		B693C6D8F90AAC3E99852430 /* plant-care.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plant-care.png"; sourceTree = "<group>"; };
 		B97552AF1D5D0C89E3AF9F21 /* photography.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photography.png; sourceTree = "<group>"; };
@@ -190,9 +227,11 @@
 		BF7A1DAC13FD3B343F8A954C /* knitting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knitting.png; sourceTree = "<group>"; };
 		BF80E971EB404A61EC0B3DAA /* recycling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recycling.png; sourceTree = "<group>"; };
 		BF8ECA4198D4EC27FD4EAD11 /* pottery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pottery.png; sourceTree = "<group>"; };
+		BF9CC034720F2B7ACBB2CFF4 /* ChallengeUITestScenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeUITestScenario.swift; sourceTree = "<group>"; };
 		C06001EE005788AC70789E2D /* dog-walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dog-walking.png"; sourceTree = "<group>"; };
 		C3D45FCDA547D3381A7E4BFB /* badminton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badminton.png; sourceTree = "<group>"; };
 		C575C128E8FF6533D07A86DC /* CloudBackupWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupWriter.swift; sourceTree = "<group>"; };
+		C59DAAEB3829EF62C8A25761 /* ChallengePurchaseFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePurchaseFlowTests.swift; sourceTree = "<group>"; };
 		C783B128B3DFA45179DA87DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA552D2D60BD2C9B5D952B42 /* skincare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skincare.png; sourceTree = "<group>"; };
 		CA5C7186CD63F8955536BACC /* toothbrushing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toothbrushing.png; sourceTree = "<group>"; };
@@ -217,8 +256,10 @@
 		F751F8216B05B210AF9EC13E /* meeting-friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meeting-friends.png"; sourceTree = "<group>"; };
 		F780C2FE61C49A761DE10280 /* AchievementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementView.swift; sourceTree = "<group>"; };
 		F9DCE2C860936708891B5FF5 /* ironing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ironing.png; sourceTree = "<group>"; };
+		FCC6F4C0E05ECD4EEA973761 /* ChallengeUnlockCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeUnlockCoordinatorTests.swift; sourceTree = "<group>"; };
 		FE37080B8CC04C1AE5D3E379 /* WeeklyRecapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyRecapCoordinator.swift; sourceTree = "<group>"; };
 		FE73A3BA6956344063DAF010 /* chess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chess.png; sourceTree = "<group>"; };
+		FE8634BCFDCD7E25A67B18D4 /* ChallengeUnlockCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeUnlockCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +279,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E384536BEBE3A8E80D8E0FAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83B7150106AD5330E496A025 /* PentaphorCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -252,8 +301,10 @@
 		0AE0DB447DEC9DC132DF91D6 = {
 			isa = PBXGroup;
 			children = (
+				55494CFCD3F39B6B72B15EC8 /* Configuration */,
 				09C5E02298D7682EAC7FDBFE /* Packages */,
 				56CB00D8177881A83C2B0796 /* Pentaphor */,
+				3D548ABB22472B36F2F0AAB5 /* PentaphorStoreKitTests */,
 				0E659582B877A78B7A88179E /* PentaphorTests */,
 				9AEF4A538F0900EE5C76D67B /* PentaphorUITests */,
 				5F06438ABFC807510E1E80D9 /* quest-art */,
@@ -266,6 +317,10 @@
 			children = (
 				DC0545A60D859751417B5FB5 /* BackupFileTests.swift */,
 				5D3CC8C47935BA441A657D2D /* BackupRestoreSessionTests.swift */,
+				754E2BC8E2FB6E4845EE1E76 /* ChallengeNoticeStoreTests.swift */,
+				AD42F964172E4EF438E144D6 /* ChallengePurchaseServiceTests.swift */,
+				64EF888EE0FB90D8E09933CF /* ChallengeQuestActionsTests.swift */,
+				FCC6F4C0E05ECD4EEA973761 /* ChallengeUnlockCoordinatorTests.swift */,
 				EF18340D7959AE7021C38FD6 /* CloudBackupWriterTests.swift */,
 				5E24A4E19185B477BF1D2438 /* QuestCompletionActionTests.swift */,
 				F595C6A2483E3A9823915178 /* QuestReminderServiceTests.swift */,
@@ -278,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				F5610A031D72700BCAD1F211 /* Pentaphor.app */,
+				86CEF146635C4FC4B187F93A /* PentaphorStoreKitTests.xctest */,
 				9D4A89B7837B2039071982F2 /* PentaphorTests.xctest */,
 				7E5918AE8BCE44A2D56E6B02 /* PentaphorUITests.xctest */,
 			);
@@ -290,6 +346,8 @@
 				F780C2FE61C49A761DE10280 /* AchievementView.swift */,
 				6D3378206E44F92F6B30DEF5 /* BackupSettingsView.swift */,
 				B639A746121DDEE0D15E4CE9 /* BrandCopy.swift */,
+				993B0206513A9B34E8A14C78 /* ChallengePaywall.swift */,
+				B4F498F3447FD9BB640EEB62 /* ChallengeUnlockView.swift */,
 				D9B43122BF1184605D8500DA /* DesignSystem.swift */,
 				9A2CAE39766665B7E168AAF3 /* IntroductionView.swift */,
 				31EB91E25F5E2A50F916D46C /* JournalViews.swift */,
@@ -302,6 +360,22 @@
 				382207F0F12AA5446D642F3E /* WeeklyRecapView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		3D548ABB22472B36F2F0AAB5 /* PentaphorStoreKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				9767449399D384B6C92178E8 /* ChallengeStoreKitTests.swift */,
+			);
+			path = PentaphorStoreKitTests;
+			sourceTree = "<group>";
+		};
+		55494CFCD3F39B6B72B15EC8 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				06363122024A673B13F19448 /* Challenge.storekit */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 		56CB00D8177881A83C2B0796 /* Pentaphor */ = {
@@ -396,6 +470,7 @@
 		9AEF4A538F0900EE5C76D67B /* PentaphorUITests */ = {
 			isa = PBXGroup;
 			children = (
+				C59DAAEB3829EF62C8A25761 /* ChallengePurchaseFlowTests.swift */,
 				8F77B8529680D00558BF5B4A /* PentaphorUITests.swift */,
 			);
 			path = PentaphorUITests;
@@ -406,12 +481,19 @@
 			children = (
 				E05F61449639513417C6AED6 /* BackupDocument.swift */,
 				3DD735373704EA439F8CF133 /* BackupRestoreSession.swift */,
+				7B9F73EDBCB48152EBB01AAF /* ChallengeNoticeStore.swift */,
+				4B6AC1DF3F50F8F477BC9476 /* ChallengePurchaseService.swift */,
+				3693B7873482A07795A728F1 /* ChallengeQuestActions.swift */,
+				4AFFD4FA4FC0ED956FF2E795 /* ChallengeTransactionLedger.swift */,
+				BF9CC034720F2B7ACBB2CFF4 /* ChallengeUITestScenario.swift */,
+				FE8634BCFDCD7E25A67B18D4 /* ChallengeUnlockCoordinator.swift */,
 				8C073159909C64EE4D1039B7 /* CloudBackupEnvironment.swift */,
 				C575C128E8FF6533D07A86DC /* CloudBackupWriter.swift */,
 				040B0985E1384ACEB384EC84 /* PentaphorApp.swift */,
 				627DA8260FB2108BC1E94AAE /* QuestCompletionAction.swift */,
 				715912424B1C74D0F3D6F31B /* QuestReminderService.swift */,
 				48CB25303E6A01D813854D63 /* ReminderNotificationCenter.swift */,
+				1ED0F8044BD0D57F1318E9D6 /* StoreKitChallengeClient.swift */,
 				FE37080B8CC04C1AE5D3E379 /* WeeklyRecapCoordinator.swift */,
 				6309964C88934052181FC143 /* WeeklyRecapUITestScenario.swift */,
 			);
@@ -439,6 +521,27 @@
 			);
 			productName = PentaphorTests;
 			productReference = 9D4A89B7837B2039071982F2 /* PentaphorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		399897C19DEB63AE89CFF190 /* PentaphorStoreKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 844044C513095816A2ABCA71 /* Build configuration list for PBXNativeTarget "PentaphorStoreKitTests" */;
+			buildPhases = (
+				9E677A584830F37CDFD780A5 /* Sources */,
+				D6F7CB51D627D0D3B5728467 /* Resources */,
+				E384536BEBE3A8E80D8E0FAF /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B077A909A25ED924295605A3 /* PBXTargetDependency */,
+			);
+			name = PentaphorStoreKitTests;
+			packageProductDependencies = (
+				395867A716200244A99E875B /* PentaphorCore */,
+			);
+			productName = PentaphorStoreKitTests;
+			productReference = 86CEF146635C4FC4B187F93A /* PentaphorStoreKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		4374704BD7617C27D298879C /* PentaphorUITests */ = {
@@ -515,6 +618,7 @@
 			projectRoot = "";
 			targets = (
 				7C981CBBEC49B3B7B01D8248 /* Pentaphor */,
+				399897C19DEB63AE89CFF190 /* PentaphorStoreKitTests */,
 				0E8F553761F2A75F360C9565 /* PentaphorTests */,
 				4374704BD7617C27D298879C /* PentaphorUITests */,
 			);
@@ -591,6 +695,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D6F7CB51D627D0D3B5728467 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4633E0354BAECD1414C81293 /* Challenge.storekit in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -603,6 +715,14 @@
 				344BC39A6A2955DAF7588227 /* BackupRestoreSession.swift in Sources */,
 				7CE1EF1AC41B583114B0F81A /* BackupSettingsView.swift in Sources */,
 				1CF0FBBC8EFD6C901EDC0401 /* BrandCopy.swift in Sources */,
+				CE27A551A6D10E7823BC71F4 /* ChallengeNoticeStore.swift in Sources */,
+				0731EB01319848F174AF9789 /* ChallengePaywall.swift in Sources */,
+				B8183B13C330141C32793974 /* ChallengePurchaseService.swift in Sources */,
+				493B4CE3251F238011D0D479 /* ChallengeQuestActions.swift in Sources */,
+				09D3CA8C11D38D3A77884C21 /* ChallengeTransactionLedger.swift in Sources */,
+				B7B70CD4E80498A4927D9492 /* ChallengeUITestScenario.swift in Sources */,
+				659E243F1D13F21CA329CB7D /* ChallengeUnlockCoordinator.swift in Sources */,
+				EA108C8590C31F69AA91D535 /* ChallengeUnlockView.swift in Sources */,
 				6BCE52018B0603E157132037 /* CloudBackupEnvironment.swift in Sources */,
 				3B1E67E091EEB709D6320EA0 /* CloudBackupWriter.swift in Sources */,
 				9F4927B38D22CD39ED90F6FC /* DesignSystem.swift in Sources */,
@@ -618,9 +738,18 @@
 				CFBD2D7435FB8BB72D0D4279 /* QuestReminderService.swift in Sources */,
 				5F6D0AF354D4F9FD1F2FB701 /* ReminderNotificationCenter.swift in Sources */,
 				240B27693C2120ECF8A8925B /* SettingsView.swift in Sources */,
+				77DB7B4F2C494E1C32DE7CF7 /* StoreKitChallengeClient.swift in Sources */,
 				17DD074E52CD5D1A44415072 /* WeeklyRecapCoordinator.swift in Sources */,
 				4FDBC92F6A5C2077B8001E64 /* WeeklyRecapUITestScenario.swift in Sources */,
 				C7CF7AA7C736144F832D55B7 /* WeeklyRecapView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E677A584830F37CDFD780A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D025B486EA3CEC161070761 /* ChallengeStoreKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +759,10 @@
 			files = (
 				7C863BA1F729F34217A528CC /* BackupFileTests.swift in Sources */,
 				B4CFA13866BDF6CE55C21342 /* BackupRestoreSessionTests.swift in Sources */,
+				0E9CB48C3FE13E4A8B9EC15B /* ChallengeNoticeStoreTests.swift in Sources */,
+				9E540DF26902AA60FCF88AFA /* ChallengePurchaseServiceTests.swift in Sources */,
+				B32F7A227BE8EAA5F26765BF /* ChallengeQuestActionsTests.swift in Sources */,
+				53C20B2D07B70A14EBFFF75A /* ChallengeUnlockCoordinatorTests.swift in Sources */,
 				F7A99EFB56BE73B92C87B970 /* CloudBackupWriterTests.swift in Sources */,
 				C1E6D4F64F8EF00312E5729D /* QuestCompletionActionTests.swift in Sources */,
 				54E90EC70CAE0C5F81F13CFD /* QuestReminderServiceTests.swift in Sources */,
@@ -641,6 +774,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58803C8D76B1CC73D3C7C51E /* ChallengePurchaseFlowTests.swift in Sources */,
 				1F7A676D71B1577C4819F175 /* PentaphorUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -657,6 +791,11 @@
 			isa = PBXTargetDependency;
 			target = 7C981CBBEC49B3B7B01D8248 /* Pentaphor */;
 			targetProxy = CFB4E012ACA33A49483B6A6B /* PBXContainerItemProxy */;
+		};
+		B077A909A25ED924295605A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C981CBBEC49B3B7B01D8248 /* Pentaphor */;
+			targetProxy = 4C7186460EC61C9B453C71A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -685,6 +824,23 @@
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
+		};
+		5C31716D64BE4559DC796D60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.pentaphor.PentaphorStoreKitTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pentaphor.app/Pentaphor";
+			};
+			name = Debug;
 		};
 		6DA0233BA2CC02F6351A25A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -720,11 +876,29 @@
 			};
 			name = Debug;
 		};
+		9A5927A5F2C78131F47B6C82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.pentaphor.PentaphorStoreKitTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pentaphor.app/Pentaphor";
+			};
+			name = Release;
+		};
 		B63C83B9FAF97B45CEE7C470 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Pentaphor/Pentaphor.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = Configuration/SimulatorDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
@@ -939,6 +1113,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		844044C513095816A2ABCA71 /* Build configuration list for PBXNativeTarget "PentaphorStoreKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C31716D64BE4559DC796D60 /* Debug */,
+				9A5927A5F2C78131F47B6C82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -949,6 +1132,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		395867A716200244A99E875B /* PentaphorCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PentaphorCore;
+		};
 		69D9E93AA1B0FAA6F5BD8A02 /* PentaphorCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PentaphorCore;

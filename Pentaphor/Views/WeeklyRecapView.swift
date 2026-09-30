@@ -2,6 +2,7 @@ import SwiftUI
 import PentaphorCore
 
 struct WeeklyRecapView: View {
+    @Environment(ChallengePurchaseService.self) private var purchases
     let recap: WeeklyRecap
     let timeZoneID: String
     let simplifiedEffects: Bool
@@ -173,6 +174,9 @@ struct WeeklyRecapView: View {
                 .accessibilityAddTraits(.isHeader)
             ParameterRadar(before: recap.before, after: recap.after,
                            progress: settledEffects ? 1 : growth, simplifiedEffects: settledEffects)
+            if purchases.entitlement.access == .free && Stat.allCases.contains(where: { recap.after[$0] > 99 }) {
+                Text("상한 이후의 성장도 저장됐어. 획득 보상은 모두 기록돼.").font(.caption).foregroundStyle(Palette.gold)
+            }
             HStack {
                 Text("┄ 한 주를 시작한 나")
                 Spacer()

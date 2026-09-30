@@ -4,14 +4,21 @@ import PentaphorCore
 @main
 struct PentaphorApp: App {
     @State private var reminders = QuestReminderService()
+    @State private var purchases: ChallengePurchaseService = {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--ui-testing") { return ChallengeUITestScenario.service() }
+        #endif
+        return ChallengePurchaseService(client: StoreKitChallengeClient())
+    }()
     var body: some Scene {
         WindowGroup {
-            AppEntryView().environment(reminders).tint(Palette.teal).preferredColorScheme(.light)
+            AppEntryView().environment(purchases).task { purchases.start() }.environment(reminders).tint(Palette.teal).preferredColorScheme(.light)
         }
     }
 }
 
 private struct AppEntryView: View {
+    @Environment(ChallengePurchaseService.self) private var purchases
     @Environment(QuestReminderService.self) private var reminders
     @Environment(\.scenePhase) private var scenePhase
     @State private var store: QuestStore?
@@ -47,7 +54,7 @@ private struct AppEntryView: View {
         .statusBarHidden(!gate.isFinished)
         .task { if loadAttempt == 0 { await load() } }
         .task(id: store?.engine.state) { await synchronizeReminders() }
-        .task(id: scenePhase) { if scenePhase == .active { await synchronizeReminders() } }
+        .task(id: scenePhase) { if scenePhase == .active { await purchases.refresh(); await synchronizeReminders() } }
         .onChange(of: scenePhase) { _, phase in
             #if DEBUG
             if phase == .background, WeeklyRecapUITestScenario.enabled, WeeklyRecapUITestScenario.foregroundScenario {
@@ -89,6 +96,7 @@ private struct AppEntryView: View {
             store = try QuestStore(repository: repository)
             #endif
             #if DEBUG
+            if ChallengeUITestScenario.enabled, let store, ProcessInfo.processInfo.arguments.contains("--reset-test-store") { try ChallengeUITestScenario.seed(store) }
             if WeeklyRecapUITestScenario.enabled, let store {
                 recapDateOverride = WeeklyRecapUITestScenario.initialDate
                 if ProcessInfo.processInfo.arguments.contains("--reset-test-store") {

@@ -137,7 +137,7 @@ struct BackupSettingsView: View {
         return VStack(alignment: .leading, spacing: 10) {
             Text("퀘스트 \(state.quests.count)개 · 완료 기록 \(state.completions.filter { !$0.isVoided }.count)개")
                 .font(.headline).accessibilityIdentifier(identifier)
-            Text("쌓인 파라미터 \(engine.totals.total) P").font(.subheadline.bold())
+            Text("누적 성장(상한 이후 포함) \(engine.totals.total) P").font(.subheadline.bold())
             Text(state.timeZoneID).font(.caption).foregroundStyle(Palette.muted)
             Text("보관·삭제한 퀘스트와 되돌린 기록도 파일에 포함됩니다.")
                 .font(.caption).foregroundStyle(Palette.muted)

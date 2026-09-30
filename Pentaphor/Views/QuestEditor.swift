@@ -3,6 +3,8 @@ import PentaphorCore
 
 struct QuestEditor: View {
     let store: QuestStore
+    @Environment(ChallengePurchaseService.self) private var purchases
+    @State private var showChallenge = false
     let quest: Quest?
     @Environment(\.dismiss) private var dismiss
     @State private var name: String
@@ -151,6 +153,7 @@ struct QuestEditor: View {
                 withAnimation(.linear(duration: 0.95)) { previewGrowth = 1 }
             }
             .modifier(ErrorNotice(error: $error))
+            .sheet(isPresented: $showChallenge) { ChallengePaywall(store: store, isPresented: $showChallenge) }
         }
     }
 
@@ -202,6 +205,7 @@ struct QuestEditor: View {
     private func save() {
         guard valid else { return }
         do {
+            if quest == nil { try ChallengeQuestActions(store: store, purchases: purchases).requireCapacity() }
             try store.transact { engine in
                 let savedID: UUID
                 if let quest {
@@ -213,7 +217,8 @@ struct QuestEditor: View {
                 try engine.updateReminder(id: savedID, reminder: reminderEnabled ? reminder : nil)
             }
             dismiss()
-        } catch { self.error = error.localizedDescription }
+        } catch ChallengeActionError.activeQuestLimit { showChallenge = true }
+        catch { self.error = error.localizedDescription }
     }
 }
 

@@ -36,6 +36,9 @@ targets:
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         CURRENT_PROJECT_VERSION: 2
         MARKETING_VERSION: 1.0
+      configs:
+        Debug:
+          "CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]": Configuration/SimulatorDebug.entitlements
   PentaphorTests:
     type: bundle.unit-test
     platform: iOS
@@ -55,6 +58,19 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+  PentaphorStoreKitTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: PentaphorStoreKitTests
+      - path: Configuration/Challenge.storekit
+        buildPhase: resources
+    dependencies:
+      - target: Pentaphor
+      - package: PentaphorCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
 schemes:
   Pentaphor:
     build:
@@ -64,3 +80,13 @@ schemes:
         PentaphorUITests: [test]
     test:
       targets: [PentaphorTests, PentaphorUITests]
+
+  PentaphorStoreKitTests:
+    build:
+      targets:
+        Pentaphor: all
+        PentaphorStoreKitTests: [test]
+    test:
+      targets: [PentaphorStoreKitTests]
+    run:
+      storeKitConfiguration: Configuration/Challenge.storekit

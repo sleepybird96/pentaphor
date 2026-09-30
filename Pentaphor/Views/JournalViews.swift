@@ -2,25 +2,32 @@ import SwiftUI
 import PentaphorCore
 
 struct StatsView: View {
+    @State private var existingNotice = false
+    @Environment(ChallengePurchaseService.self) private var purchases
+    private var displayed: StatPoints { ChallengePolicy.displayed(store.engine.totals, access: purchases.entitlement.access ?? .free) }
     let store: QuestStore
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 23) {
                 VStack(alignment: .leading, spacing: 8) { Eyebrow(title: BrandCopy.slogan); Text(store.engine.preferences.nickname.isEmpty ? "나의 파라미터" : "\(store.engine.preferences.nickname)의 파라미터").font(.system(size: 32, weight: .black)) }
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack(alignment: .firstTextBaseline) { Text("TOTAL GROWTH").font(.caption.monospaced().bold()); Spacer(); Text("\(store.engine.totals.total) P").font(.system(size: 34, weight: .black, design: .rounded)).foregroundStyle(Palette.bright) }.padding(22)
+                    HStack(alignment: .firstTextBaseline) { Text("TOTAL GROWTH").font(.caption.monospaced().bold()); Spacer(); Text(purchases.entitlement.access == nil ? "—" : "\(displayed.total) P").font(.system(size: 34, weight: .black, design: .rounded)).foregroundStyle(Palette.bright) }.padding(22)
                     ParameterRadar(before: store.engine.totals, after: store.engine.totals).padding(.horizontal, 10)
                 }.foregroundStyle(Palette.paper).background(Palette.ink)
                 ForEach(Stat.allCases) { stat in
-                    HStack { Label(stat.title, systemImage: "diamond.fill").font(.body.bold()); Spacer(); Text("\(store.engine.totals[stat])").font(.system(size: 25, weight: .heavy, design: .rounded)).foregroundStyle(Palette.teal) }.padding(.vertical, 3)
+                    HStack { Label(stat.title, systemImage: "diamond.fill").font(.body.bold()); Spacer(); Text(purchases.entitlement.access == nil ? "—" : "\(displayed[stat])").font(.system(size: 25, weight: .heavy, design: .rounded)).foregroundStyle(Palette.teal) }.padding(.vertical, 3)
                 }
                 Text("완료한 행동의 포인트와 연속 달성 보너스가 모인 지금의 나. 되돌린 기록은 파라미터에서도 빠져.").font(.caption).lineSpacing(5).foregroundStyle(Palette.muted)
+                if purchases.entitlement.access == .free && Stat.allCases.contains(where: { store.engine.totals[$0] > 99 }) {
+                    Text(existingNotice ? "기존 성장은 그대로 보관했어. 무료 화면에는 각 파라미터가 99까지 보여." : "99 이후의 성장도 쌓이고 있어. CHALLENGE 해금 시 모두 반영돼.")
+                        .font(.caption).foregroundStyle(Palette.teal)
+                }
                 Divider()
                 Eyebrow(title: "MY TIME, MY RHYTHM")
                 Label(store.engine.state.timeZoneID, systemImage: "globe.asia.australia").font(.subheadline.bold())
                 Text("처음 시작한 시간대로 주·월을 집계해. 여행 중에도 기록의 기준은 같아. 주는 월요일 0시, 월은 1일 0시에 시작해.").font(.caption).foregroundStyle(Palette.muted).lineSpacing(5)
             }.padding(24)
-        }
+        }.task { existingNotice = ChallengeNoticeStore().claimExistingGrowthNotice(raw: store.engine.totals) }
     }
 }
 
@@ -92,6 +99,8 @@ struct HistoryView: View {
 }
 
 struct ArchiveView: View {
+    @Environment(ChallengePurchaseService.self) private var purchases
+    @State private var showChallenge = false
     let store: QuestStore
     @Environment(\.dismiss) private var dismiss
     @State private var error: String?
@@ -109,7 +118,8 @@ struct ArchiveView: View {
                             QuestArt(id: quest.artID, pixelSize: 240).frame(width: 64, height: 64).background(Palette.art)
                             Text(quest.name).font(.body.bold()); Spacer()
                             Button("복원") {
-                                do { try store.transact { try $0.setArchived(id: quest.id, archived: false) } }
+                                do { try ChallengeQuestActions(store: store, purchases: purchases).unarchive(questID: quest.id) }
+                                catch ChallengeActionError.activeQuestLimit { showChallenge = true }
                                 catch { self.error = error.localizedDescription }
                             }.font(.subheadline.bold()).frame(minWidth: 44, minHeight: 44).accessibilityIdentifier("quest.restore.\(quest.name)")
                         }
@@ -120,6 +130,7 @@ struct ArchiveView: View {
                 .navigationTitle("보관함").navigationBarTitleDisplayMode(.inline)
                 .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("완료") { dismiss() }.accessibilityIdentifier("archive.done") } }
                 .modifier(ErrorNotice(error: $error))
+                .sheet(isPresented: $showChallenge) { ChallengePaywall(store: store, isPresented: $showChallenge) }
         }
     }
 }

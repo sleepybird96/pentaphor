@@ -1,0 +1,18 @@
+{
+  "identifier" : "C760CF03-4060-426C-9A43-00B74C53C2E5",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "5900",
+      "familyShareable" : false,
+      "internalID" : "challenge-local-1",
+      "localizations" : [{"description" : "진행 중 퀘스트와 파라미터 상한을 무제한으로 해금합니다.", "displayName" : "CHALLENGE 영구 해금", "locale" : "ko_KR"}],
+      "productID" : "app.pentaphor.personal.challenge.lifetime",
+      "referenceName" : "CHALLENGE Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {"_failTransactionsEnabled" : false, "_locale" : "ko_KR", "_storefront" : "KOR", "_storeKitErrors" : []},
+  "subscriptionGroups" : [],
+  "version" : {"major" : 3, "minor" : 0}
+}

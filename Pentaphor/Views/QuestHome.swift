@@ -14,6 +14,9 @@ private struct QuestEditorPresentation: Identifiable {
 
 struct QuestHome: View {
     let store: QuestStore
+    @Environment(ChallengePurchaseService.self) private var purchases
+    @State private var showChallenge = false
+    @State private var challengeUnlock = ChallengeUnlockCoordinator()
     let recapNow: () -> Date
     @Environment(QuestReminderService.self) private var reminders
     @State private var tab = 0
@@ -57,7 +60,12 @@ struct QuestHome: View {
         }
         .foregroundStyle(Palette.ink).background(Palette.paper)
         .safeAreaInset(edge: .bottom, spacing: 0) { tabBar }
+        .fullScreenCover(item: Binding(get: { challengeUnlock.presentation }, set: { _ in }), onDismiss: drainPresentations) { _ in
+            ChallengeUnlockView(store: store) { challengeUnlock.finish() }
+        }
+        .onChange(of: purchases.unlockEvents) { _, _ in drainPresentations() }
         .sheet(item: $editor, onDismiss: drainPresentations) { presentation in QuestEditor(store: store, quest: presentation.quest) }
+        .sheet(isPresented: $showChallenge, onDismiss: drainPresentations) { ChallengePaywall(store: store, isPresented: $showChallenge) }
         .sheet(isPresented: $showSettings, onDismiss: drainPresentations) { SettingsView(store: store) }
         .fullScreenCover(isPresented: $showIntroduction, onDismiss: {
             if reminders.pendingQuestID != nil { openReminderQuest() }
@@ -124,9 +132,13 @@ struct QuestHome: View {
             openReminderQuest()
             return
         }
-        let busy = editor != nil || showSettings || showArchive || showIntroduction
+        let busy = showChallenge || editor != nil || showSettings || showArchive || showIntroduction
             || achievement != nil || graceQuest != nil || error != nil || historyDialogIsPresented
-        recap.presentIfPossible(engine: store.engine, now: recapNow(), isBusy: busy)
+        if !busy {
+            for event in purchases.unlockEvents { challengeUnlock.enqueue(event: event); purchases.consumeUnlock(event.id) }
+        }
+        challengeUnlock.presentIfPossible(store: store, isBusy: busy)
+        recap.presentIfPossible(engine: store.engine, now: recapNow(), isBusy: busy || challengeUnlock.presentation != nil)
     }
 
     private func drainAfterDialog() {
@@ -138,11 +150,12 @@ struct QuestHome: View {
     }
 
     private func openReminderQuest() {
-        guard recap.presentation == nil else { return }
+        guard recap.presentation == nil, challengeUnlock.presentation == nil else { return }
         guard let id = reminders.pendingQuestID else { return }
         tab = 0
         // Wait for the actual dismissal callback before presenting another sheet.
         if editor != nil { editor = nil; return }
+        if showChallenge { showChallenge = false; return }
         if showSettings { showSettings = false; return }
         if showArchive { showArchive = false; return }
         if achievement != nil { achievement = nil; return }
@@ -204,7 +217,11 @@ struct QuestHome: View {
                         ForEach(store.engine.activeQuests) { quest in questRow(quest, now: now) }
                     }
                 }
-                PrimaryButton(title: "새 퀘스트 만들기") { editor = QuestEditorPresentation(quest: nil) }.accessibilityIdentifier("quest.create")
+                PrimaryButton(title: "새 퀘스트 만들기") {
+                    do { try ChallengeQuestActions(store: store, purchases: purchases).requireCapacity(); editor = QuestEditorPresentation(quest: nil) }
+                    catch ChallengeActionError.activeQuestLimit { showChallenge = true }
+                    catch { self.error = error.localizedDescription }
+                }.accessibilityIdentifier("quest.create")
                 Text("행동 하나씩, 나의 성장으로.")
                     .font(.caption).foregroundStyle(Palette.muted).frame(maxWidth: .infinity)
             }.padding(24)

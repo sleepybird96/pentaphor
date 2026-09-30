@@ -3,6 +3,9 @@ import PentaphorCore
 
 struct AchievementView: View {
     let store: QuestStore
+    @Environment(ChallengePurchaseService.self) private var purchases
+    @State private var reachedCap = false
+    @State private var showChallenge = false
     let quest: Quest
     let result: CompletionResult
     @Environment(\.dismiss) private var dismiss
@@ -39,6 +42,12 @@ struct AchievementView: View {
                         Text("작은 행동 하나, 성장으로 쌓였어.").font(.caption).foregroundStyle(Palette.paper.opacity(0.75))
                         rewardsRow.opacity(rewardsVisible ? 1 : 0).offset(y: rewardsVisible ? 0 : 10)
                         ParameterRadar(before: result.before, after: result.after, progress: growth, simplifiedEffects: store.engine.preferences.simplifiedEffects)
+                        if purchases.entitlement.access == .free && Stat.allCases.contains(where: { result.after[$0] > 99 }) {
+                            Text("상한 이후의 성장도 저장됐어.").font(.caption).foregroundStyle(Palette.gold)
+                        }
+                        if reachedCap && purchases.entitlement.access == .free {
+                            Button("99 너머의 성장 · CHALLENGE") { showChallenge = true }.font(.subheadline.bold()).foregroundStyle(Palette.bright)
+                        }
                         HStack { Text("┄ 조금 전의 나"); Spacer(); Text("한 걸음 더 자랐어").foregroundStyle(Palette.gold) }.font(.caption2).foregroundStyle(Palette.paper.opacity(0.65))
                         Rectangle().fill(Palette.paper.opacity(0.16)).frame(height: 1).padding(.top, 5)
                         if quest.cadence == .once {
@@ -72,7 +81,9 @@ struct AchievementView: View {
         }.background(Palette.ink).foregroundStyle(Palette.paper)
             .preferredColorScheme(.dark)
             .modifier(ErrorNotice(error: $error))
+            .sheet(isPresented: $showChallenge) { ChallengePaywall(store: store, isPresented: $showChallenge) }
             .task {
+                reachedCap = !ChallengeNoticeStore().newlyReached(before: result.before, after: result.after).isEmpty
                 if store.engine.preferences.usesSimplifiedEffects(systemReduceMotion: reduceMotion) { artVisible = true; rewardsVisible = true; growth = 1; return }
                 withAnimation(.spring(response: 0.55, dampingFraction: 0.78)) { artVisible = true }
                 try? await Task.sleep(for: .milliseconds(400))
