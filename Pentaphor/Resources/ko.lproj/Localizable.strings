@@ -29,7 +29,7 @@
 "AchievementView.12" = "네 페이스로 이어가면 돼.";
 "AchievementView.13" = "%1$@%2$@ 연속 달성 · 끈기 +%3$@";
 "AchievementView.14" = "2%1$@째부터, 연속으로 목표를 달성할 때마다 끈기 +1이 쌓여.";
-"AchievementView.15" = "좋아, 이만큼 자랐어";
+"AchievementView.15" = "확인";
 "AchievementView.16" = "방금 기록 되돌리기";
 "AchievementView.17" = "오늘의 행동이 기록되었어 ✓";
 "BackupSettingsView.1" = "쌓아온 기록, 안전하게";

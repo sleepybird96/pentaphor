@@ -29,7 +29,7 @@
 "AchievementView.12" = "Keep going at your own pace.";
 "AchievementView.13" = "%1$@ consecutive %2$@ · Perseverance +%3$@";
 "AchievementView.14" = "From 2 consecutive %1$@ onward, each goal reached adds Perseverance +1.";
-"AchievementView.15" = "That's progress";
+"AchievementView.15" = "OK";
 "AchievementView.16" = "Undo this entry";
 "AchievementView.17" = "Your action is recorded ✓";
 "BackupSettingsView.1" = "Keep your progress safe";
